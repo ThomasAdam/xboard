@@ -77,7 +77,7 @@ static char *filterPtr;
 static char *list[1003];
 static int listEnd;
 
-static int GameListPrepare P((int byPos, int narrow));
+static void GameListPrepare P((int byPos, int narrow));
 static void GameListReplace P((int page));
 static void GL_Button P((int n));
 
@@ -158,7 +158,7 @@ GameListCreate (char *name)
     return new;
 }
 
-static int
+static void
 GameListPrepare (int byPos, int narrow)
 {   // [HGM] filter: put in separate routine, to make callable from call-back
     int nstrings;
@@ -198,7 +198,6 @@ GameListPrepare (int byPos, int narrow)
     if(appData.debugMode) { GetTimeMark(&t2);printf("GameListPrepare %ld msec\n", SubtractTimeMarks(&t2,&t)); }
     DisplayTitle("XBoard");
     *st = NULL;
-    return listLength;
 }
 
 static void
