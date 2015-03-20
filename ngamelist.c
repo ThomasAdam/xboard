@@ -223,6 +223,9 @@ GameListReplace (int page)
 void
 GameListUpdate ()
 {
+    if (glc == NULL)
+        return;
+
     GameListPrepare(False, False);
     GameListReplace(0);
 }
