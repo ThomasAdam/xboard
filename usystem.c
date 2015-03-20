@@ -490,7 +490,7 @@ StartChildProcess (char *cmdLine, char *dir, ProcRef *pr)
     close(to_prog[0]);
     close(from_prog[1]);
 
-    cp = (ChildProc *) calloc(1, sizeof(ChildProc));
+    cp = calloc(1, sizeof(ChildProc));
     cp->kind = CPReal;
     cp->pid = pid;
     cp->fdFrom = from_prog[0];
@@ -595,7 +595,7 @@ OpenTCP (char *host, char *port, ProcRef *pr)
       return error;
     }
 
-    cp = (ChildProc *) calloc(1, sizeof(ChildProc));
+    cp = calloc(1, sizeof(ChildProc));
     cp->kind = CPSock;
     cp->pid = 0;
     cp->fdFrom = s;
@@ -615,7 +615,7 @@ OpenCommPort (char *name, ProcRef *pr)
     fd = open(name, 2, 0);
     if (fd < 0) return errno;
 
-    cp = (ChildProc *) calloc(1, sizeof(ChildProc));
+    cp = calloc(1, sizeof(ChildProc));
     cp->kind = CPComm;
     cp->pid = 0;
     cp->fdFrom = fd;
@@ -633,7 +633,7 @@ OpenLoopback (ProcRef *pr)
 
     SetUpChildIO(to, from);
 
-    cp = (ChildProc *) calloc(1, sizeof(ChildProc));
+    cp = calloc(1, sizeof(ChildProc));
     cp->kind = CPLoop;
     cp->pid = 0;
     cp->fdFrom = to[0];		/* note not from[0]; we are doing a loopback */

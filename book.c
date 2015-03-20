@@ -619,9 +619,9 @@ InitMemBook ()
 {
     static int initDone = FALSE;
     if(initDone) return;
-    memBook  = (entry_t *) calloc(1024*1024, sizeof(entry_t));
-    hashTab  = (entry_t *) calloc(HASHSIZE,  sizeof(entry_t));
-    mergeBuf = (entry_t *) calloc(MERGESIZE+5, sizeof(entry_t));
+    memBook  = calloc(1024*1024, sizeof(entry_t));
+    hashTab  = calloc(HASHSIZE,  sizeof(entry_t));
+    mergeBuf = calloc(MERGESIZE+5, sizeof(entry_t));
     memBook[0].key  = -1LL;
     mergeBuf[0].key = -1LL;
     initDone = TRUE;
@@ -715,7 +715,7 @@ MovesToText(int count, entry_t *entries)
 {
 	int i, totalWeight = 0;
 	char algMove[6];
-	char *p = (char*) malloc(40*count+1);
+	char *p = malloc(40*count+1);
 	for(i=0; i<count; i++) totalWeight += entries[i].weight;
 	*p = 0;
 	for(i=0; i<count; i++) {

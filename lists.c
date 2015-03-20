@@ -94,7 +94,7 @@ ListNodeCreate (size_t s)
 {
     ListNode *n;
 
-    if ((n = (ListNode*) malloc(s))) {
+    if ((n = malloc(s))) {
 	n->succ = NULL; /*  Mark node as not being member of a list.    */
 	n->pred = NULL;
     }

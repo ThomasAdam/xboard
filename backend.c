@@ -764,11 +764,11 @@ CommonEngineInit ()
 
     if(programVersion) free(programVersion);
     if (appData.noChessProgram) {
-	programVersion = (char*) malloc(5 + strlen(PACKAGE_STRING));
+	programVersion = malloc(5 + strlen(PACKAGE_STRING));
 	sprintf(programVersion, "%s", PACKAGE_STRING);
     } else {
       /* [HGM] tidy: use tidy name, in stead of full pathname (which was probably a bug due to / vs \ ) */
-      programVersion = (char*) malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
+      programVersion = malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
       sprintf(programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
     }
 }
@@ -845,7 +845,7 @@ InitEngine (ChessProgramState *cps, int n)
     cps->sendName = appData.icsActive;
     cps->sdKludge = FALSE;
     cps->stKludge = FALSE;
-    if(cps->tidy == NULL) cps->tidy = (char*) malloc(MSG_SIZ);
+    if(cps->tidy == NULL) cps->tidy = malloc(MSG_SIZ);
     TidyProgramName(cps->program, cps->host, cps->tidy);
     cps->matchWins = 0;
     ASSIGN(cps->variants, appData.noChessProgram ? "" : appData.variant);
@@ -1616,7 +1616,7 @@ InitBackEnd3 P((void))
 
     if(!appData.noChessProgram) {  /* [HGM] tidy: redo program version to use name from myname feature */
 	free(programVersion);
-	programVersion = (char*) malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
+	programVersion = malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
 	sprintf(programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
 	FloatToFront(&appData.recentEngineList, comboLine ? comboLine : appData.firstChessProgram);
     }
@@ -13769,10 +13769,10 @@ ReloadCmailMsgEvent (int unregister)
     if (inFilename == NULL) {
 	/* Because the filenames are static they only get malloced once  */
 	/* and they never get freed                                      */
-	inFilename = (char *) malloc(strlen(appData.cmailGameName) + 9);
+	inFilename = malloc(strlen(appData.cmailGameName) + 9);
 	sprintf(inFilename, "%s.game.in", appData.cmailGameName);
 
-	outFilename = (char *) malloc(strlen(appData.cmailGameName) + 5);
+	outFilename = malloc(strlen(appData.cmailGameName) + 5);
 	sprintf(outFilename, "%s.out", appData.cmailGameName);
     }
 
@@ -16221,14 +16221,14 @@ ReplaceComment (int index, char *text)
   if( *text == '{' && strchr(text, '}') || // [HGM] braces: if certainy malformed, put braces
       *text == '[' && strchr(text, ']') || // otherwise hope the user knows what he is doing
       *text == '(' && strchr(text, ')')) { // (perhaps check if this parses as comment-only?)
-    commentList[index] = (char *) malloc(len + 2);
+    commentList[index] = malloc(len + 2);
     strncpy(commentList[index], text, len);
     commentList[index][len] = '\n';
     commentList[index][len + 1] = NULLCHAR;
   } else {
     // [HGM] braces: if text does not start with known OK delimiter, put braces around it.
     char *p;
-    commentList[index] = (char *) malloc(len + 7);
+    commentList[index] = malloc(len + 7);
     safeStrCpy(commentList[index], "{\n", 3);
     safeStrCpy(commentList[index]+2, text, len+1);
     commentList[index][len+2] = NULLCHAR;
@@ -16276,7 +16276,7 @@ if(appData.debugMode) fprintf(debugFP, "Append: in='%s' %d\n", text, addBraces);
 	oldlen = strlen(old);
 	while(commentList[index][oldlen-1] ==  '\n')
 	  commentList[index][--oldlen] = NULLCHAR;
-	commentList[index] = (char *) malloc(oldlen + len + 6); // might waste 4
+	commentList[index] = malloc(oldlen + len + 6); // might waste 4
 	safeStrCpy(commentList[index], old, oldlen + len + 6);
 	free(old);
 	// [HGM] braces: join "{A\n}\n" + "{\nB}" as "{A\nB\n}"
@@ -16291,7 +16291,7 @@ if(appData.debugMode) fprintf(debugFP, "Append: in='%s' %d\n", text, addBraces);
 	if(addClosingBrace) strcat(commentList[index], addClosingBrace == 2 ? ")\n" : "\n}\n");
 	else          strcat(commentList[index], "\n");
     } else {
-	commentList[index] = (char *) malloc(len + 6); // perhaps wastes 4...
+	commentList[index] = malloc(len + 6); // perhaps wastes 4...
 	if(addBraces)
 	  safeStrCpy(commentList[index], addBraces == 2 ? "(" : "{\n", 3);
 	else commentList[index][0] = NULLCHAR;
@@ -17718,7 +17718,7 @@ StrSave (char *s)
 {
   char *ret;
 
-  if ((ret = (char *) malloc(strlen(s) + 1)))
+  if ((ret = malloc(strlen(s) + 1)))
     {
       safeStrCpy(ret, s, strlen(s)+1);
     }
@@ -17731,7 +17731,7 @@ StrSavePtr (char *s, char **savePtr)
     if (*savePtr) {
 	free(*savePtr);
     }
-    if ((*savePtr = (char *) malloc(strlen(s) + 1))) {
+    if ((*savePtr = malloc(strlen(s) + 1))) {
       safeStrCpy(*savePtr, s, strlen(s)+1);
     }
     return(*savePtr);

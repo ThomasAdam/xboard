@@ -1070,7 +1070,7 @@ IcsTextPopUp ()
    if((p = icsTextMenuString) == NULL) return;
    do {
 	q = r = p; while(*p && *p != ';') p++;
-	if(textOptions[i].name == NULL) textOptions[i].name = (char*) malloc(MSG_SIZ);
+	if(textOptions[i].name == NULL) textOptions[i].name = malloc(MSG_SIZ);
 	for(j=0; j<p-q; j++) textOptions[i].name[j] = *r++;
 	textOptions[i].name[j++] = 0;
 	if(!*p) break;
@@ -1933,7 +1933,7 @@ OutputChatMessage (int partner, char *mess)
     int len = strlen(mess) + 1;
 
     if(p) len += strlen(p);
-    texts[partner] = (char*) malloc(len);
+    texts[partner] = malloc(len);
     snprintf(texts[partner], len, "%s%s", p ? p : "", mess);
     FREE(p);
     if(partner == activePartner && !hidden) {

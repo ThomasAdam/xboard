@@ -1048,8 +1048,8 @@ main (int argc, char **argv)
     p = getenv("HOME");
     if (p == NULL) p = "/tmp";
     i = strlen(p) + strlen("/.xboardXXXXXx.pgn") + 1;
-    gameCopyFilename = (char*) malloc(i);
-    gamePasteFilename = (char*) malloc(i);
+    gameCopyFilename = malloc(i);
+    gamePasteFilename = malloc(i);
     snprintf(gameCopyFilename,i, "%s/.xboard%05uc.pgn", p, getpid());
     snprintf(gamePasteFilename,i, "%s/.xboard%05up.pgn", p, getpid());
 
@@ -1544,11 +1544,11 @@ FindFont (char *pattern, int targetPxlSize)
         /* If the error is too big and there is a scalable font,
 	   use the scalable font. */
         int headlen = scalableTail - scalable;
-        p = (char *) XtMalloc(strlen(scalable) + 10);
+        p = XtMalloc(strlen(scalable) + 10);
 	while (isdigit(*scalableTail)) scalableTail++;
 	sprintf(p, "%.*s%d%s", headlen, scalable, targetPxlSize, scalableTail);
     } else {
-        p = (char *) XtMalloc(strlen(best) + 2);
+        p = XtMalloc(strlen(best) + 2);
         safeStrCpy(p, best, strlen(best)+1 );
     }
     if (appData.debugMode) {
@@ -2417,7 +2417,7 @@ AddInputSource (ProcRef pr, int lineByLine, InputCallback func, VOIDSTAR closure
     InputSource *is;
     ChildProc *cp = (ChildProc *) pr;
 
-    is = (InputSource *) calloc(1, sizeof(InputSource));
+    is = calloc(1, sizeof(InputSource));
     is->lineByLine = lineByLine;
     is->func = func;
     if (pr == NoProc) {

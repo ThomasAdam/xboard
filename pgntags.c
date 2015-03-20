@@ -132,7 +132,7 @@ ParsePGNTag (char *tag, GameInfo *gameInfo)
 	}
 	/* Buffer size includes 7 bytes of space for [ ""]\n\0 */
 	len = strlen(oldTags) + strlen(value) + strlen(name) + 7;
-	if ((p = (char *) malloc(len))  !=  NULL) {
+	if ((p = malloc(len))  !=  NULL) {
 	    sprintf(p, "%s[%s \"%s\"]\n", oldTags, name, value);
 	    if (gameInfo->extraTags != NULL) free(gameInfo->extraTags);
 	    gameInfo->extraTags = p;

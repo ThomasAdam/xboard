@@ -169,7 +169,7 @@ GameListPrepare (int byPos, int narrow)
     GetTimeMark(&t);
     if(st = glc->strings) while(*st) free(*st++);
     nstrings = ((ListGame *) gameList.tailPred)->number;
-    glc->strings = (char **) malloc((nstrings + 1) * sizeof(char *));
+    glc->strings = malloc((nstrings + 1) * sizeof(char *));
     st = glc->strings;
     lg = (ListGame *) gameList.head;
     listLength = wins = losses = draws = 0;
@@ -231,7 +231,7 @@ void
 GameListPopUp (FILE *fp, char *filename)
 {
     if (glc == NULL) {
-	glc = (GameListClosure *) calloc(1, sizeof(GameListClosure));
+	glc = calloc(1, sizeof(GameListClosure));
 	glc->x = glc->y = -1;
 	glc->filename = NULL;
     }
