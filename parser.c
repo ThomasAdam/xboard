@@ -32,7 +32,7 @@
 
 
 extern Board	boards[MAX_MOVES];
-extern int	PosFlags(int nr);
+extern int	PosFlags(int);
 int		yyboardindex;
 int             yyskipmoves = FALSE;
 char		currentMoveString[4096]; // a bit ridiculous size?
@@ -52,7 +52,7 @@ static char fromString = 0, lastChar = '\n';
 #define BADNUMBER (-2000000000)
 
 int
-ReadLine ()
+ReadLine(void)
 {   // Read one line from the input file, and append to the buffer
     char c, *start = inPtr;
     if(fromString) return 0; // parsing string, so the end is a hard end
@@ -68,7 +68,7 @@ ReadLine ()
 }
 
 int
-Scan (char c, char **p)
+Scan(char c, char **p)
 {   // line-spanning skip to mentioned character or EOF
     do {
 	while(**p) if(*(*p)++ == c) return 0;
@@ -78,7 +78,7 @@ Scan (char c, char **p)
 }
 
 int
-SkipWhite (char **p)
+SkipWhite(char **p)
 {   // skip spaces tabs and newlines; return 1 if anything was skipped
     char *start = *p;
     do{
@@ -88,7 +88,7 @@ SkipWhite (char **p)
 }
 
 static inline int
-Match (char *pattern, char **ptr)
+Match(char *pattern, char **ptr)
 {
     char *p = pattern, *s = *ptr;
     while(*p && (*p == *s++ || s[-1] == '\r' && *p--)) p++;
@@ -100,7 +100,7 @@ Match (char *pattern, char **ptr)
 }
 
 static inline int
-Word (char *pattern, char **p)
+Word(char *pattern, char **p)
 {
     if(Match(pattern, p)) return 1;
     if(*pattern >= 'a' && *pattern <= 'z' && *pattern - **p == 'a' - 'A') { // capitalized
@@ -112,7 +112,7 @@ Word (char *pattern, char **p)
 }
 
 int
-Verb (char *pattern, char **p)
+Verb(char *pattern, char **p)
 {
     int res = Word(pattern, p);
     if(res && !Match("s", p)) Match("ed", p); // eat conjugation suffix, if any
@@ -120,7 +120,7 @@ Verb (char *pattern, char **p)
 }
 
 int
-Number (char **p)
+Number(char **p)
 {
     int val = 0;
     if(**p < '0' || **p > '9') return BADNUMBER;
@@ -131,7 +131,7 @@ Number (char **p)
 }
 
 int
-RdTime (char c, char **p)
+RdTime(char c, char **p)
 {
     char *start = ++(*p), *sec; // increment *p, as it was pointing to the opening ( or {
     if(Number(p) == BADNUMBER) return 0;
@@ -147,7 +147,7 @@ RdTime (char c, char **p)
 }
 
 char
-PromoSuffix (char **p)
+PromoSuffix(char **p)
 {
     char *start = *p;
     if(**p == 'e' && (Match("ep", p) || Match("e.p.", p))) { *p = start; return NULLCHAR; } // non-compliant e.p. suffix is no promoChar!
@@ -160,7 +160,7 @@ PromoSuffix (char **p)
 }
 
 int
-NextUnit (char **p)
+NextUnit(char **p)
 {	// Main parser routine
 	int coord[4], n, result, piece, i;
 	char type[4], promoted, separator, slash, *oldp, *commentEnd, c;
@@ -561,13 +561,13 @@ badMove:// we failed to find algebraic move
     Return offset of next pattern in the current file.
 */
 int
-yyoffset ()
+yyoffset(void)
 {
     return ftell(inputFile) - (inPtr - parsePtr); // subtract what is read but not yet parsed
 }
 
 void
-yynewfile (FILE *f)
+yynewfile(FILE *f)
 {   // prepare parse buffer for reading file
     inputFile = f;
     inPtr = parsePtr = inputBuf;
@@ -577,7 +577,7 @@ yynewfile (FILE *f)
 }
 
 void
-yynewstr P((char *s))
+yynewstr(char *s)
 {
     parsePtr = s;
     inputFile = NULL;
@@ -585,7 +585,7 @@ yynewstr P((char *s))
 }
 
 int
-yylex ()
+yylex(void)
 {   // this replaces the flex-generated parser
     int result = NextUnit(&parsePtr);
     char *p = parseStart, *q = yytext;
@@ -596,7 +596,7 @@ yylex ()
 }
 
 int
-Myylex ()
+Myylex(void)
 {   // [HGM] wrapper for yylex, which treats nesting of parentheses
     int symbol, nestingLevel = 0, i=0;
     char *p;
@@ -617,7 +617,7 @@ Myylex ()
 }
 
 ChessMove
-yylexstr (int boardIndex, char *s, char *buf, int buflen)
+yylexstr(int boardIndex, char *s, char *buf, int buflen)
 {
     ChessMove ret;
     char *savPP = parsePtr;
