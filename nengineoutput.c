@@ -71,7 +71,7 @@ int  windowMode = 1;
 char *mem1, *mem2; // dummies, as this dialog can never be OK'ed
 int highTextStart[2], highTextEnd[2];
 
-int MemoProc P((Option *opt, int n, int x, int y, char *text, int index));
+int MemoProc(Option *, int, int, int, char *, int);
 
 Option engoutOptions[] = {
 {  0,  LL|T2T,           18, NULL, NULL, NULL, NULL, Icon, " " },
@@ -93,7 +93,7 @@ Option engoutOptions[] = {
 };
 
 int
-MemoProc (Option *opt, int n, int x, int y, char *text, int index)
+MemoProc(Option *opt, int n, int x, int y, char *text, int index)
 {   // user callback for mouse events in memo
     static int pressed; // keep track of button 3 state
     int start, end, currentPV = (opt != &engoutOptions[5]);
@@ -124,32 +124,32 @@ MemoProc (Option *opt, int n, int x, int y, char *text, int index)
 }
 
 void
-SetIcon (int which, int field, int nIcon)
+SetIcon(int which, int field, int nIcon)
 {   // first call into xengineoutput.c to pick up icon pixmap
     if( nIcon ) DrawWidgetIcon(&engoutOptions[STRIDE*which + field - 1], nIcon);
 }
 
 void
-DoSetWindowText (int which, int field, char *s_label)
+DoSetWindowText(int which, int field, char *s_label)
 {
 	SetWidgetLabel (&engoutOptions[STRIDE*which + field - 1], s_label);
 }
 
 void
-SetEngineOutputTitle (char *title)
+SetEngineOutputTitle(char *title)
 {
 	SetDialogTitle(EngOutDlg, title);
 }
 
 
 void
-DoClearMemo (int which)
+DoClearMemo(int which)
 {
       SetWidgetText(&engoutOptions[STRIDE*which + MEMO], "", -1);
 }
 
 void
-EngineOutputPopUp ()
+EngineOutputPopUp(void)
 {
     static int  needInit = TRUE;
     static char *title = N_("Engine output");
@@ -178,19 +178,19 @@ EngineOutputPopUp ()
 }
 
 int
-EngineOutputIsUp ()
+EngineOutputIsUp(void)
 {
     return shellUp[EngOutDlg];
 }
 
 int
-EngineOutputDialogExists ()
+EngineOutputDialogExists(void)
 {
     return DialogExists(EngOutDlg);
 }
 
 void
-EngineOutputProc ()
+EngineOutputProc(void)
 {
   if (!PopDown(EngOutDlg)) EngineOutputPopUp();
 }
