@@ -273,7 +273,7 @@ typedef VOIDSTAR ProcRef;
 #define NoProc ((ProcRef) 0)
 typedef VOIDSTAR InputSourceRef;
 
-typedef void (*DelayedEventCallback) P((void));
+typedef void (*DelayedEventCallback)(void);
 
 typedef enum { Press, Release } ClickType;
 
@@ -881,8 +881,8 @@ extern char chatPartner[MAX_CHAT][MSG_SIZ];
 
 // Some prototypes of routines so general they should be available everywhere
 /* If status == 0, we are exiting with a benign message, not an error */
-void DisplayFatalError P((String message, int error, int status));
-void DisplayError P((String message, int error));
+void DisplayFatalError(String, int, int);
+void DisplayError(String, int);
 
 // [HGM] generally useful macros; there are way too many memory leaks...
 #define FREE(x) if(x) free(x)
