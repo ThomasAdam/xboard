@@ -56,15 +56,15 @@ typedef struct {
 
 /* Function prototypes
  */
-extern int ListEmpty P((List *));
-void ListNew P((List *));
-void ListRemove P((ListNode *));
-void ListNodeFree P((ListNode *));
-ListNode *ListNodeCreate P((size_t));
-void ListInsert P((ListNode *, ListNode *));
-void ListAddHead P((List *, ListNode *));
-void ListAddTail P((List *, ListNode *));
-ListNode *ListElem P((List *, int));
+extern int ListEmpty(List *);
+void ListNew(List *);
+void ListRemove(ListNode *);
+void ListNodeFree(ListNode *);
+ListNode *ListNodeCreate(size_t);
+void ListInsert(ListNode *, ListNode *);
+void ListAddHead(List *, ListNode *);
+void ListAddTail(List *, ListNode *);
+ListNode *ListElem(List *, int);
 
 
 #endif
