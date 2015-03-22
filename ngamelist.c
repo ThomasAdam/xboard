@@ -31,7 +31,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -77,9 +77,9 @@ static char *filterPtr;
 static char *list[1003];
 static int listEnd;
 
-static int GameListPrepare P((int byPos, int narrow));
-static void GameListReplace P((int page));
-static void GL_Button P((int n));
+static int GameListPrepare(int, int);
+static void GameListReplace(int);
+static void GL_Button(int);
 
 static Option gamesOptions[] = {
 { 200,  LR|TB,     400, NULL, (void*) list,       NULL, NULL, ListBox, "", &appData.gameListFont },
@@ -94,7 +94,7 @@ static Option gamesOptions[] = {
 };
 
 static void
-GL_Button (int n)
+GL_Button(int n)
 {
     int index;
     n = gamesOptions[n].value; // use marker in option rather than n itself, for more easy adding/deletng of buttons
@@ -148,7 +148,7 @@ GL_Button (int n)
 }
 
 static int
-GameListCreate (char *name)
+GameListCreate(char *name)
 {
     int new;
     if(new = GenericPopUp(gamesOptions, name, GameListDlg, BoardWindow, NONMODAL, appData.topLevel))
@@ -159,7 +159,7 @@ GameListCreate (char *name)
 }
 
 static int
-GameListPrepare (int byPos, int narrow)
+GameListPrepare(int byPos, int narrow)
 {   // [HGM] filter: put in separate routine, to make callable from call-back
     int nstrings;
     ListGame *lg;
@@ -202,7 +202,7 @@ GameListPrepare (int byPos, int narrow)
 }
 
 static void
-GameListReplace (int page)
+GameListReplace(int page)
 {
   // filter: put in separate routine, to make callable from call-back
   char buf[MSG_SIZ], **st=list;
@@ -221,14 +221,14 @@ GameListReplace (int page)
 }
 
 void
-GameListUpdate ()
+GameListUpdate(void)
 {
     GameListPrepare(False, False);
     GameListReplace(0);
 }
 
 void
-GameListPopUp (FILE *fp, char *filename)
+GameListPopUp(FILE *fp, char *filename)
 {
     if (glc == NULL) {
 	glc = (GameListClosure *) calloc(1, sizeof(GameListClosure));
@@ -253,13 +253,13 @@ GameListPopUp (FILE *fp, char *filename)
 }
 
 FILE *
-GameFile ()
+GameFile(void)
 {
   return glc ? glc->fp : NULL;
 }
 
 void
-GameListDestroy ()
+GameListDestroy(void)
 {
     if (glc == NULL) return;
     EnableNamedMenuItem("File.SaveSelected", FALSE);
@@ -277,7 +277,7 @@ GameListDestroy ()
 }
 
 void
-ShowGameListProc ()
+ShowGameListProc(void)
 {
     if (glc == NULL) {
 	DisplayError(_("There is no game list"), 0);
@@ -293,7 +293,7 @@ ShowGameListProc ()
 }
 
 int
-GameListClicks (int direction)
+GameListClicks(int direction)
 {
     int index;
 
@@ -334,7 +334,7 @@ GameListClicks (int direction)
 }
 
 void
-SetFilter ()
+SetFilter(void)
 {
         char *name;
 	GetWidgetText(&gamesOptions[1], &name);
@@ -345,7 +345,7 @@ SetFilter ()
 }
 
 void
-GameListHighlight (int index)
+GameListHighlight(int index)
 {
     int i=0; char **st;
     if (!shellUp[GameListDlg]) return;
@@ -355,7 +355,7 @@ GameListHighlight (int index)
 }
 
 int
-SaveGameListAsText (FILE *f)
+SaveGameListAsText(FILE *f)
 {
     ListGame * lg = (ListGame *) gameList.head;
     int nItem;
