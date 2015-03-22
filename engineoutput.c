@@ -83,7 +83,7 @@ void EngineOutputUpdate( FrontEndProgramStats * stats );
 void OutputKibitz(int window, char *text);
 
 // module back-end routines
-static void VerifyDisplayMode();
+static void VerifyDisplayMode(void);
 static void UpdateControls( EngineOutputData * ed );
 
 static int  lastDepth[2] = { -1, -1 };
@@ -101,7 +101,7 @@ static char fail[MAX_VAR];
 extern int initialRulePlies;
 
 void
-MakeEngineOutputTitle ()
+MakeEngineOutputTitle(void)
 {
 	static char buf[MSG_SIZ];
 	static char oldTitle[MSG_SIZ];
@@ -128,7 +128,7 @@ MakeEngineOutputTitle ()
 
 // back end, due to front-end wrapper for SetWindowText, and new SetIcon arguments
 void
-SetEngineState (int which, enum ENGINE_STATE state, char * state_data)
+SetEngineState(int which, enum ENGINE_STATE state, char * state_data)
 {
     int x_which = 1 - which;
 
@@ -161,7 +161,7 @@ SetEngineState (int which, enum ENGINE_STATE state, char * state_data)
 
 // back end, now the front-end wrapper ClearMemo is used, and ed no longer contains handles.
 void
-SetProgramStats (FrontEndProgramStats * stats) // now directly called by back-end
+SetProgramStats(FrontEndProgramStats * stats) // now directly called by back-end
 {
     EngineOutputData ed;
     int clearMemo = FALSE;
@@ -264,7 +264,7 @@ SetProgramStats (FrontEndProgramStats * stats) // now directly called by back-en
 
 // pure back end
 static char
-GetEngineColor (int which)
+GetEngineColor(int which)
 {
     char result = ENGINE_COLOR_UNKNOWN;
 
@@ -298,7 +298,7 @@ GetEngineColor (int which)
 
 // pure back end
 static char
-GetActiveEngineColor ()
+GetActiveEngineColor(void)
 {
     char result = ENGINE_COLOR_UNKNOWN;
 
@@ -311,7 +311,7 @@ GetActiveEngineColor ()
 
 // pure back end
 static int
-IsEnginePondering (int which)
+IsEnginePondering(int which)
 {
     int result = FALSE;
 
@@ -337,7 +337,7 @@ IsEnginePondering (int which)
 
 // back end
 static void
-SetDisplayMode (int mode)
+SetDisplayMode(int mode)
 {
     if( windowMode != mode ) {
         windowMode = mode;
@@ -348,7 +348,7 @@ SetDisplayMode (int mode)
 
 // pure back end
 static void
-VerifyDisplayMode ()
+VerifyDisplayMode(void)
 {
     int mode;
 
@@ -381,7 +381,7 @@ VerifyDisplayMode ()
 
 // back end. Determine what icon to set in the color-icon field, and print it
 void
-SetEngineColorIcon (int which)
+SetEngineColorIcon(int which)
 {
     char color = GetEngineColor(which);
     int nicon = 0;
@@ -401,7 +401,7 @@ SetEngineColorIcon (int which)
 // [HGM] multivar: sort Thinking Output within one depth on score
 
 static int
-InsertionPoint (int len, EngineOutputData *ed)
+InsertionPoint(int len, EngineOutputData *ed)
 {
 	int i, offs = 0, newScore = ed->score, n = ed->which;
 	char failType;
@@ -462,7 +462,7 @@ Format(char *buf, int val)
 
 // pure back end, now SetWindowText is called via wrapper DoSetWindowText
 static void
-UpdateControls (EngineOutputData *ed)
+UpdateControls(EngineOutputData *ed)
 {
 //    int isPondering = FALSE;
 
@@ -681,7 +681,7 @@ Collapse(int n)
 
 // [HGM] kibitz: write kibitz line; split window for it if necessary
 void
-OutputKibitz (int window, char *text)
+OutputKibitz(int window, char *text)
 {
 	static int currentLineEnd[2];
 	int where = 0;

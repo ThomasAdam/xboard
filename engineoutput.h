@@ -61,14 +61,14 @@ extern int highTextStart[2], highTextEnd[2];
 void SetEngineState( int which, enum ENGINE_STATE state, char * state_data );
 
 // front-end called by back-end
-void SetEngineColorIcon( int which );
-void SetIcon( int which, int field, int nIcon );
-void DoSetWindowText(int which, int field, char *s_label);
-void InsertIntoMemo( int which, char * text, int where );
-void DoClearMemo(int which);
-void ResizeWindowControls( int mode );
-int  EngineOutputDialogExists();
-void SetEngineOutputTitle( char *title );
-void Collapse P((int colNr));
-void InitEngineOutput P((Option *opt, Option *memo2)); // XB only
-void DrawWidgetIcon P((Option *opt, int nIcon)); // XB only
+void SetEngineColorIcon(int);
+void SetIcon(int, int, int);
+void DoSetWindowText(int, int, char *);
+void InsertIntoMemo(int, char *, int);
+void DoClearMemo(int);
+void ResizeWindowControls(int);
+int  EngineOutputDialogExists(void);
+void SetEngineOutputTitle(char *);
+void Collapse(int);
+void InitEngineOutput(Option *, Option *); // XB only
+void DrawWidgetIcon(Option *, int); // XB only
