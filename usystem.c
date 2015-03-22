@@ -80,7 +80,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -170,7 +170,7 @@ extern char *getenv();
 # define N_(s)  s
 #endif
 
-static int get_term_width P(());
+static int get_term_width(void);
 
 static char *cnames[9] = { "black", "red", "green", "yellow", "blue",
 			     "magenta", "cyan", "white" };
@@ -178,7 +178,7 @@ TextColors textColors[(int)NColorClasses];
 
 /* String is: "fg, bg, attr". Which is 0, 1, 2 */
 static int
-parse_color (char *str, int which)
+parse_color(char *str, int which)
 {
     char *p, buf[100], *d;
     int i;
@@ -224,7 +224,7 @@ parse_color (char *str, int which)
 }
 
 static int
-parse_cpair (ColorClass cc, char *str)
+parse_cpair(ColorClass cc, char *str)
 {
     if ((textColors[(int)cc].fg=parse_color(str, 0)) == -2) {
 	fprintf(stderr, _("%s: can't parse foreground color in '%s'\n"),
@@ -241,7 +241,7 @@ parse_cpair (ColorClass cc, char *str)
 }
 
 void
-ParseIcsTextColors ()
+ParseIcsTextColors(void)
 {   // [HGM] tken out of main(), so it can be called from ICS-Options dialog
     if (parse_cpair(ColorShout, appData.colorShout) < 0 ||
 	parse_cpair(ColorSShout, appData.colorSShout) < 0 ||
@@ -269,14 +269,14 @@ ParseIcsTextColors ()
 static Boolean noEcho;
 
 void
-EchoOn ()
+EchoOn(void)
 {
     system("stty echo");
     noEcho = False;
 }
 
 void
-EchoOff ()
+EchoOff(void)
 {
     system("stty -echo");
     noEcho = True;
@@ -285,7 +285,7 @@ EchoOff ()
 char *oldICSInteractionTitle;
 
 void
-ShutDownFrontEnd ()
+ShutDownFrontEnd(void)
 {
     if (appData.icsActive && oldICSInteractionTitle != NULL) {
         DisplayIcsInteractionTitle(oldICSInteractionTitle);
@@ -297,13 +297,13 @@ ShutDownFrontEnd ()
 }
 
 void
-RunCommand (char *buf)
+RunCommand(char *buf)
 {
     system(buf);
 }
 
 void
-Colorize (ColorClass cc, int continuation)
+Colorize(ColorClass cc, int continuation)
 {
     char buf[MSG_SIZ];
     int count, outCount, error;
@@ -337,13 +337,13 @@ Colorize (ColorClass cc, int continuation)
 }
 
 char *
-UserName ()
+UserName(void)
 {
     return getpwuid(getuid())->pw_name;
 }
 
 char *
-ExpandPathName (char *path)
+ExpandPathName(char *path)
 {
     static char static_buf[4*MSG_SIZ];
     char *d, *s, buf[4*MSG_SIZ];
@@ -389,7 +389,7 @@ ExpandPathName (char *path)
 }
 
 int
-MySearchPath (char *installDir, char *name, char *fullname)
+MySearchPath(char *installDir, char *name, char *fullname)
 { // just append installDir and name. Perhaps ExpandPath should be used here?
   name = ExpandPathName(name);
   if(name && name[0] == '/')
@@ -401,7 +401,7 @@ MySearchPath (char *installDir, char *name, char *fullname)
 }
 
 int
-MyGetFullPathName (char *name, char *fullname)
+MyGetFullPathName(char *name, char *fullname)
 { // should use ExpandPath?
   name = ExpandPathName(name);
   safeStrCpy(fullname, name, MSG_SIZ );
@@ -409,7 +409,7 @@ MyGetFullPathName (char *name, char *fullname)
 }
 
 char *
-HostName ()
+HostName(void)
 {
     static char host_name[MSG_SIZ];
 
@@ -428,7 +428,7 @@ HostName ()
 
 
 int
-StartChildProcess (char *cmdLine, char *dir, ProcRef *pr)
+StartChildProcess(char *cmdLine, char *dir, ProcRef *pr)
 {
     char *argv[64], *p;
     int i, pid;
@@ -503,14 +503,14 @@ StartChildProcess (char *cmdLine, char *dir, ProcRef *pr)
 static int pid;
 
 static RETSIGTYPE
-AlarmCallBack (int n)
+AlarmCallBack(int n)
 {
     kill(pid, SIGKILL); // kill forcefully
     return;
 }
 
 void
-DestroyChildProcess (ProcRef pr, int signalType)
+DestroyChildProcess(ProcRef pr, int signalType)
 {
     ChildProc *cp = (ChildProc *) pr;
 
@@ -532,7 +532,7 @@ DestroyChildProcess (ProcRef pr, int signalType)
 }
 
 void
-InterruptChildProcess (ProcRef pr)
+InterruptChildProcess(ProcRef pr)
 {
     ChildProc *cp = (ChildProc *) pr;
 
@@ -541,7 +541,7 @@ InterruptChildProcess (ProcRef pr)
 }
 
 int
-OpenTelnet (char *host, char *port, ProcRef *pr)
+OpenTelnet(char *host, char *port, ProcRef *pr)
 {
     char cmdLine[MSG_SIZ];
 
@@ -554,7 +554,7 @@ OpenTelnet (char *host, char *port, ProcRef *pr)
 }
 
 int
-OpenTCP (char *host, char *port, ProcRef *pr)
+OpenTCP(char *host, char *port, ProcRef *pr)
 {
 #if OMIT_SOCKETS
     DisplayFatalError(_("Socket support is not configured in"), 0, 2);
@@ -607,7 +607,7 @@ OpenTCP (char *host, char *port, ProcRef *pr)
 }
 
 int
-OpenCommPort (char *name, ProcRef *pr)
+OpenCommPort(char *name, ProcRef *pr)
 {
     int fd;
     ChildProc *cp;
@@ -626,7 +626,7 @@ OpenCommPort (char *name, ProcRef *pr)
 }
 
 int
-OpenLoopback (ProcRef *pr)
+OpenLoopback(ProcRef *pr)
 {
     ChildProc *cp;
     int to[2], from[2];
@@ -653,7 +653,7 @@ OpenRcmd (char *host, char *user, char *cmd, ProcRef *pr)
 Boolean stdoutClosed = FALSE;
 
 int
-OutputToProcess (ProcRef pr, char *message, int count, int *outError)
+OutputToProcess(ProcRef pr, char *message, int count, int *outError)
 {
     static int line = 0;
     ChildProc *cp = (ChildProc *) pr;
@@ -699,7 +699,7 @@ OutputToProcess (ProcRef pr, char *message, int count, int *outError)
    script to ICC, which for some reason doesn't like the
    instantaneous send. */
 int
-OutputToProcessDelayed (ProcRef pr, char *message, int count, int *outError, long msdelay)
+OutputToProcessDelayed(ProcRef pr, char *message, int count, int *outError, long msdelay)
 {
     ChildProc *cp = (ChildProc *) pr;
     int outCount = 0;
@@ -720,7 +720,7 @@ OutputToProcessDelayed (ProcRef pr, char *message, int count, int *outError, lon
 }
 
 int
-ICSInitScript ()
+ICSInitScript(void)
 {
   /* try to open the icsLogon script, either in the location given
    * or in the users HOME directory
@@ -753,7 +753,7 @@ ICSInitScript ()
 }
 
 void
-ResetFrontEnd ()
+ResetFrontEnd(void)
 {
     CommentPopDown();
     TagsPopDown();
@@ -762,7 +762,7 @@ ResetFrontEnd ()
 
 #include <sys/ioctl.h>
 static int
-get_term_width ()
+get_term_width(void)
 {
     int fd, default_width;
 
@@ -782,7 +782,7 @@ get_term_width ()
 }
 
 void
-update_ics_width ()
+update_ics_width(void)
 {
   static int old_width = 0;
   int new_width = get_term_width();
@@ -793,7 +793,7 @@ update_ics_width ()
 }
 
 void
-NotifyFrontendLogin ()
+NotifyFrontendLogin(void)
 {
     update_ics_width();
 }
