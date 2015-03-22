@@ -64,7 +64,7 @@ int MarginH = 4;
 
 // back-end
 static void
-DrawLine (int x1, int y1, int x2, int y2, int penType)
+DrawLine(int x1, int y1, int x2, int y2, int penType)
 {
     DrawSegment( x1, y1, NULL, NULL, PEN_NONE );
     DrawSegment( x2, y2, NULL, NULL, penType );
@@ -72,7 +72,7 @@ DrawLine (int x1, int y1, int x2, int y2, int penType)
 
 // back-end
 static void
-DrawLineEx (int x1, int y1, int x2, int y2, int penType)
+DrawLineEx(int x1, int y1, int x2, int y2, int penType)
 {
     int savX, savY;
     DrawSegment( x1, y1, &savX, &savY, PEN_NONE );
@@ -82,7 +82,7 @@ DrawLineEx (int x1, int y1, int x2, int y2, int penType)
 
 // back-end
 static int
-GetPvScore (int index)
+GetPvScore(int index)
 {
     int score = currPvInfo[ index ].score;
 
@@ -93,7 +93,7 @@ GetPvScore (int index)
 }
 
 char *
-MakeEvalTitle (char *title)
+MakeEvalTitle(char *title)
 {
     int score, depth;
     static char buf[MSG_SIZ];
@@ -118,7 +118,7 @@ MakeEvalTitle (char *title)
     Note: height can be negative!
 */
 static int
-GetValueY (int value)
+GetValueY(int value)
 {
     if( value < -range*700 ) value = -range*700;
     if( value > +range*700 ) value = +range*700;
@@ -131,7 +131,7 @@ GetValueY (int value)
 // the brush selection is made part of the DrawLine, by passing a style argument
 // the wrapper for doing the text output makes this back-end
 static void
-DrawAxisSegmentHoriz (int value, Boolean drawValue)
+DrawAxisSegmentHoriz(int value, Boolean drawValue)
 {
     int y = GetValueY( range*value*100 );
 
@@ -151,7 +151,7 @@ DrawAxisSegmentHoriz (int value, Boolean drawValue)
 // The DrawLines again must select their own brush.
 // the initial brush selection is useless? BkMode needed for dotted line and text
 static void
-DrawAxis ()
+DrawAxis(void)
 {
     int cy = nHeightPB / 2, space = nHeightPB/(6 + appData.zoom);
 
@@ -169,7 +169,7 @@ DrawAxis ()
 
 // back-end
 static void
-DrawHistogram (int x, int y, int width, int value, int side)
+DrawHistogram(int x, int y, int width, int value, int side)
 {
     int left, top, right, bottom;
 
@@ -199,7 +199,7 @@ DrawHistogram (int x, int y, int width, int value, int side)
 
 // back-end
 static void
-DrawSeparator (int index, int x)
+DrawSeparator(int index, int x)
 {
     if( index > 0 ) {
         if( index == currCurrent ) {
@@ -214,7 +214,7 @@ DrawSeparator (int index, int x)
 // made back-end by replacing MoveToEx and LineTo by DrawSegment
 /* Actually draw histogram as a diagram, cause there's too much data */
 static void
-DrawHistogramAsDiagram (int cy, int paint_width, int hist_count)
+DrawHistogramAsDiagram(int cy, int paint_width, int hist_count)
 {
     double step;
     int i;
@@ -257,7 +257,7 @@ DrawHistogramAsDiagram (int cy, int paint_width, int hist_count)
 
 // back-end, delete pen selection
 static void
-DrawHistogramFull (int cy, int hist_width, int hist_count)
+DrawHistogramFull(int cy, int hist_width, int hist_count)
 {
     int i;
 
@@ -286,7 +286,7 @@ typedef struct {
 
 // back-end
 static Boolean
-InitVisualization (VisualizationData *vd)
+InitVisualization(VisualizationData *vd)
 {
     Boolean result = FALSE;
 
@@ -311,7 +311,7 @@ InitVisualization (VisualizationData *vd)
 
 // back-end
 static void
-DrawHistograms ()
+DrawHistograms(void)
 {
     VisualizationData vd;
     int i; double step = 1;
@@ -338,7 +338,7 @@ DrawHistograms ()
 
 // back-end
 int
-GetMoveIndexFromPoint (int x, int y)
+GetMoveIndexFromPoint(int x, int y)
 {
     int result = -1;
     int start_x = MarginX + MarginW;
@@ -372,7 +372,7 @@ GetMoveIndexFromPoint (int x, int y)
 
 // init and display part split of so they can be moved to front end
 void
-PaintEvalGraph (void)
+PaintEvalGraph(void)
 {
     VariantClass v = gameInfo.variant;
     range = (gameInfo.holdingsWidth && v != VariantSuper && v != VariantGreat && v != VariantSChess) ? 2 : 1; // [HGM] double range in drop games
