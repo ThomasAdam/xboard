@@ -73,7 +73,7 @@
 /* This code is for systems where pipes work properly */
 
 void
-SetUpChildIO (int to_prog[2], int from_prog[2])
+SetUpChildIO(int to_prog[2], int from_prog[2])
 {
     signal(SIGPIPE, SIG_IGN);
     pipe(to_prog);
@@ -97,10 +97,10 @@ SetUpChildIO (int to_prog[2], int from_prog[2])
 # endif /* HAVE_FCNTL_H */
 #endif /* not HAVE_SYS_FCNTL_H */
 
-int PseudoTTY P((char pty_name[]));
+int PseudoTTY(char *);
 
 int
-SetUpChildIO (int to_prog[2], int from_prog[2])
+SetUpChildIO(int to_prog[2], int from_prog[2])
 {
     char pty_name[MSG_SIZ];
 
@@ -128,7 +128,7 @@ SetUpChildIO (int to_prog[2], int from_prog[2])
 /* This code is for SVR4 */
 
 int
-PseudoTTY (char pty_name[])
+PseudoTTY(char pty_name[])
 {
     extern char *ptsname();
     char *ptss;
@@ -148,7 +148,7 @@ PseudoTTY (char pty_name[])
 /* This code is for IRIX */
 
 int
-PseudoTTY (char pty_name[])
+PseudoTTY(char pty_name[])
 {
     int fd;
     char *ptyn;
@@ -164,7 +164,7 @@ PseudoTTY (char pty_name[])
 /* This code is for Sequent DYNIX/ptx.  Untested. --tpm */
 
 int
-PseudoTTY (char pty_name[])
+PseudoTTY(char pty_name[])
 {
     int fd;
     char *slave, *master;
@@ -187,7 +187,7 @@ PseudoTTY (char pty_name[])
 #endif
 
 int
-PseudoTTY (char pty_name[])
+PseudoTTY(char pty_name[])
 {
   struct stat stb;
   register c, i;
