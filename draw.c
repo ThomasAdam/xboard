@@ -127,7 +127,7 @@ struct {
 } gridSegments[BOARD_RANKS + BOARD_FILES + 2];
 
 void
-SwitchWindow (int main)
+SwitchWindow(int main)
 {
     currBoard = (main ? &mainOptions[W_BOARD] : &dualOptions[3]);
     csBoardWindow = DRAWABLE(currBoard);
@@ -172,7 +172,7 @@ SelectPieces(VariantClass v)
 
 #define BoardSize int
 void
-InitDrawingSizes (BoardSize boardSize, int flags)
+InitDrawingSizes(BoardSize boardSize, int flags)
 {   // [HGM] resize is functional now, but for board format changes only (nr of ranks, files)
     int boardWidth, boardHeight;
     static int oldWidth, oldHeight;
@@ -225,7 +225,7 @@ InitDrawingSizes (BoardSize boardSize, int flags)
 }
 
 void
-ExposeRedraw (Option *graph, int x, int y, int w, int h)
+ExposeRedraw(Option *graph, int x, int y, int w, int h)
 {   // copy a selected part of the buffer bitmap to the display
     cairo_t *cr = cairo_create((cairo_surface_t *) graph->textValue);
     cairo_set_source_surface(cr, (cairo_surface_t *) graph->choice, 0, 0);
@@ -236,7 +236,7 @@ ExposeRedraw (Option *graph, int x, int y, int w, int h)
 }
 
 static void
-CreatePNGBoard (char *s, int kind)
+CreatePNGBoard(char *s, int kind)
 {
     float w, h;
     static float n[2] = { 1., 1. };
@@ -291,7 +291,7 @@ char *pngPieceNames[] = // must be in same order as internal piece encoding
 char *backupPiece[] = { "King", "Queen", "Lion" }; // pieces that map on other when not kanji
 
 RsvgHandle *
-LoadSVG (char *dir, int color, int piece, int retry)
+LoadSVG(char *dir, int color, int piece, int retry)
 {
     char buf[MSG_SIZ];
   RsvgHandle *svg=svgPieces[color][piece];
@@ -327,7 +327,7 @@ LoadSVG (char *dir, int color, int piece, int retry)
 }
 
 static void
-ScaleOnePiece (int color, int piece)
+ScaleOnePiece(int color, int piece)
 {
   float w, h;
   char buf[MSG_SIZ];
@@ -401,7 +401,7 @@ ScaleOnePiece (int color, int piece)
 }
 
 void
-CreatePNGPieces ()
+CreatePNGPieces(void)
 {
   int p;
 
@@ -413,7 +413,7 @@ CreatePNGPieces ()
 }
 
 void
-CreateAnyPieces (int p)
+CreateAnyPieces(int p)
 {   // [HGM] taken out of main
     if(p) CreatePNGPieces();
     CreatePNGBoard(appData.liteBackTextureFile, 1);
@@ -421,7 +421,7 @@ CreateAnyPieces (int p)
 }
 
 void
-InitDrawingParams (int reloadPieces)
+InitDrawingParams(int reloadPieces)
 {
     int i, p;
     if(reloadPieces)
@@ -437,7 +437,7 @@ InitDrawingParams (int reloadPieces)
 // [HGM] seekgraph: some low-level drawing routines (by JC, mostly)
 
 float
-Color (char *col, int n)
+Color(char *col, int n)
 {
   int c;
   sscanf(col, "#%x", &c);
@@ -446,7 +446,7 @@ Color (char *col, int n)
 }
 
 void
-SetPen (cairo_t *cr, float w, char *col, int dash)
+SetPen(cairo_t *cr, float w, char *col, int dash)
 {
   static const double dotted[] = {4.0, 4.0};
   static int len  = sizeof(dotted) / sizeof(dotted[0]);
@@ -532,13 +532,13 @@ void DrawSeekDot(int x, int y, int colorNr)
 }
 
 void
-InitDrawingHandle (Option *opt)
+InitDrawingHandle(Option *opt)
 {
     csBoardWindow = DRAWABLE(opt);
 }
 
 void
-CreateGrid ()
+CreateGrid(void)
 {
     int i, j;
 
@@ -564,7 +564,7 @@ CreateGrid ()
 }
 
 void
-DrawGrid()
+DrawGrid(void)
 {
   /* draws a grid starting around Nx, Ny squares starting at x,y */
   int i;
@@ -593,7 +593,7 @@ DrawGrid()
 }
 
 void
-DrawBorder (int x, int y, int type, int odd)
+DrawBorder(int x, int y, int type, int odd)
 {
     cairo_t *cr;
     char *col;
@@ -614,7 +614,7 @@ DrawBorder (int x, int y, int type, int odd)
 }
 
 static int
-CutOutSquare (int x, int y, int *x0, int *y0, int  kind)
+CutOutSquare(int x, int y, int *x0, int *y0, int  kind)
 {
     int W = BOARD_WIDTH, H = BOARD_HEIGHT;
     int nx = x/(squareSize + lineGap), ny = y/(squareSize + lineGap);
@@ -632,7 +632,7 @@ CutOutSquare (int x, int y, int *x0, int *y0, int  kind)
 }
 
 void
-DrawLogo (Option *opt, void *logo)
+DrawLogo(Option *opt, void *logo)
 {
     cairo_surface_t *img;
     cairo_t *cr;
@@ -653,7 +653,7 @@ DrawLogo (Option *opt, void *logo)
 }
 
 static void
-BlankSquare (cairo_surface_t *dest, int x, int y, int color, ChessSquare piece, int fac)
+BlankSquare(cairo_surface_t *dest, int x, int y, int color, ChessSquare piece, int fac)
 {   // [HGM] extra param 'fac' for forcing destination to (0,0) for copying to animation buffer
     int x0, y0;
     cairo_t *cr;
@@ -683,7 +683,7 @@ BlankSquare (cairo_surface_t *dest, int x, int y, int color, ChessSquare piece, 
 }
 
 static void
-pngDrawPiece (cairo_surface_t *dest, ChessSquare piece, int square_color, int x, int y)
+pngDrawPiece(cairo_surface_t *dest, ChessSquare piece, int square_color, int x, int y)
 {
     int kind;
     cairo_t *cr;
@@ -705,7 +705,7 @@ pngDrawPiece (cairo_surface_t *dest, ChessSquare piece, int square_color, int x,
 static char *markerColor[8] = { "#FFFF00", "#FF0000", "#00FF00", "#0000FF", "#00FFFF", "#FF00FF", "#FFFFFF", "#000000" };
 
 void
-DoDrawDot (cairo_surface_t *cs, int marker, int x, int y, int r)
+DoDrawDot(cairo_surface_t *cs, int marker, int x, int y, int r)
 {
 	cairo_t *cr;
 
@@ -724,14 +724,14 @@ DoDrawDot (cairo_surface_t *cs, int marker, int x, int y, int r)
 }
 
 void
-DrawDot (int marker, int x, int y, int r)
+DrawDot(int marker, int x, int y, int r)
 { // used for atomic captures; no need to draw on backup
   DoDrawDot(csBoardWindow, marker, x, y, r);
   GraphExpose(currBoard, x-r, y-r, 2*r, 2*r);
 }
 
 static void
-DrawText (char *string, int x, int y, int align)
+DrawText(char *string, int x, int y, int align)
 {
 	int xx = x, yy = y;
 	cairo_text_extents_t te;
@@ -769,7 +769,7 @@ DrawText (char *string, int x, int y, int align)
 }
 
 void
-InscribeKanji (ChessSquare piece, int x, int y)
+InscribeKanji(ChessSquare piece, int x, int y)
 {
     char *p, *q, buf[10];
     int n;
@@ -794,7 +794,7 @@ InscribeKanji (ChessSquare piece, int x, int y)
 }
 
 void
-DrawOneSquare (int x, int y, ChessSquare piece, int square_color, int marker, char *tString, char *bString, int align)
+DrawOneSquare(int x, int y, ChessSquare piece, int square_color, int marker, char *tString, char *bString, int align)
 {   // basic front-end board-draw function: takes care of everything that can be in square:
     // piece, background, coordinate/count, marker dot
 
@@ -826,7 +826,7 @@ DrawOneSquare (int x, int y, ChessSquare piece, int square_color, int marker, ch
 static cairo_surface_t *c_animBufs[3*NrOfAnims]; // newBuf, saveBuf
 
 static void
-InitAnimState (AnimNr anr)
+InitAnimState(AnimNr anr)
 {
     if(c_animBufs[anr]) cairo_surface_destroy (c_animBufs[anr]);
     if(c_animBufs[anr+2]) cairo_surface_destroy (c_animBufs[anr+2]);
@@ -836,14 +836,14 @@ InitAnimState (AnimNr anr)
 }
 
 void
-CreateAnimVars ()
+CreateAnimVars(void)
 {
   InitAnimState(Game);
   InitAnimState(Player);
 }
 
 static void
-CairoOverlayPiece (ChessSquare piece, cairo_surface_t *dest)
+CairoOverlayPiece(ChessSquare piece, cairo_surface_t *dest)
 {
   static cairo_t *pieceSource;
   pieceSource = cairo_create (dest);
@@ -854,18 +854,18 @@ CairoOverlayPiece (ChessSquare piece, cairo_surface_t *dest)
 }
 
 void
-InsertPiece (AnimNr anr, ChessSquare piece)
+InsertPiece(AnimNr anr, ChessSquare piece)
 {
     CairoOverlayPiece(piece, c_animBufs[anr]);
 }
 
 void
-DrawBlank (AnimNr anr, int x, int y, int startColor)
+DrawBlank(AnimNr anr, int x, int y, int startColor)
 {
     BlankSquare(c_animBufs[anr+2], x, y, startColor, EmptySquare, 0);
 }
 
-void CopyRectangle (AnimNr anr, int srcBuf, int destBuf,
+void CopyRectangle(AnimNr anr, int srcBuf, int destBuf,
 		 int srcX, int srcY, int width, int height, int destX, int destY)
 {
 	cairo_t *cr;
@@ -880,14 +880,14 @@ void CopyRectangle (AnimNr anr, int srcBuf, int destBuf,
 }
 
 void
-SetDragPiece (AnimNr anr, ChessSquare piece)
+SetDragPiece(AnimNr anr, ChessSquare piece)
 {
 }
 
 /* [AS] Arrow highlighting support */
 
 void
-DoDrawPolygon (cairo_surface_t *cs, Pnt arrow[], int nr)
+DoDrawPolygon(cairo_surface_t *cs, Pnt arrow[], int nr)
 {
     cairo_t *cr;
     int i;
@@ -909,7 +909,7 @@ DoDrawPolygon (cairo_surface_t *cs, Pnt arrow[], int nr)
 }
 
 void
-DrawPolygon (Pnt arrow[], int nr)
+DrawPolygon(Pnt arrow[], int nr)
 {
     DoDrawPolygon(csBoardWindow, arrow, nr);
 //    if(!dual) DoDrawPolygon(csBoardBackup, arrow, nr);
@@ -944,7 +944,7 @@ ChoosePen(cairo_t *cr, int i)
 
 // [HGM] front-end, added as wrapper to avoid use of LineTo and MoveToEx in other routines (so they can be back-end)
 void
-DrawSegment (int x, int y, int *lastX, int *lastY, int penType)
+DrawSegment(int x, int y, int *lastX, int *lastY, int penType)
 {
   static int curX, curY;
 
@@ -964,7 +964,7 @@ DrawSegment (int x, int y, int *lastX, int *lastY, int penType)
 
 // front-end wrapper for drawing functions to do rectangles
 void
-DrawRectangle (int left, int top, int right, int bottom, int side, int style)
+DrawRectangle(int left, int top, int right, int bottom, int side, int style)
 {
   cairo_t *cr;
 
@@ -991,7 +991,7 @@ DrawRectangle (int left, int top, int right, int bottom, int side, int style)
 
 // front-end wrapper for putting text in graph
 void
-DrawEvalText (char *buf, int cbBuf, int y)
+DrawEvalText(char *buf, int cbBuf, int y)
 {
     // the magic constants 8 and 5 should really be derived from the font size somehow
   cairo_text_extents_t extents;

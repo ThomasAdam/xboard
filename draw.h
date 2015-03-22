@@ -52,26 +52,26 @@
 #define DRAWABLE(X) ((cairo_surface_t *) ((X)->choice))
 
 // defined in xboard.c
-void ResizeBoardWindow P((int w, int h, int inhibit));
-void CreateGrid P((void));
-void CreateGCs P((int redo));
-void DelayedDrag P((void));
+void ResizeBoardWindow(int, int, int);
+void CreateGrid(void);
+void CreateGCs(int);
+void DelayedDrag(void);
 
 extern int lineGap, squareSize;
 
 // defined in draw.c
-void CreateGCs P((int redo));
-void CreateAnyPieces P((int p));
-void CreatePNGPieces P((void));
-void CreateGrid P((void));
-void DrawSegment P((int x, int y, int *lastX, int *lastY, int p));
-void DrawRectangle P((int left, int top, int right, int bottom, int side, int style));
-void DrawEvalText P((char *buf, int cbBuf, int y));
+void CreateGCs(int);
+void CreateAnyPieces(int);
+void CreatePNGPieces(void);
+void CreateGrid(void);
+void DrawSegment(int, int, int *, int *, int);
+void DrawRectangle(int, int, int, int, int, int);
+void DrawEvalText(char *, int, int);
 extern Option *disp;
 extern char svgDir[];
 
 // defined in evaldraw.c
-float Color P((char *col, int n));
+float Color(char *, int);
 
 // defined in xoptions.c
-void GraphExpose P((Option *opt, int x, int y, int w, int h));
+void GraphExpose(Option *, int, int, int, int);
