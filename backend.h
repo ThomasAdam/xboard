@@ -55,6 +55,7 @@
 #define XB_BACKEND
 
 #include "lists.h"
+#include "x.h"
 
 typedef int (*FileProc) P((FILE *f, int n, char *title));
 

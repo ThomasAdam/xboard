@@ -38,6 +38,7 @@ AC_CONFIG_HEADERS([config.h])
 
 dnl | a bunch of templates for defines used below
 AH_TEMPLATE([FIRST_PTY_LETTER],[template])
+AH_TEMPLATE([HAVE_ASPRINTF],[template])
 AH_TEMPLATE([HAVE_FCNTL_H],[template])
 AH_TEMPLATE([HAVE_GETHOSTNAME],[template])
 AH_TEMPLATE([HAVE_GETTIMEOFDAY],[template])
@@ -104,6 +105,7 @@ AC_CHECK_FUNCS(_getpty grantpt setitimer usleep)
 AC_CHECK_FUNCS(gettimeofday ftime, break)
 AC_CHECK_FUNCS(random rand48, break)
 AC_CHECK_FUNCS(gethostname sysinfo, break)
+AC_CHECK_FUNCS(asprintf, break)
 AC_CHECK_FUNC(setlocale, [],
   AC_CHECK_LIB(i, setlocale, [], AC_DEFINE(X_LOCALE, 1)))
 
