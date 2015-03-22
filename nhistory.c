@@ -40,8 +40,8 @@
 #endif
 
 // templates for calls into back-end (= history.c; should be moved to history.h header shared with it!)
-void RefreshMemoContent P((void));
-void MemoContentUpdated P((void));
+void RefreshMemoContent(void);
+void MemoContentUpdated(void);
 
 // variables in xoptions.c
 extern Option historyOptions[];
@@ -49,7 +49,7 @@ extern Option historyOptions[];
 // ------------- low-level front-end actions called by MoveHistory back-end -----------------
 
 void
-ClearHistoryMemo ()
+ClearHistoryMemo(void)
 {
     SetWidgetText(&historyOptions[0], "", HistoryDlg);
 }
@@ -57,13 +57,13 @@ ClearHistoryMemo ()
 // the bold argument says 0 = normal, 1 = bold typeface
 // the colorNr argument says 0 = font-default, 1 = gray
 int
-AppendToHistoryMemo (char * text, int bold, int colorNr)
+AppendToHistoryMemo(char * text, int bold, int colorNr)
 {
     return AppendText(&historyOptions[0], text); // for now ignore bold & color stuff, as Xaw cannot handle that
 }
 
 void
-HighlightMove (int from, int to, Boolean highlight)
+HighlightMove(int from, int to, Boolean highlight)
 {
     HighlightText (&historyOptions[0], from, to, highlight);
 }
@@ -71,7 +71,7 @@ HighlightMove (int from, int to, Boolean highlight)
 char *historyText;
 
 int
-SelectMove (Option *opt, int n, int x, int y, char *text, int index)
+SelectMove(Option *opt, int n, int x, int y, char *text, int index)
 {
 	if(n != 3 && n != 1) return FALSE; // only on button-1 and 3 press
 	FindMoveByCharIndex( index ); // [HGM] also does the actual moving to it, now
@@ -84,7 +84,7 @@ Option historyOptions[] = {
 };
 
 void
-ScrollToCurrent (int caretPos)
+ScrollToCurrent(int caretPos)
 {
     ScrollToCursor(&historyOptions[0], caretPos);
 }
@@ -92,19 +92,19 @@ ScrollToCurrent (int caretPos)
 // ------------ standard entry points into MoveHistory code -----------
 
 Boolean
-MoveHistoryIsUp ()
+MoveHistoryIsUp(void)
 {
     return shellUp[HistoryDlg];
 }
 
 Boolean
-MoveHistoryDialogExists ()
+MoveHistoryDialogExists(void)
 {
     return DialogExists(HistoryDlg);
 }
 
 void
-HistoryPopUp ()
+HistoryPopUp(void)
 {
     if(GenericPopUp(historyOptions, _("Move list"), HistoryDlg, BoardWindow, NONMODAL, appData.topLevel))
 	AddHandler(&historyOptions[0], HistoryDlg, 0);
@@ -112,7 +112,7 @@ HistoryPopUp ()
 }
 
 void
-HistoryShowProc ()
+HistoryShowProc(void)
 {
   if (!shellUp[HistoryDlg]) {
     ASSIGN(historyText, "");
