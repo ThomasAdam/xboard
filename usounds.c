@@ -60,7 +60,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -77,7 +77,7 @@ extern char *getenv();
 
 
 int
-PlaySoundFile (char *name)
+PlaySoundFile(char *name)
 {
   if (*name == NULLCHAR) {
     return 0;
@@ -95,55 +95,55 @@ PlaySoundFile (char *name)
 }
 
 void
-RingBell ()
+RingBell(void)
 {
   PlaySoundFile(appData.soundMove);
 }
 
 void
-PlayIcsWinSound ()
+PlayIcsWinSound(void)
 {
   PlaySoundFile(appData.soundIcsWin);
 }
 
 void
-PlayIcsLossSound ()
+PlayIcsLossSound(void)
 {
   PlaySoundFile(appData.soundIcsLoss);
 }
 
 void
-PlayIcsDrawSound ()
+PlayIcsDrawSound(void)
 {
   PlaySoundFile(appData.soundIcsDraw);
 }
 
 void
-PlayIcsUnfinishedSound ()
+PlayIcsUnfinishedSound(void)
 {
   PlaySoundFile(appData.soundIcsUnfinished);
 }
 
 void
-PlayAlarmSound ()
+PlayAlarmSound(void)
 {
   PlaySoundFile(appData.soundIcsAlarm);
 }
 
 void
-PlayTellSound ()
+PlayTellSound(void)
 {
   PlaySoundFile(appData.soundTell);
 }
 
 int
-Roar ()
+Roar(void)
 {
   return PlaySoundFile(appData.soundRoar);
 }
 
 void
-PlaySoundForColor (ColorClass cc)
+PlaySoundForColor(ColorClass cc)
 {
     switch (cc) {
     case ColorShout:
