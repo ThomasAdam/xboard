@@ -112,28 +112,28 @@ char *secondEngineLine;
 char *icsNick;
 char *theme;
 
-void EnsureOnScreen(int *x, int *y, int minX, int minY);
-char StringGet(void *getClosure);
-void ParseFont(char *name, int number);
-void SetFontDefaults();
-void CreateFonts();
-void ParseColor(int n, char *name);
-void ParseTextAttribs(ColorClass cc, char *s);
-void ParseBoardSize(void * addr, char *name);
-void ParseCommPortSettings(char *name);
-void LoadAllSounds();
-void SetCommPortDefaults();
-void SaveFontArg(FILE *f, ArgDescriptor *ad);
-void ExportSounds();
-void SaveAttribsArg(FILE *f, ArgDescriptor *ad);
-void SaveColor(FILE *f, ArgDescriptor *ad);
-void SaveBoardSize(FILE *f, char *name, void *addr);
-void PrintCommPortSettings(FILE *f, char *name);
-void GetWindowCoords();
-int  MainWindowUp();
+void EnsureOnScreen(int *, int *, int, int);
+char StringGet(void *);
+void ParseFont(char *, int);
+void SetFontDefaults(void);
+void CreateFonts(void);
+void ParseColor(int, char *);
+void ParseTextAttribs(ColorClass, char *);
+void ParseBoardSize(void *, char *);
+void ParseCommPortSettings(char *);
+void LoadAllSounds(void);
+void SetCommPortDefaults(void);
+void SaveFontArg(FILE *, ArgDescriptor *);
+void ExportSounds(void);
+void SaveAttribsArg(FILE *, ArgDescriptor *);
+void SaveColor(FILE *, ArgDescriptor *);
+void SaveBoardSize(FILE *, char *, void *);
+void PrintCommPortSettings(FILE *, char *);
+void GetWindowCoords(void);
+int  MainWindowUp(void);
 void PopUpStartupDialog();
-typedef char GetFunc(void *getClosure);
-void ParseArgs(GetFunc get, void *cl);
+typedef char GetFunc(void *);
+void ParseArgs(GetFunc, void *);
 
 // [HGM] this is an exact duplicate of something in winboard.c. Move to backend.c?
 char *defaultTextAttribs[] =
@@ -843,7 +843,7 @@ ExitArgError(char *msg, char *badArg, Boolean quit)
 }
 
 void
-AppendToSettingsFile (char *line)
+AppendToSettingsFile(char *line)
 {
   char buf[MSG_SIZ];
   FILE *f;
@@ -1320,7 +1320,7 @@ ParseIcsTextMenu(char *icsTextMenuString)
 }
 
 void
-SetDefaultTextAttribs()
+SetDefaultTextAttribs(void)
 {
   ColorClass cc;
   for (cc = (ColorClass)0; cc < ColorNone; cc++) {
@@ -1329,7 +1329,7 @@ SetDefaultTextAttribs()
 }
 
 void
-SetDefaultsFromList()
+SetDefaultsFromList(void)
 { // [HGM] ini: take defaults from argDescriptor list
   int i;
 
@@ -1503,7 +1503,7 @@ InitAppData(char *lpCmdLine)
 }
 
 void
-SaveSettings(char* name)
+SaveSettings(char *name)
 {
   FILE *f;
   ArgDescriptor *ad;
