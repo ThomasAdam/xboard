@@ -70,12 +70,12 @@ Option *disp;
 
 /* Module variables */
 
-static Option *EvalCallback P((int button, int x, int y));
+static Option *EvalCallback(int, int, int);
 
 static int initDone = FALSE;
 
 static void
-InitializeEvalGraph (Option *opt, int w, int h)
+InitializeEvalGraph(Option *opt, int w, int h)
 {
   nWidthPB = w, nHeightPB = h;
 
@@ -85,7 +85,7 @@ InitializeEvalGraph (Option *opt, int w, int h)
 // The following stuff is really back-end (but too little to bother with a separate file)
 
 static void
-EvalClick (int x, int y)
+EvalClick(int x, int y)
 {
     int index = GetMoveIndexFromPoint( x, y );
 
@@ -98,7 +98,7 @@ static Option graphOptions[] = {
 };
 
 static void
-DisplayEvalGraph ()
+DisplayEvalGraph(void)
 {   // back-end painting; calls back front-end primitives for lines, rectangles and text
     char *t = MakeEvalTitle(_(title[differentialView]));
     nWidthPB = disp->max; nHeightPB = disp->value;
@@ -110,7 +110,7 @@ DisplayEvalGraph ()
 }
 
 static Option *
-EvalCallback (int button, int x, int y)
+EvalCallback(int button, int x, int y)
 {
     int dir = appData.zoom + 1;
     if(!initDone) return NULL;
@@ -135,7 +135,7 @@ EvalCallback (int button, int x, int y)
 }
 
 void
-EvalGraphPopUp ()
+EvalGraphPopUp(void)
 {
     if (GenericPopUp(graphOptions, _(title[differentialView]), EvalGraphDlg, BoardWindow, NONMODAL, appData.topLevel)) {
 	InitializeEvalGraph(&graphOptions[0], wpEvalGraph.width, wpEvalGraph.height); // first time: add callbacks and initialize pens
@@ -151,7 +151,7 @@ EvalGraphPopUp ()
 }
 
 void
-EvalGraphPopDown ()
+EvalGraphPopDown(void)
 {
     PopDown(EvalGraphDlg);
 
@@ -159,19 +159,19 @@ EvalGraphPopDown ()
 }
 
 Boolean
-EvalGraphIsUp ()
+EvalGraphIsUp(void)
 {
     return shellUp[EvalGraphDlg];
 }
 
 int
-EvalGraphDialogExists ()
+EvalGraphDialogExists(void)
 {
     return DialogExists(EvalGraphDlg);
 }
 
 void
-EvalGraphProc ()
+EvalGraphProc(void)
 {
   if (!PopDown(EvalGraphDlg)) EvalGraphPopUp();
 }
@@ -179,7 +179,7 @@ EvalGraphProc ()
 // This function is the interface to the back-end.
 
 void
-EvalGraphSet (int first, int last, int current, ChessProgramStats_Move * pvInfo)
+EvalGraphSet(int first, int last, int current, ChessProgramStats_Move * pvInfo)
 {
     /* [AS] Danger! For now we rely on the pvInfo parameter being a static variable! */
 
