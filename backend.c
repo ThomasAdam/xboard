@@ -167,101 +167,101 @@ extern int gettimeofday(struct timeval *, struct timezone *);
 #endif
 
 
-int establish P((void));
-void read_from_player P((InputSourceRef isr, VOIDSTAR closure,
-			 char *buf, int count, int error));
-void read_from_ics P((InputSourceRef isr, VOIDSTAR closure,
-		      char *buf, int count, int error));
-void SendToICS P((char *s));
-void SendToICSDelayed P((char *s, long msdelay));
-void SendMoveToICS P((ChessMove moveType, int fromX, int fromY, int toX, int toY, char promoChar));
-void HandleMachineMove P((char *message, ChessProgramState *cps));
-int AutoPlayOneMove P((void));
-int LoadGameOneMove P((ChessMove readAhead));
-int LoadGameFromFile P((char *filename, int n, char *title, int useList));
-int LoadPositionFromFile P((char *filename, int n, char *title));
-int SavePositionToFile P((char *filename));
-void MakeMove P((int fromX, int fromY, int toX, int toY, int promoChar));
-void ShowMove P((int fromX, int fromY, int toX, int toY));
-int FinishMove P((ChessMove moveType, int fromX, int fromY, int toX, int toY,
-		   /*char*/int promoChar));
-void BackwardInner P((int target));
-void ForwardInner P((int target));
-int Adjudicate P((ChessProgramState *cps));
-void GameEnds P((ChessMove result, char *resultDetails, int whosays));
-void EditPositionDone P((Boolean fakeRights));
-void PrintOpponents P((FILE *fp));
-void PrintPosition P((FILE *fp, int move));
-void StartChessProgram P((ChessProgramState *cps));
-void SendToProgram P((char *message, ChessProgramState *cps));
-void SendMoveToProgram P((int moveNum, ChessProgramState *cps));
-void ReceiveFromProgram P((InputSourceRef isr, VOIDSTAR closure,
-			   char *buf, int count, int error));
-void SendTimeControl P((ChessProgramState *cps,
-			int mps, long tc, int inc, int sd, int st));
-char *TimeControlTagValue P((void));
-void Attention P((ChessProgramState *cps));
-void FeedMovesToProgram P((ChessProgramState *cps, int upto));
-int ResurrectChessProgram P((void));
-void DisplayComment P((int moveNumber, char *text));
-void DisplayMove P((int moveNumber));
+int establish(void);
+void read_from_player(InputSourceRef, VOIDSTAR, char *, int, int);
+void read_from_ics(InputSourceRef, VOIDSTAR, char *, int, int);
+void SendToICS(char *);
+void SendToICSDelayed(char *, long);
+void SendMoveToICS(ChessMove, int, int, int, int, char);
+void HandleMachineMove(char *, ChessProgramState *);
+int AutoPlayOneMove(void);
+int LoadGameOneMove(ChessMove);
+int LoadGameFromFile(char *, int, char *, int);
+int LoadPositionFromFile(char *, int, char *);
+int SavePositionToFile(char *);
+void MakeMove(int, int, int, int, int);
+void ShowMove(int, int, int, int);
+int FinishMove(ChessMove, int, int, int, int, int);
+void BackwardInner(int);
+void ForwardInner(int);
+int Adjudicate(ChessProgramState *);
+void GameEnds(ChessMove, char *, int);
+void EditPositionDone(Boolean);
+void PrintOpponents(FILE *);
+void PrintPosition(FILE *, int);
+void StartChessProgram(ChessProgramState *);
+void SendToProgram(char *, ChessProgramState *);
+void SendMoveToProgram(int, ChessProgramState *);
+void ReceiveFromProgram(InputSourceRef, VOIDSTAR, char *, int, int);
+void SendTimeControl(ChessProgramState *, int, long, int, int, int);
+char *TimeControlTagValue(void);
+void Attention(ChessProgramState *);
+void FeedMovesToProgram(ChessProgramState *, int);
+int ResurrectChessProgram(void);
+void DisplayComment(int, char *);
+void DisplayMove(int);
 
-void ParseGameHistory P((char *game));
-void ParseBoard12 P((char *string));
-void KeepAlive P((void));
-void StartClocks P((void));
-void SwitchClocks P((int nr));
-void StopClocks P((void));
-void ResetClocks P((void));
-char *PGNDate P((void));
-void SetGameInfo P((void));
-int RegisterMove P((void));
-void MakeRegisteredMove P((void));
-void TruncateGame P((void));
-int looking_at P((char *, int *, char *));
-void CopyPlayerNameIntoFileName P((char **, char *));
-char *SavePart P((char *));
-int SaveGameOldStyle P((FILE *));
-int SaveGamePGN P((FILE *));
-int CheckFlags P((void));
-long NextTickLength P((long));
-void CheckTimeControl P((void));
-void show_bytes P((FILE *, char *, int));
-int string_to_rating P((char *str));
-void ParseFeatures P((char* args, ChessProgramState *cps));
-void InitBackEnd3 P((void));
-void FeatureDone P((ChessProgramState* cps, int val));
-void InitChessProgram P((ChessProgramState *cps, int setup));
+void ParseGameHistory(char *);
+void ParseBoard12(char *);
+void KeepAlive(void);
+void StartClocks(void);
+void SwitchClocks(int);
+void StopClocks(void);
+void ResetClocks(void);
+char *PGNDate(void);
+void SetGameInfo(void);
+int RegisterMove(void);
+void MakeRegisteredMove(void);
+void TruncateGame(void);
+int looking_at(char *, int *, char *);
+void CopyPlayerNameIntoFileName(char **, char *);
+char *SavePart(char *);
+int SaveGameOldStyle(FILE *);
+int SaveGamePGN(FILE *);
+int CheckFlags(void);
+long NextTickLength(long);
+void CheckTimeControl(void);
+void show_bytes(FILE *, char *, int);
+int string_to_rating(char *);
+void ParseFeatures(char *, ChessProgramState *);
+void InitBackEnd3(void);
+void FeatureDone(ChessProgramState *, int);
+void InitChessProgram(ChessProgramState *, int);
 void OutputKibitz(int window, char *text);
 int PerpetualChase(int first, int last);
-int EngineOutputIsUp();
-void InitDrawingSizes(int x, int y);
-void NextMatchGame P((void));
-int NextTourneyGame P((int nr, int *swap));
-int Pairing P((int nr, int nPlayers, int *w, int *b, int *sync));
-FILE *WriteTourneyFile P((char *results, FILE *f));
-void DisplayTwoMachinesTitle P(());
-static void ExcludeClick P((int index));
-void ToggleSecond P((void));
-void PauseEngine P((ChessProgramState *cps));
-static int NonStandardBoardSize P((VariantClass v, int w, int h, int s));
+int EngineOutputIsUp(void);
+void InitDrawingSizes(int, int);
+void NextMatchGame(void);
+int NextTourneyGame(int, int *);
+int Pairing(int, int, int *, int *, int *);
+FILE *WriteTourneyFile(char *, FILE *);
+void DisplayTwoMachinesTitle(void);
+static void ExcludeClick(int);
+void ToggleSecond(void);
+void PauseEngine(ChessProgramState *);
+static int NonStandardBoardSize(VariantClass, int, int, int);
+void PushTail(int, int);
+Boolean PopTail(Boolean);
+void PushInner(int, int);
+void PopInner(Boolean);
+void CleanupTail(void);
 
 #ifdef WIN32
-       extern void ConsoleCreate();
+       extern void ConsoleCreate(void);
 #endif
 
-ChessProgramState *WhitePlayer();
-int VerifyDisplayMode P(());
+ChessProgramState *WhitePlayer(void);
+int VerifyDisplayMode(void);
 
 char *GetInfoFromComment( int, char * ); // [HGM] PV time: returns stripped comment
 void InitEngineUCI( const char * iniDir, ChessProgramState * cps ); // [HGM] moved here from winboard.c
-char *ProbeBook P((int moveNr, char *book)); // [HGM] book: returns a book move
-char *SendMoveToBookUser P((int nr, ChessProgramState *cps, int initial)); // [HGM] book
-void ics_update_width P((int new_width));
+char *ProbeBook(int, char *); // [HGM] book: returns a book move
+char *SendMoveToBookUser(int, ChessProgramState *, int); // [HGM] book
+void ics_update_width(int);
+
 extern char installDir[MSG_SIZ];
 VariantClass startVariant; /* [HGM] nicks: initial variant */
 Boolean abortMatch;
-
 extern int tinyLayout, smallLayout;
 ChessProgramStats programStats;
 char lastPV[2][2*MSG_SIZ]; /* [HGM] pv: last PV in thinking output of each engine */
@@ -339,7 +339,7 @@ int border;       /* [HGM] width of board rim, needed to size seek graph  */
 #define TN_PORT 23
 
 char*
-safeStrCpy (char *dst, const char *src, size_t count)
+safeStrCpy(char *dst, const char *src, size_t count)
 { // [HGM] made safe
   int i;
   assert( dst != NULL );
@@ -367,7 +367,7 @@ safeStrCpy (char *dst, const char *src, size_t count)
  * We used this for all compiler
  */
 double
-u64ToDouble (u64 value)
+u64ToDouble(u64 value)
 {
   double r;
   u64 tmp = value & u64Const(0x7fffffffffffffff);
@@ -385,7 +385,7 @@ u64ToDouble (u64 value)
    by this function.
  */
 int
-PosFlags (index)
+PosFlags(int index)
 {
   int flags = F_ALL_CASTLE_OK;
   if ((index % 2) == 0) flags |= F_WHITE_ON_MOVE;
@@ -530,12 +530,6 @@ int savedLast[MAX_VARIATIONS];
 int savedFramePtr[MAX_VARIATIONS];
 char *savedDetails[MAX_VARIATIONS];
 ChessMove savedResult[MAX_VARIATIONS];
-
-void PushTail P((int firstMove, int lastMove));
-Boolean PopTail P((Boolean annotate));
-void PushInner P((int firstMove, int lastMove));
-void PopInner P((Boolean annotate));
-void CleanupTail P((void));
 
 ChessSquare  FIDEArray[2][BOARD_FILES] = {
     { WhiteRook, WhiteKnight, WhiteBishop, WhiteQueen,
@@ -714,7 +708,7 @@ Board initialPosition;
 
    "++++", etc. Also strips ()'s */
 int
-string_to_rating (char *str)
+string_to_rating(char *str)
 {
   while(*str && !isdigit(*str)) ++str;
   if (!*str)
@@ -724,7 +718,7 @@ string_to_rating (char *str)
 }
 
 void
-ClearProgramStats ()
+ClearProgramStats(void)
 {
     /* Init programStats */
     programStats.movelist[0] = 0;
@@ -740,7 +734,7 @@ ClearProgramStats ()
 }
 
 void
-CommonEngineInit ()
+CommonEngineInit(void)
 {   // [HGM] moved some code here from InitBackend1 that has to be done after both engines have contributed their settings
     if (appData.firstPlaysBlack) {
 	first.twoMachinesColor = "black\n";
@@ -774,7 +768,7 @@ CommonEngineInit ()
 }
 
 void
-UnloadEngine (ChessProgramState *cps)
+UnloadEngine(ChessProgramState *cps)
 {
 	/* Kill off first chess program */
 	if (cps->isr != NULL)
@@ -792,7 +786,7 @@ UnloadEngine (ChessProgramState *cps)
 }
 
 void
-ClearOptions (ChessProgramState *cps)
+ClearOptions(ChessProgramState *cps)
 {
     int i;
     cps->nrOptions = cps->comboCnt = 0;
@@ -812,7 +806,7 @@ N_("second")
 };
 
 void
-InitEngine (ChessProgramState *cps, int n)
+InitEngine(ChessProgramState *cps, int n)
 {   // [HGM] all engine initialiation put in a function that does one engine
 
     ClearOptions(cps);
@@ -912,7 +906,7 @@ ChessProgramState *savCps;
 GameMode oldMode;
 
 void
-LoadEngine ()
+LoadEngine(void)
 {
     int i;
     if(WaitForEngine(savCps, LoadEngine)) return;
@@ -933,7 +927,7 @@ LoadEngine ()
 }
 
 void
-ReplaceEngine (ChessProgramState *cps, int n)
+ReplaceEngine(ChessProgramState *cps, int n)
 {
     oldMode = gameMode; // remember mode, so it can be restored after loading sequence is complete
     keepInfo = 1;
@@ -980,7 +974,7 @@ FloatToFront(char **list, char *engineLine)
 char *insert, *wbOptions; // point in ChessProgramNames were we should insert new engine
 
 void
-Load (ChessProgramState *cps, int i)
+Load(ChessProgramState *cps, int i)
 {
     char *p, *q, buf[MSG_SIZ], command[MSG_SIZ], buf2[MSG_SIZ], buf3[MSG_SIZ], jar;
     if(engineLine && engineLine[0]) { // an engine was selected from the combo box
@@ -1046,7 +1040,7 @@ Load (ChessProgramState *cps, int i)
 }
 
 void
-InitTimeControls ()
+InitTimeControls(void)
 {
     int matched, min, sec;
     /*
@@ -1077,7 +1071,7 @@ InitTimeControls ()
 }
 
 void
-InitBackEnd1 ()
+InitBackEnd1(void)
 {
 
     ShowThinkingEvent(); // [HGM] thinking: make sure post/nopost state is set according to options
@@ -1250,7 +1244,7 @@ InitBackEnd1 ()
 }
 
 int
-NextIntegerFromString (char ** str, long * value)
+NextIntegerFromString(char ** str, long * value)
 {
     int result = -1;
     char * s = *str;
@@ -1276,7 +1270,7 @@ NextIntegerFromString (char ** str, long * value)
 }
 
 int
-NextTimeControlFromString (char ** str, long * value)
+NextTimeControlFromString(char ** str, long * value)
 {
     long temp;
     int result = NextIntegerFromString( str, &temp );
@@ -1294,7 +1288,7 @@ NextTimeControlFromString (char ** str, long * value)
 }
 
 int
-NextSessionFromString (char ** str, int *moves, long * tc, long *inc, int *incType)
+NextSessionFromString(char ** str, int *moves, long * tc, long *inc, int *incType)
 {   /* [HGM] routine added to read '+moves/time' for secondary time control. */
     int result = -1, type = 0; long temp, temp2;
 
@@ -1336,7 +1330,7 @@ NextSessionFromString (char ** str, int *moves, long * tc, long *inc, int *incTy
 }
 
 int
-GetTimeQuota (int movenr, int lastUsed, char *tcString)
+GetTimeQuota(int movenr, int lastUsed, char *tcString)
 {   /* [HGM] get time to add from the multi-session time-control string */
     int incType, moves=1; /* kludge to force reading of first session */
     long time, increment;
@@ -1357,7 +1351,7 @@ GetTimeQuota (int movenr, int lastUsed, char *tcString)
 }
 
 int
-ParseTimeControl (char *tc, float ti, int mps)
+ParseTimeControl(char *tc, float ti, int mps)
 {
   long tc1;
   long tc2;
@@ -1420,7 +1414,7 @@ ParseTimeControl (char *tc, float ti, int mps)
 }
 
 void
-InitBackEnd2 ()
+InitBackEnd2(void)
 {
     if (appData.debugMode) {
 #    ifdef __GIT_VERSION
@@ -1455,7 +1449,7 @@ InitBackEnd2 ()
 }
 
 int
-CalculateIndex (int index, int gameNr)
+CalculateIndex(int index, int gameNr)
 {   // [HGM] autoinc: absolute way to determine load index from game number (taking auto-inc and rewind into account)
     int res;
     if(index > 0) return index; // fixed nmber
@@ -1466,7 +1460,7 @@ CalculateIndex (int index, int gameNr)
 }
 
 int
-LoadGameOrPosition (int gameNr)
+LoadGameOrPosition(int gameNr)
 {   // [HGM] taken out of MatchEvent and NextMatchGame (to combine it)
     if (*appData.loadGameFile != NULLCHAR) {
 	if (!LoadGameFromFile(appData.loadGameFile,
@@ -1487,7 +1481,7 @@ LoadGameOrPosition (int gameNr)
 }
 
 void
-ReserveGame (int gameNr, char resChar)
+ReserveGame(int gameNr, char resChar)
 {
     FILE *tf = fopen(appData.tourneyFile, "r+");
     char *p, *q, c, buf[MSG_SIZ];
@@ -1533,7 +1527,7 @@ ReserveGame (int gameNr, char resChar)
 }
 
 void
-MatchEvent (int mode)
+MatchEvent(int mode)
 {	// [HGM] moved out of InitBackend3, to make it callable when match starts through menu
 	int dummy;
 	if(matchMode) { // already in match mode: switch it off
@@ -1589,7 +1583,7 @@ MatchEvent (int mode)
 char *comboLine = NULL; // [HGM] recent: WinBoard's first-engine combobox line
 
 void
-InitBackEnd3 P((void))
+InitBackEnd3(void)
 {
     GameMode initialMode;
     char buf[MSG_SIZ];
@@ -1806,7 +1800,7 @@ InitBackEnd3 P((void))
 }
 
 void
-HistorySet (char movelist[][2*MOVE_LEN], int first, int last, int current)
+HistorySet(char movelist[][2*MOVE_LEN], int first, int last, int current)
 {
     DisplayBook(current+1);
 
@@ -1824,7 +1818,7 @@ HistorySet (char movelist[][2*MOVE_LEN], int first, int last, int current)
  * Returns 0 if okay, error code if not.
  */
 int
-establish ()
+establish(void)
 {
     char buf[MSG_SIZ];
 
@@ -1866,7 +1860,7 @@ establish ()
 }
 
 void
-EscapeExpand (char *p, char *q)
+EscapeExpand(char *p, char *q)
 {	// [HGM] initstring: routine to shape up string arguments
 	while(*p++ = *q++) if(p[-1] == '\\')
 	    switch(*q++) {
@@ -1880,7 +1874,7 @@ EscapeExpand (char *p, char *q)
 }
 
 void
-show_bytes (FILE *fp, char *buf, int count)
+show_bytes(FILE *fp, char *buf, int count)
 {
     while (count--) {
 	if (*buf < 040 || *(unsigned char *) buf > 0177) {
@@ -1895,7 +1889,7 @@ show_bytes (FILE *fp, char *buf, int count)
 
 /* Returns an errno value */
 int
-OutputMaybeTelnet (ProcRef pr, char *message, int count, int *outError)
+OutputMaybeTelnet(ProcRef pr, char *message, int count, int *outError)
 {
     char buf[8192], *p, *q, *buflim;
     int left, newcount, outcount;
@@ -1949,7 +1943,7 @@ OutputMaybeTelnet (ProcRef pr, char *message, int count, int *outError)
 }
 
 void
-read_from_player (InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
+read_from_player(InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
 {
     int outError, outCount;
     static int gotEof = 0;
@@ -1983,7 +1977,7 @@ read_from_player (InputSourceRef isr, VOIDSTAR closure, char *message, int count
 }
 
 void
-KeepAlive ()
+KeepAlive(void)
 {   // [HGM] alive: periodically send dummy (date) command to ICS to prevent time-out
     if(!connectionAlive) DisplayFatalError("No response from ICS", 0, 1);
     connectionAlive = FALSE; // only sticks if no response to 'date' command.
@@ -1993,7 +1987,7 @@ KeepAlive ()
 
 /* added routine for printf style output to ics */
 void
-ics_printf (char *format, ...)
+ics_printf(char *format, ...)
 {
     char buffer[MSG_SIZ];
     va_list args;
@@ -2006,7 +2000,7 @@ ics_printf (char *format, ...)
 }
 
 void
-SendToICS (char *s)
+SendToICS(char *s)
 {
     int count, outCount, outError;
 
@@ -2023,7 +2017,7 @@ SendToICS (char *s)
    without a delay causes problems when using timestamp on ICC
    (at least on my machine). */
 void
-SendToICSDelayed (char *s, long msdelay)
+SendToICSDelayed(char *s, long msdelay)
 {
     int count, outCount, outError;
 
@@ -2047,7 +2041,7 @@ SendToICSDelayed (char *s, long msdelay)
    Also deletes any suffix starting with '('
    */
 char *
-StripHighlightAndTitle (char *s)
+StripHighlightAndTitle(char *s)
 {
     static char retbuf[MSG_SIZ];
     char *p = retbuf;
@@ -2071,7 +2065,7 @@ StripHighlightAndTitle (char *s)
 
 /* Remove all highlighting escape sequences in s */
 char *
-StripHighlight (char *s)
+StripHighlight(char *s)
 {
     static char retbuf[MSG_SIZ];
     char *p = retbuf;
@@ -2091,8 +2085,9 @@ StripHighlight (char *s)
 
 char engineVariant[MSG_SIZ];
 char *variantNames[] = VARIANT_NAMES;
+
 char *
-VariantName (VariantClass v)
+VariantName(VariantClass v)
 {
     if(v == VariantUnknown || *engineVariant) return engineVariant;
     return variantNames[v];
@@ -2102,7 +2097,7 @@ VariantName (VariantClass v)
 /* Identify a variant from the strings the chess servers use or the
    PGN Variant tag names we use. */
 VariantClass
-StringToVariant (char *e)
+StringToVariant(char *e)
 {
     char *p;
     int wnum = -1;
@@ -2314,7 +2309,7 @@ char star_match[STAR_MATCH_N][MSG_SIZ];
    copied into star_match.
    */
 int
-looking_at ( char *buf, int *index, char *pattern)
+looking_at( char *buf, int *index, char *pattern)
 {
     char *bufp = &buf[*index], *patternp = pattern;
     int star_count = 0;
@@ -2352,7 +2347,7 @@ looking_at ( char *buf, int *index, char *pattern)
 }
 
 void
-SendToPlayer (char *data, int length)
+SendToPlayer(char *data, int length)
 {
     int error, outCount;
     outCount = OutputToProcess(NoProc, data, length, &error);
@@ -2362,7 +2357,7 @@ SendToPlayer (char *data, int length)
 }
 
 void
-PackHolding (char packed[], char *holding)
+PackHolding(char packed[], char *holding)
 {
     char *p = holding;
     char *q = packed;
@@ -2397,7 +2392,7 @@ PackHolding (char packed[], char *holding)
 
 /* Telnet protocol requests from the front end */
 void
-TelnetRequest (unsigned char ddww, unsigned char option)
+TelnetRequest(unsigned char ddww, unsigned char option)
 {
     unsigned char msg[3];
     int outCount, outError;
@@ -2445,21 +2440,21 @@ TelnetRequest (unsigned char ddww, unsigned char option)
 }
 
 void
-DoEcho ()
+DoEcho(void)
 {
     if (!appData.icsActive) return;
     TelnetRequest(TN_DO, TN_ECHO);
 }
 
 void
-DontEcho ()
+DontEcho(void)
 {
     if (!appData.icsActive) return;
     TelnetRequest(TN_DONT, TN_ECHO);
 }
 
 void
-CopyHoldings (Board board, char *holdings, ChessSquare lowestPiece)
+CopyHoldings(Board board, char *holdings, ChessSquare lowestPiece)
 {
     /* put the holdings sent to us by the server on the board holdings area */
     int i, j, holdingsColumn, holdingsStartRow, direction, countsColumn;
@@ -2501,7 +2496,7 @@ CopyHoldings (Board board, char *holdings, ChessSquare lowestPiece)
 
 
 void
-VariantSwitch (Board board, VariantClass newVariant)
+VariantSwitch(Board board, VariantClass newVariant)
 {
    int newHoldingsWidth, newWidth = 8, newHeight = 8, i, j;
    static Board oldBoard;
@@ -2613,7 +2608,7 @@ int hMargin = 10, vMargin = 20, h, w;
 extern int squareSize, lineGap;
 
 void
-PlotSeekAd (int i)
+PlotSeekAd(int i)
 {
 	int x, y, color = 0, r = ratingList[i]; float tc = tcList[i];
 	xList[i] = yList[i] = -100; // outside graph, so cannot be clicked
@@ -2635,13 +2630,13 @@ PlotSeekAd (int i)
 }
 
 void
-PlotSingleSeekAd (int i)
+PlotSingleSeekAd(int i)
 {
 	PlotSeekAd(i);
 }
 
 void
-AddAd (char *handle, char *rating, int base, int inc,  char rated, char *type, int nr, Boolean plot)
+AddAd(char *handle, char *rating, int base, int inc,  char rated, char *type, int nr, Boolean plot)
 {
 	char buf[MSG_SIZ], *ext = "";
 	VariantClass v = StringToVariant(type);
@@ -2665,7 +2660,7 @@ AddAd (char *handle, char *rating, int base, int inc,  char rated, char *type, i
 }
 
 void
-EraseSeekDot (int i)
+EraseSeekDot(int i)
 {
     int x = xList[i], y = yList[i], d=squareSize/4, k;
     DrawSeekBackground(x-squareSize/8, y-squareSize/8, x+squareSize/8+1, y+squareSize/8+1);
@@ -2679,7 +2674,7 @@ EraseSeekDot (int i)
 }
 
 void
-RemoveSeekAd (int nr)
+RemoveSeekAd(int nr)
 {
 	int i;
 	for(i=0; i<nrOfSeekAds; i++) if(seekNrList[i] == nr) {
@@ -2699,7 +2694,7 @@ RemoveSeekAd (int nr)
 }
 
 Boolean
-MatchSoughtLine (char *line)
+MatchSoughtLine(char *line)
 {
     char handle[MSG_SIZ], rating[MSG_SIZ], type[MSG_SIZ];
     int nr, base, inc, u=0; char dummy;
@@ -2717,7 +2712,7 @@ MatchSoughtLine (char *line)
 }
 
 int
-DrawSeekGraph ()
+DrawSeekGraph(void)
 {
     int i;
     if(!seekGraphUp) return FALSE;
@@ -2752,7 +2747,7 @@ DrawSeekGraph ()
 }
 
 int
-SeekGraphClick (ClickType click, int x, int y, int moving)
+SeekGraphClick(ClickType click, int x, int y, int moving)
 {
     static int lastDown = 0, displayed = 0, lastSecond;
     if(y < 0) return FALSE;
@@ -2812,7 +2807,7 @@ SeekGraphClick (ClickType click, int x, int y, int moving)
 }
 
 void
-read_from_ics (InputSourceRef isr, VOIDSTAR closure, char *data, int count, int error)
+read_from_ics(InputSourceRef isr, VOIDSTAR closure, char *data, int count, int error)
 {
 #define BUF_SIZE (16*1024) /* overflowed at 8K with "inchannel 1" on FICS? */
 #define STARTED_NONE 0
@@ -4309,7 +4304,7 @@ read_from_ics (InputSourceRef isr, VOIDSTAR closure, char *data, int count, int 
 #define RELATION_STARTING_POSITION  -4   /* FICS only */
 
 void
-ParseBoard12 (char *string)
+ParseBoard12(char *string)
 {
 #if ZIPPY
     int i, takeback;
@@ -5048,7 +5043,7 @@ ParseBoard12 (char *string)
 }
 
 void
-GetMoveListEvent ()
+GetMoveListEvent(void)
 {
     char buf[MSG_SIZ];
     if (appData.icsActive && gameMode != IcsIdle && ics_gamenum > 0) {
@@ -5059,7 +5054,7 @@ GetMoveListEvent ()
 }
 
 void
-SendToBoth (char *msg)
+SendToBoth(char *msg)
 {   // to make it easy to keep two engines in step in dual analysis
     SendToProgram(msg, &first);
     if(second.analyzing) SendToProgram(msg, &second);
@@ -5083,13 +5078,13 @@ AnalysisPeriodicEvent (int force)
 }
 
 void
-ics_update_width (int new_width)
+ics_update_width(int new_width)
 {
 	ics_printf("set width %d\n", new_width);
 }
 
 void
-SendMoveToProgram (int moveNum, ChessProgramState *cps)
+SendMoveToProgram(int moveNum, ChessProgramState *cps)
 {
     char buf[MSG_SIZ];
 
@@ -5178,7 +5173,7 @@ SendMoveToProgram (int moveNum, ChessProgramState *cps)
 }
 
 void
-SendMoveToICS (ChessMove moveType, int fromX, int fromY, int toX, int toY, char promoChar)
+SendMoveToICS(ChessMove moveType, int fromX, int fromY, int toX, int toY, char promoChar)
 {
     char user_move[MSG_SIZ];
     char suffix[4];
@@ -5256,7 +5251,7 @@ SendMoveToICS (ChessMove moveType, int fromX, int fromY, int toX, int toY, char 
 }
 
 void
-UploadGameEvent ()
+UploadGameEvent(void)
 {   // [HGM] upload: send entire stored game to ICS as long-algebraic moves.
     int i, last = forwardMostMove; // make sure ICS reply cannot pre-empt us by clearing fmm
     static char *castlingStrings[4] = { "none", "kside", "qside", "both" };
@@ -5331,7 +5326,7 @@ int killX = -1, killY = -1; // [HGM] lion: used for passing e.p. capture square 
 int legNr = 1;
 
 void
-CoordsToComputerAlgebraic (int rf, int ff, int rt, int ft, char promoChar, char move[7])
+CoordsToComputerAlgebraic(int rf, int ff, int rt, int ft, char promoChar, char move[7])
 {
     if (rf == DROP_RANK) {
       if(ff == EmptySquare) sprintf(move, "@@@@\n"); else // [HGM] pass
@@ -5350,7 +5345,7 @@ CoordsToComputerAlgebraic (int rf, int ff, int rt, int ft, char promoChar, char 
 }
 
 void
-ProcessICSInitScript (FILE *f)
+ProcessICSInitScript(FILE *f)
 {
     char buf[MSG_SIZ];
 
@@ -5367,7 +5362,7 @@ int dragging;
 static ClickType lastClickType;
 
 int
-Partner (ChessSquare *p)
+Partner(ChessSquare *p)
 { // change piece into promotion partner if one shogi-promotes to the other
   int stride = gameInfo.variant == VariantChu ? 22 : 11;
   ChessSquare partner;
@@ -5378,7 +5373,7 @@ Partner (ChessSquare *p)
 }
 
 void
-Sweep (int step)
+Sweep(int step)
 {
     ChessSquare king = WhiteKing, pawn = WhitePawn, last = promoSweep;
     static int toggleFlag;
@@ -5409,7 +5404,7 @@ Sweep (int step)
 }
 
 int
-PromoScroll (int x, int y)
+PromoScroll(int x, int y)
 {
   int step = 0;
 
@@ -5425,7 +5420,7 @@ PromoScroll (int x, int y)
 }
 
 void
-NextPiece (int step)
+NextPiece(int step)
 {
     ChessSquare piece = boards[currentMove][toY][toX];
     do {
@@ -5492,7 +5487,7 @@ char yy_textstr[8000];
 
 /* Parser for moves from gnuchess, ICS, or user typein box */
 Boolean
-ParseOneMove (char *move, int moveNum, ChessMove *moveType, int *fromX, int *fromY, int *toX, int *toY, char *promoChar)
+ParseOneMove(char *move, int moveNum, ChessMove *moveType, int *fromX, int *fromY, int *toX, int *toY, char *promoChar)
 {
     *moveType = yylexstr(moveNum, move, yy_textstr, sizeof yy_textstr);
 
@@ -5577,7 +5572,7 @@ Boolean pushed = FALSE;
 char *lastParseAttempt;
 
 void
-ParsePV (char *pv, Boolean storeComments, Boolean atEnd)
+ParsePV(char *pv, Boolean storeComments, Boolean atEnd)
 { // Parse a string of PV moves, and append to current game, behind forwardMostMove
   int fromX, fromY, toX, toY; char promoChar;
   ChessMove moveType;
@@ -5641,7 +5636,7 @@ ParsePV (char *pv, Boolean storeComments, Boolean atEnd)
 }
 
 int
-MultiPV (ChessProgramState *cps)
+MultiPV(ChessProgramState *cps)
 {	// check if engine supports MultiPV, and if so, return the number of the option that sets it
 	int i;
 	for(i=0; i<cps->nrOptions; i++)
@@ -5653,7 +5648,7 @@ MultiPV (ChessProgramState *cps)
 Boolean extendGame; // signals to UnLoadPV() if walked part of PV has to be appended to game
 
 Boolean
-LoadMultiPV (int x, int y, char *buf, int index, int *start, int *end, int pane)
+LoadMultiPV(int x, int y, char *buf, int index, int *start, int *end, int pane)
 {
 	int startPV, multi, lineStart, origIndex = index;
 	char *p, buf2[MSG_SIZ];
@@ -5691,7 +5686,7 @@ LoadMultiPV (int x, int y, char *buf, int index, int *start, int *end, int pane)
 }
 
 char *
-PvToSAN (char *pv)
+PvToSAN(char *pv)
 {
 	static char buf[10*MSG_SIZ];
 	int i, k=0, savedEnd=endPV, saveFMM = forwardMostMove;
@@ -5711,7 +5706,7 @@ PvToSAN (char *pv)
 }
 
 Boolean
-LoadPV (int x, int y)
+LoadPV(int x, int y)
 { // called on right mouse click to load PV
   int which = gameMode == TwoMachinesPlay && (WhiteOnMove(forwardMostMove) == (second.twoMachinesColor[0] == 'w'));
   lastX = x; lastY = y;
@@ -5721,7 +5716,7 @@ LoadPV (int x, int y)
 }
 
 void
-UnLoadPV ()
+UnLoadPV(void)
 {
   int oldFMM = forwardMostMove; // N.B.: this was currentMove before PV was loaded!
   if(endPV < 0) return;
@@ -5748,7 +5743,7 @@ UnLoadPV ()
 }
 
 void
-MovePV (int x, int y, int h)
+MovePV(int x, int y, int h)
 { // step through PV based on mouse coordinates (called on mouse move)
   int margin = h>>3, step = 0, threshold = (pieceSweep == EmptySquare ? 10 : 15);
 
@@ -5784,7 +5779,7 @@ int piecesLeft[(int)BlackPawn];
 int seed, nrOfShuffles;
 
 void
-GetPositionNumber ()
+GetPositionNumber(void)
 {	// sets global variable seed
 	int i;
 
@@ -5797,7 +5792,7 @@ GetPositionNumber ()
 }
 
 int
-put (Board board, int pieceType, int rank, int n, int shade)
+put(Board board, int pieceType, int rank, int n, int shade)
 // put the piece on the (n-1)-th empty squares of the given shade
 {
 	int i;
@@ -5844,7 +5839,7 @@ AddTwoPieces (Board board, int pieceType, int rank)
 }
 
 void
-SetUpShuffle (Board board, int number)
+SetUpShuffle(Board board, int number)
 {
 	int i, p, first=1;
 
@@ -5933,7 +5928,7 @@ SetUpShuffle (Board board, int number)
 }
 
 int
-SetCharTable (char *table, const char * map)
+SetCharTable(char *table, const char * map)
 /* [HGM] moved here from winboard.c because of its general usefulness */
 /*       Basically a safe strcpy that uses the last character as King */
 {
@@ -5958,7 +5953,7 @@ SetCharTable (char *table, const char * map)
 }
 
 void
-Prelude (Board board)
+Prelude(Board board)
 {	// [HGM] superchess: random selection of exo-pieces
 	int i, j, k; ChessSquare p;
 	static ChessSquare exoPieces[4] = { WhiteAngel, WhiteMarshall, WhiteSilver, WhiteLance };
@@ -5995,7 +5990,7 @@ Prelude (Board board)
 }
 
 void
-InitPosition (int redraw)
+InitPosition(int redraw)
 {
     ChessSquare (* pieces)[BOARD_FILES];
     int i, j, pawnRow=1, pieceRows=1, overrule,
@@ -6327,7 +6322,7 @@ InitPosition (int redraw)
 }
 
 void
-SendBoard (ChessProgramState *cps, int moveNum)
+SendBoard(ChessProgramState *cps, int moveNum)
 {
     char message[MSG_SIZ];
 
@@ -6409,7 +6404,7 @@ static Exclusion excluTab[200];
 static char excludeMap[(BOARD_RANKS*BOARD_FILES*BOARD_RANKS*BOARD_FILES+7)/8]; // [HGM] exclude: bitmap for excluced moves
 
 static void
-WriteMap (int s)
+WriteMap(int s)
 {
     int j;
     for(j=0; j<(BOARD_RANKS*BOARD_FILES*BOARD_RANKS*BOARD_FILES+7)/8; j++) excludeMap[j] = s;
@@ -6417,7 +6412,7 @@ WriteMap (int s)
 }
 
 static void
-ClearMap ()
+ClearMap(void)
 {
     safeStrCpy(exclusionHeader, "exclude: none best +tail                                          \n", MSG_SIZ);
     excludePtr = 24; exCnt = 0;
@@ -6425,7 +6420,7 @@ ClearMap ()
 }
 
 static void
-UpdateExcludeHeader (int fromY, int fromX, int toY, int toX, char promoChar, char state)
+UpdateExcludeHeader(int fromY, int fromX, int toY, int toX, char promoChar, char state)
 {   // search given move in table of header moves, to know where it is listed (and add if not there), and update state
     char buf[2*MOVE_LEN], *p;
     Exclusion *e = excluTab;
@@ -6448,7 +6443,7 @@ UpdateExcludeHeader (int fromY, int fromX, int toY, int toX, char promoChar, cha
 }
 
 static int
-ExcludeOneMove (int fromY, int fromX, int toY, int toX, char promoChar, char state)
+ExcludeOneMove(int fromY, int fromX, int toY, int toX, char promoChar, char state)
 {   // include or exclude the given move, as specified by state ('+' or '-'), or toggle
     char buf[MSG_SIZ];
     int j, k;
@@ -6474,7 +6469,7 @@ ExcludeOneMove (int fromY, int fromX, int toY, int toX, char promoChar, char sta
 }
 
 static void
-ExcludeClick (int index)
+ExcludeClick(int index)
 {
     int i, j;
     Exclusion *e = excluTab;
@@ -6512,7 +6507,7 @@ ExcludeClick (int index)
 }
 
 ChessSquare
-DefaultPromoChoice (int white)
+DefaultPromoChoice(int white)
 {
     ChessSquare result;
     if(gameInfo.variant == VariantShatranj || gameInfo.variant == VariantCourier ||
@@ -6530,7 +6525,7 @@ DefaultPromoChoice (int white)
 static int autoQueen; // [HGM] oneclick
 
 int
-HasPromotionChoice (int fromX, int fromY, int toX, int toY, char *promoChoice, int sweepSelect)
+HasPromotionChoice(int fromX, int fromY, int toX, int toY, char *promoChoice, int sweepSelect)
 {
     /* [HGM] rewritten IsPromotion to only flag promotions that offer a choice */
     /* [HGM] add Shogi promotions */
@@ -6647,7 +6642,7 @@ HasPromotionChoice (int fromX, int fromY, int toX, int toY, char *promoChoice, i
 }
 
 int
-InPalace (int row, int column)
+InPalace(int row, int column)
 {   /* [HGM] for Xiangqi */
     if( (row < 3 || row > BOARD_HEIGHT-4) &&
          column < (BOARD_WIDTH + 4)/2 &&
@@ -6656,7 +6651,7 @@ InPalace (int row, int column)
 }
 
 int
-PieceForSquare (int x, int y)
+PieceForSquare(int x, int y)
 {
   if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT)
      return -1;
@@ -6665,7 +6660,7 @@ PieceForSquare (int x, int y)
 }
 
 int
-OKToStartUserMove (int x, int y)
+OKToStartUserMove(int x, int y)
 {
     ChessSquare from_piece;
     int white_piece;
@@ -6765,7 +6760,7 @@ OKToStartUserMove (int x, int y)
 }
 
 Boolean
-OnlyMove (int *x, int *y, Boolean captures)
+OnlyMove(int *x, int *y, Boolean captures)
 {
     DisambiguateClosure cl;
     if (appData.zippyPlay || !appData.testLegality) return FALSE;
@@ -7031,7 +7026,7 @@ UserMoveEvent(int fromX, int fromY, int toX, int toY, int promoChar)
 
 /* Common tail of UserMoveEvent and DropMenuEvent */
 int
-FinishMove (ChessMove moveType, int fromX, int fromY, int toX, int toY, int promoChar)
+FinishMove(ChessMove moveType, int fromX, int fromY, int toX, int toY, int promoChar)
 {
     char *bookHit = 0;
 
@@ -7260,7 +7255,7 @@ MarkByFEN(char *fen)
 static char baseMarker[BOARD_RANKS][BOARD_FILES], baseLegal[BOARD_RANKS][BOARD_FILES];
 
 void
-Mark (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+Mark(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     typedef char Markers[BOARD_RANKS][BOARD_FILES];
     Markers *m = (Markers *) closure;
@@ -7274,7 +7269,7 @@ Mark (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VO
 static int hoverSavedValid;
 
 void
-MarkTargetSquares (int clear)
+MarkTargetSquares(int clear)
 {
   int x, y, sum=0;
   if(clear) { // no reason to ever suppress clearing
@@ -7296,7 +7291,7 @@ MarkTargetSquares (int clear)
 }
 
 int
-Explode (Board board, int fromX, int fromY, int toX, int toY)
+Explode(Board board, int fromX, int fromY, int toX, int toY)
 {
     if(gameInfo.variant == VariantAtomic &&
        (board[toY][toX] != EmptySquare ||                     // capture?
@@ -7312,7 +7307,7 @@ Explode (Board board, int fromX, int fromY, int toX, int toY)
 ChessSquare gatingPiece = EmptySquare; // exported to front-end, for dragging
 
 int
-CanPromote (ChessSquare piece, int y)
+CanPromote(ChessSquare piece, int y)
 {
         int zone = (gameInfo.variant == VariantChuChess ? 3 : 1);
 	if(gameMode == EditPosition) return FALSE; // no promotions when editing position
@@ -7328,7 +7323,7 @@ CanPromote (ChessSquare piece, int y)
 }
 
 void
-HoverEvent (int xPix, int yPix, int x, int y)
+HoverEvent(int xPix, int yPix, int x, int y)
 {
 	static int oldX = -1, oldY = -1, oldFromX = -1, oldFromY = -1;
 	int r, f;
@@ -7368,7 +7363,7 @@ void ReportClick(char *action, int x, int y)
 }
 
 void
-LeftClick (ClickType clickType, int xPix, int yPix)
+LeftClick(ClickType clickType, int xPix, int yPix)
 {
     int x, y;
     Boolean saveAnimate;
@@ -7737,7 +7732,7 @@ LeftClick (ClickType clickType, int xPix, int yPix)
 }
 
 int
-RightClick (ClickType action, int x, int y, int *fromX, int *fromY)
+RightClick(ClickType action, int x, int y, int *fromX, int *fromY)
 {   // front-end-free part taken out of PieceMenuPopup
     int whichMenu; int xSqr, ySqr;
 
@@ -7828,7 +7823,7 @@ RightClick (ClickType action, int x, int y, int *fromX, int *fromY)
 }
 
 void
-SendProgramStatsToFrontend (ChessProgramState * cps, ChessProgramStats * cpstats)
+SendProgramStatsToFrontend(ChessProgramState * cps, ChessProgramStats * cpstats)
 {
 //    char * hint = lastHint;
     FrontEndProgramStats stats;
@@ -7855,7 +7850,7 @@ SendProgramStatsToFrontend (ChessProgramState * cps, ChessProgramStats * cpstats
 }
 
 void
-ClearEngineOutputPane (int which)
+ClearEngineOutputPane(int which)
 {
     static FrontEndProgramStats dummyStats;
     dummyStats.which = which;
@@ -7866,7 +7861,7 @@ ClearEngineOutputPane (int which)
 #define MAXPLAYERS 500
 
 char *
-TourneyStandings (int display)
+TourneyStandings(int display)
 {
     int i, w, b, color, wScore, bScore, dummy, nr=0, nPlayers=0;
     int score[MAXPLAYERS], ranking[MAXPLAYERS], points[MAXPLAYERS], games[MAXPLAYERS];
@@ -7910,7 +7905,7 @@ TourneyStandings (int display)
 }
 
 void
-Count (Board board, int pCnt[], int *nW, int *nB, int *wStale, int *bStale, int *bishopColor)
+Count(Board board, int pCnt[], int *nW, int *nB, int *wStale, int *bStale, int *bishopColor)
 {	// count all piece types
 	int p, f, r;
 	*nB = *nW = *wStale = *bStale = *bishopColor = 0;
@@ -7928,7 +7923,7 @@ Count (Board board, int pCnt[], int *nW, int *nB, int *wStale, int *bStale, int 
 }
 
 int
-SufficientDefence (int pCnt[], int side, int nMine, int nHis)
+SufficientDefence(int pCnt[], int side, int nMine, int nHis)
 {
 	int myPawns = pCnt[WhitePawn+side]; // my total Pawn count;
 	int majorDefense = pCnt[BlackRook-side] + pCnt[BlackCannon-side] + pCnt[BlackKnight-side];
@@ -7957,7 +7952,7 @@ SufficientDefence (int pCnt[], int side, int nMine, int nHis)
 }
 
 int
-MatingPotential (int pCnt[], int side, int nMine, int nHis, int stale, int bisColor)
+MatingPotential(int pCnt[], int side, int nMine, int nHis, int stale, int bisColor)
 {
 	VariantClass v = gameInfo.variant;
 
@@ -8010,7 +8005,7 @@ MatingPotential (int pCnt[], int side, int nMine, int nHis, int stale, int bisCo
 }
 
 int
-CompareWithRights (Board b1, Board b2)
+CompareWithRights(Board b1, Board b2)
 {
     int rights = 0;
     if(!CompareBoards(b1, b2)) return FALSE;
@@ -8032,7 +8027,7 @@ CompareWithRights (Board b1, Board b2)
 }
 
 int
-Adjudicate (ChessProgramState *cps)
+Adjudicate(ChessProgramState *cps)
 {	// [HGM] some adjudications useful with buggy engines
 	// [HGM] adjudicate: made into separate routine, which now can be called after every move
 	//       In any case it determnes if the game is a claimable draw (filling in EP_STATUS).
@@ -8355,7 +8350,7 @@ typedef int (CDECL *PLOAD_EGBB) (char *path, int cache_size, int load_options);
 static int egbbCode[] = { 6, 5, 4, 3, 2, 1 };
 
 static int
-BitbaseProbe ()
+BitbaseProbe(void)
 {
     int pieces[10], squares[10], cnt=0, r, f, res;
     static int loaded;
@@ -8401,7 +8396,7 @@ BitbaseProbe ()
 }
 
 char *
-SendMoveToBookUser (int moveNr, ChessProgramState *cps, int initial)
+SendMoveToBookUser(int moveNr, ChessProgramState *cps, int initial)
 {   // [HGM] book: this routine intercepts moves to simulate book replies
     char *bookHit = NULL;
 
@@ -8456,7 +8451,7 @@ SendMoveToBookUser (int moveNr, ChessProgramState *cps, int initial)
 }
 
 int
-LoadError (char *errmess, ChessProgramState *cps)
+LoadError(char *errmess, ChessProgramState *cps)
 {   // unloads engine and switches back to -ncp mode if it was first
     if(cps->initDone) return FALSE;
     cps->isr = NULL; // this should suppress further error popups from breaking pipes
@@ -8477,7 +8472,7 @@ LoadError (char *errmess, ChessProgramState *cps)
 char *savedMessage;
 ChessProgramState *savedState;
 void
-DeferredBookMove (void)
+DeferredBookMove(void)
 {
 	if(savedState->lastPing != savedState->lastPong)
 		    ScheduleDelayedEvent(DeferredBookMove, 10);
@@ -8490,7 +8485,7 @@ static ChessProgramState *stalledEngine;
 static char stashedInputMove[MSG_SIZ];
 
 void
-HandleMachineMove (char *message, ChessProgramState *cps)
+HandleMachineMove(char *message, ChessProgramState *cps)
 {
     static char firstLeg[20];
     char machineMove[MSG_SIZ], buf1[MSG_SIZ*10], buf2[MSG_SIZ];
@@ -9703,7 +9698,7 @@ FakeBookMove: // [HGM] book: we jump here to simulate machine moves after book h
    The display is not updated in any way.
    */
 void
-ParseGameHistory (char *game)
+ParseGameHistory(char *game)
 {
     ChessMove moveType;
     int fromX, fromY, toX, toY, boardIndex;
@@ -9887,7 +9882,7 @@ ParseGameHistory (char *game)
 
 /* Apply a move to the given board  */
 void
-ApplyMove (int fromX, int fromY, int toX, int toY, int promoChar, Board board)
+ApplyMove(int fromX, int fromY, int toX, int toY, int promoChar, Board board)
 {
   ChessSquare captured = board[toY][toX], piece, king; int p, oldEP = EP_NONE, berolina = 0;
   int promoRank = gameInfo.variant == VariantMakruk || gameInfo.variant == VariantGrand || gameInfo.variant == VariantChuChess ? 3 : 1;
@@ -10225,7 +10220,7 @@ ApplyMove (int fromX, int fromY, int toX, int toY, int promoChar, Board board)
 
 /* Updates forwardMostMove */
 void
-MakeMove (int fromX, int fromY, int toX, int toY, int promoChar)
+MakeMove(int fromX, int fromY, int toX, int toY, int promoChar)
 {
     int x = toX, y = toY;
     char *s = parseList[forwardMostMove];
@@ -10337,7 +10332,7 @@ MakeMove (int fromX, int fromY, int toX, int toY, int promoChar)
 
 /* Updates currentMove if not pausing */
 void
-ShowMove (int fromX, int fromY, int toX, int toY)
+ShowMove(int fromX, int fromY, int toX, int toY)
 {
     int instant = (gameMode == PlayFromGameFile) ?
 	(matchMode || (appData.timeDelay == 0 && !pausing)) : pausing;
@@ -10368,7 +10363,7 @@ ShowMove (int fromX, int fromY, int toX, int toY)
 }
 
 void
-SendEgtPath (ChessProgramState *cps)
+SendEgtPath(ChessProgramState *cps)
 {       /* [HGM] EGT: match formats given in feature with those given by user, and send info for each match */
 	char buf[MSG_SIZ], name[MSG_SIZ], *p;
 
@@ -10402,7 +10397,7 @@ SendEgtPath (ChessProgramState *cps)
 }
 
 static int
-NonStandardBoardSize (VariantClass v, int boardWidth, int boardHeight, int holdingsSize)
+NonStandardBoardSize(VariantClass v, int boardWidth, int boardHeight, int holdingsSize)
 {
       int width = 8, height = 8, holdings = 0;             // most common sizes
       if( v == VariantUnknown || *engineVariant) return 0; // engine-defined name never needs prefix
@@ -10428,7 +10423,7 @@ NonStandardBoardSize (VariantClass v, int boardWidth, int boardHeight, int holdi
 char variantError[MSG_SIZ];
 
 char *
-SupportedVariant (char *list, VariantClass v, int boardWidth, int boardHeight, int holdingsSize, int proto, char *engine)
+SupportedVariant(char *list, VariantClass v, int boardWidth, int boardHeight, int holdingsSize, int proto, char *engine)
 {     // returns error message (recognizable by upper-case) if engine does not support the variant
       char *p, *variant = VariantName(v);
       static char b[MSG_SIZ];
@@ -10467,7 +10462,7 @@ SupportedVariant (char *list, VariantClass v, int boardWidth, int boardHeight, i
 }
 
 void
-InitChessProgram (ChessProgramState *cps, int setup)
+InitChessProgram(ChessProgramState *cps, int setup)
 /* setup needed to setup FRC opening position */
 {
     char buf[MSG_SIZ], *b;
@@ -10562,7 +10557,7 @@ InitChessProgram (ChessProgramState *cps, int setup)
 
 
 void
-ResendOptions (ChessProgramState *cps)
+ResendOptions(ChessProgramState *cps)
 { // send the stored value of the options
   int i;
   char buf[MSG_SIZ];
@@ -10589,7 +10584,7 @@ ResendOptions (ChessProgramState *cps)
 }
 
 void
-StartChessProgram (ChessProgramState *cps)
+StartChessProgram(ChessProgramState *cps)
 {
     char buf[MSG_SIZ];
     int err;
@@ -10640,7 +10635,7 @@ StartChessProgram (ChessProgramState *cps)
 }
 
 void
-TwoMachinesEventIfReady P((void))
+TwoMachinesEventIfReady(void)
 {
   static int curMess = 0;
   if (first.lastPing != first.lastPong) {
@@ -10658,7 +10653,7 @@ TwoMachinesEventIfReady P((void))
 }
 
 char *
-MakeName (char *template)
+MakeName(char *template)
 {
     time_t clock;
     struct tm *tm;
@@ -10687,7 +10682,7 @@ MakeName (char *template)
 }
 
 int
-CountPlayers (char *p)
+CountPlayers(char *p)
 {
     int n = 0;
     while(p = strchr(p, '\n')) p++, n++; // count participants
@@ -10695,7 +10690,7 @@ CountPlayers (char *p)
 }
 
 FILE *
-WriteTourneyFile (char *results, FILE *f)
+WriteTourneyFile(char *results, FILE *f)
 {   // write tournament parameters on tourneyFile; on success return the stream pointer for closing
     if(f == NULL) f = fopen(appData.tourneyFile, "w");
     if(f == NULL) DisplayError(_("Could not write on tourney file"), 0); else {
@@ -10737,7 +10732,7 @@ WriteTourneyFile (char *results, FILE *f)
 char *command[MAXENGINES], *mnemonic[MAXENGINES];
 
 void
-Substitute (char *participants, int expunge)
+Substitute(char *participants, int expunge)
 {
     int i, changed, changes=0, nPlayers=0;
     char *p, *q, *r, buf[MSG_SIZ];
@@ -10795,7 +10790,7 @@ Substitute (char *participants, int expunge)
 }
 
 int
-CheckPlayers (char *participants)
+CheckPlayers(char *participants)
 {
 	int i;
 	char buf[MSG_SIZ], *p;
@@ -10816,7 +10811,7 @@ CheckPlayers (char *participants)
 }
 
 int
-CreateTourney (char *name)
+CreateTourney(char *name)
 {
 	FILE *f;
 	if(matchMode && strcmp(name, appData.tourneyFile)) {
@@ -10850,7 +10845,7 @@ CreateTourney (char *name)
 }
 
 int
-NamesToList (char *names, char **engineList, char **engineMnemonic, char *group)
+NamesToList(char *names, char **engineList, char **engineMnemonic, char *group)
 {
     char buf[MSG_SIZ], *p, *q;
     int i=1, header, skip, all = !strcmp(group, "all"), depth = 0;
@@ -10889,7 +10884,7 @@ NamesToList (char *names, char **engineList, char **engineMnemonic, char *group)
 #define SWAP(item, temp) temp = appData.item[0]; appData.item[0] = appData.item[n]; appData.item[n] = temp;
 
 void
-SwapEngines (int n)
+SwapEngines(int n)
 {   // swap settings for first engine and other engine (so far only some selected options)
     int h;
     char *p;
@@ -10918,7 +10913,7 @@ SwapEngines (int n)
 }
 
 int
-GetEngineLine (char *s, int n)
+GetEngineLine(char *s, int n)
 {
     int i;
     char buf[MSG_SIZ];
@@ -10940,7 +10935,7 @@ GetEngineLine (char *s, int n)
 }
 
 int
-SetPlayer (int player, char *p)
+SetPlayer(int player, char *p)
 {   // [HGM] find the engine line of the partcipant given by number, and parse its options.
     int i;
     char buf[MSG_SIZ], *engineName;
@@ -10967,7 +10962,7 @@ SetPlayer (int player, char *p)
 char *recentEngines;
 
 void
-RecentEngineEvent (int nr)
+RecentEngineEvent(int nr)
 {
     int n;
 //    SwapEngines(1); // bump first to second
@@ -10981,7 +10976,7 @@ RecentEngineEvent (int nr)
 }
 
 int
-Pairing (int nr, int nPlayers, int *whitePlayer, int *blackPlayer, int *syncInterval)
+Pairing(int nr, int nPlayers, int *whitePlayer, int *blackPlayer, int *syncInterval)
 {   // determine players from game number
     int curCycle, curRound, curPairing, gamesPerCycle, gamesPerRound, roundsPerCycle=1, pairingsPerRound=1;
 
@@ -11030,7 +11025,7 @@ Pairing (int nr, int nPlayers, int *whitePlayer, int *blackPlayer, int *syncInte
 }
 
 int
-NextTourneyGame (int nr, int *swapColors)
+NextTourneyGame(int nr, int *swapColors)
 {   // !!!major kludge!!! fiddle appData settings to get everything in order for next tourney game
     char *p, *q;
     int whitePlayer, blackPlayer, firstBusy=1000000000, syncInterval = 0, nPlayers, OK = 1;
@@ -11100,7 +11095,7 @@ NextTourneyGame (int nr, int *swapColors)
 }
 
 void
-NextMatchGame ()
+NextMatchGame(void)
 {   // performs game initialization that does not invoke engines, and then tries to start the game
     int res, firstWhite, swapColors = 0;
     if(!NextTourneyGame(nextGame, &swapColors)) return; // this sets matchGame, -fcp / -scp and other options for next game, if needed
@@ -11136,7 +11131,7 @@ NextMatchGame ()
 }
 
 void
-UserAdjudicationEvent (int result)
+UserAdjudicationEvent(int result)
 {
     ChessMove gameResult = GameIsDrawn;
 
@@ -11155,7 +11150,7 @@ UserAdjudicationEvent (int result)
 
 // [HGM] save: calculate checksum of game to make games easily identifiable
 int
-StringCheckSum (char *s)
+StringCheckSum(char *s)
 {
 	int i = 0;
 	if(s==NULL) return 0;
@@ -11164,7 +11159,7 @@ StringCheckSum (char *s)
 }
 
 int
-GameCheckSum ()
+GameCheckSum(void)
 {
 	int i, sum=0;
 	for(i=backwardMostMove; i<forwardMostMove; i++) {
@@ -11178,7 +11173,7 @@ GameCheckSum ()
 } // end of save patch
 
 void
-GameEnds (ChessMove result, char *resultDetails, int whosays)
+GameEnds(ChessMove result, char *resultDetails, int whosays)
 {
     GameMode nextGameMode;
     int isIcsGame;
@@ -11581,7 +11576,7 @@ GameEnds (ChessMove result, char *resultDetails, int whosays)
 /* Assumes program was just initialized (initString sent).
    Leaves program in force mode. */
 void
-FeedMovesToProgram (ChessProgramState *cps, int upto)
+FeedMovesToProgram(ChessProgramState *cps, int upto)
 {
     int i;
 
@@ -11613,7 +11608,7 @@ FeedMovesToProgram (ChessProgramState *cps, int upto)
 
 
 int
-ResurrectChessProgram ()
+ResurrectChessProgram(void)
 {
      /* The chess program may have exited.
 	If so, restart it and feed it all the moves made so far. */
@@ -11652,7 +11647,7 @@ ResurrectChessProgram ()
  * Button procedures
  */
 void
-Reset (int redraw, int init)
+Reset(int redraw, int init)
 {
     int i;
 
@@ -11739,7 +11734,7 @@ Reset (int redraw, int init)
 }
 
 void
-AutoPlayGameLoop ()
+AutoPlayGameLoop(void)
 {
     for (;;) {
 	if (!AutoPlayOneMove())
@@ -11754,13 +11749,13 @@ AutoPlayGameLoop ()
 }
 
 void
-AnalyzeNextGame()
+AnalyzeNextGame(void)
 {
     ReloadGame(1); // next game
 }
 
 int
-AutoPlayOneMove ()
+AutoPlayOneMove(void)
 {
     int fromX, fromY, toX, toY;
 
@@ -11841,7 +11836,7 @@ AutoPlayOneMove ()
 
 
 int
-LoadGameOneMove (ChessMove readAhead)
+LoadGameOneMove(ChessMove readAhead)
 {
     int fromX = 0, fromY = 0, toX = 0, toY = 0, done;
     char promoChar = NULLCHAR;
@@ -12079,7 +12074,7 @@ LoadGameOneMove (ChessMove readAhead)
 
 /* Load the nth game from the given file */
 int
-LoadGameFromFile (char *filename, int n, char *title, int useList)
+LoadGameFromFile(char *filename, int n, char *title, int useList)
 {
     FILE *f;
     char buf[MSG_SIZ];
@@ -12117,7 +12112,7 @@ LoadGameFromFile (char *filename, int n, char *title, int useList)
 
 
 void
-MakeRegisteredMove ()
+MakeRegisteredMove(void)
 {
     int fromX, fromY, toX, toY;
     char promoChar;
@@ -12182,7 +12177,7 @@ MakeRegisteredMove ()
 
 /* Wrapper around LoadGame for use when a Cmail message is loaded */
 int
-CmailLoadGame (FILE *f, int gameNumber, char *title, int useList)
+CmailLoadGame(FILE *f, int gameNumber, char *title, int useList)
 {
     int retVal;
 
@@ -12223,7 +12218,7 @@ CmailLoadGame (FILE *f, int gameNumber, char *title, int useList)
 
 /* Support for LoadNextGame, LoadPreviousGame, ReloadSameGame */
 int
-ReloadGame (int offset)
+ReloadGame(int offset)
 {
     int gameNumber = lastLoadGameNumber + offset;
     if (lastLoadGameFP == NULL) {
@@ -12246,7 +12241,7 @@ ReloadGame (int offset)
 int keys[EmptySquare+1];
 
 int
-PositionMatches (Board b1, Board b2)
+PositionMatches(Board b1, Board b2)
 {
     int r, f, sum=0;
     switch(appData.searchMode) {
@@ -12294,7 +12289,7 @@ Move *moveDatabase = initialSpace;
 unsigned int movePtr, dataSize = DSIZE;
 
 int
-MakePieceList (Board board, int *counts)
+MakePieceList(Board board, int *counts)
 {
     int r, f, n=Q_PROMO, total=0;
     for(r=0;r<EmptySquare;r++) counts[r] = 0; // piece-type counts
@@ -12315,7 +12310,7 @@ MakePieceList (Board board, int *counts)
 }
 
 void
-PackMove (int fromX, int fromY, int toX, int toY, ChessSquare promoPiece)
+PackMove(int fromX, int fromY, int toX, int toY, ChessSquare promoPiece)
 {
     int sq = fromX + (fromY<<4);
     int piece = quickBoard[sq], rook;
@@ -12369,7 +12364,7 @@ PackMove (int fromX, int fromY, int toX, int toY, ChessSquare promoPiece)
 }
 
 int
-PackGame (Board board)
+PackGame(Board board)
 {
     Move *newSpace = NULL;
     moveDatabase[movePtr].piece = 0; // terminate previous game
@@ -12394,7 +12389,7 @@ PackGame (Board board)
 }
 
 int
-QuickCompare (Board board, int *minCounts, int *maxCounts)
+QuickCompare(Board board, int *minCounts, int *maxCounts)
 {   // compare according to search mode
     int r, f;
     switch(appData.searchMode)
@@ -12429,7 +12424,7 @@ QuickCompare (Board board, int *minCounts, int *maxCounts)
 }
 
 int
-QuickScan (Board board, Move *move)
+QuickScan(Board board, Move *move)
 {   // reconstruct game,and compare all positions in it
     int cnt=0, stretch=0, found = -1, total = MakePieceList(board, counts);
     do {
@@ -12486,7 +12481,7 @@ QuickScan (Board board, Move *move)
 }
 
 void
-InitSearch ()
+InitSearch(void)
 {
     int r, f;
     flipSearch = FALSE;
@@ -12530,7 +12525,7 @@ GameInfo dummyInfo;
 static int creatingBook;
 
 int
-GameContainsPosition (FILE *f, ListGame *lg)
+GameContainsPosition(FILE *f, ListGame *lg)
 {
     int next, btm=0, plyNr=0, scratch=forwardMostMove+2&~1;
     int fromX, fromY, toX, toY;
@@ -12634,7 +12629,7 @@ GameContainsPosition (FILE *f, ListGame *lg)
 
 /* Load the nth game from open file f */
 int
-LoadGame (FILE *f, int gameNumber, char *title, int useList)
+LoadGame(FILE *f, int gameNumber, char *title, int useList)
 {
     ChessMove cm;
     char buf[MSG_SIZ];
@@ -13107,7 +13102,7 @@ LoadGame (FILE *f, int gameNumber, char *title, int useList)
 
 /* Support for LoadNextPosition, LoadPreviousPosition, ReloadSamePosition */
 int
-ReloadPosition (int offset)
+ReloadPosition(int offset)
 {
     int positionNumber = lastLoadPositionNumber + offset;
     if (lastLoadPositionFP == NULL) {
@@ -13124,7 +13119,7 @@ ReloadPosition (int offset)
 
 /* Load the nth position from the given file */
 int
-LoadPositionFromFile (char *filename, int n, char *title)
+LoadPositionFromFile(char *filename, int n, char *title)
 {
     FILE *f;
     char buf[MSG_SIZ];
@@ -13145,7 +13140,7 @@ LoadPositionFromFile (char *filename, int n, char *title)
 
 /* Load the nth position from the given open file, and close it */
 int
-LoadPosition (FILE *f, int positionNumber, char *title)
+LoadPosition(FILE *f, int positionNumber, char *title)
 {
     char *p, line[MSG_SIZ];
     Board initial_position;
@@ -13277,7 +13272,7 @@ int i, j;
 
 
 void
-CopyPlayerNameIntoFileName (char **dest, char *src)
+CopyPlayerNameIntoFileName(char **dest, char *src)
 {
     while (*src != NULLCHAR && *src != ',') {
 	if (*src == ' ') {
@@ -13290,7 +13285,7 @@ CopyPlayerNameIntoFileName (char **dest, char *src)
 }
 
 char *
-DefaultFileName (char *ext)
+DefaultFileName(char *ext)
 {
     static char def[MSG_SIZ];
     char *p;
@@ -13310,7 +13305,7 @@ DefaultFileName (char *ext)
 
 /* Save the current game to the given file */
 int
-SaveGameToFile (char *filename, int append)
+SaveGameToFile(char *filename, int append)
 {
     FILE *f;
     char buf[MSG_SIZ];
@@ -13344,7 +13339,7 @@ SaveGameToFile (char *filename, int append)
 }
 
 char *
-SavePart (char *str)
+SavePart(char *str)
 {
     static char buf[MSG_SIZ];
     char *p;
@@ -13362,7 +13357,7 @@ SavePart (char *str)
 #define PGN_SIDE_BLACK  1
 
 static int
-FindFirstMoveOutOfBook (int side)
+FindFirstMoveOutOfBook(int side)
 {
     int result = -1;
 
@@ -13406,7 +13401,7 @@ FindFirstMoveOutOfBook (int side)
 }
 
 void
-GetOutOfBookInfo (char * buf)
+GetOutOfBookInfo(char * buf)
 {
     int oob[2];
     int i;
@@ -13437,7 +13432,7 @@ GetOutOfBookInfo (char * buf)
 
 /* Save game in PGN style */
 static void
-SaveGamePGN2 (FILE *f)
+SaveGamePGN2(FILE *f)
 {
     int i, offset, linelen, newblock;
 //    char *movetext;
@@ -13601,7 +13596,7 @@ SaveGamePGN2 (FILE *f)
 
 /* Save game in PGN style and close the file */
 int
-SaveGamePGN (FILE *f)
+SaveGamePGN(FILE *f)
 {
     SaveGamePGN2(f);
     fclose(f);
@@ -13611,7 +13606,7 @@ SaveGamePGN (FILE *f)
 
 /* Save game in old style and close the file */
 int
-SaveGameOldStyle (FILE *f)
+SaveGameOldStyle(FILE *f)
 {
     int i, offset;
     time_t tm;
@@ -13675,7 +13670,7 @@ SaveGameOldStyle (FILE *f)
 
 /* Save the current game to open file f and close the file */
 int
-SaveGame (FILE *f, int dummy, char *dummy2)
+SaveGame(FILE *f, int dummy, char *dummy2)
 {
     if (gameMode == EditPosition) EditPositionDone(TRUE);
     lastSavedGame = GameCheckSum(); // [HGM] save: remember ID of last saved game to prevent double saving
@@ -13687,7 +13682,7 @@ SaveGame (FILE *f, int dummy, char *dummy2)
 
 /* Save the current position to the given file */
 int
-SavePositionToFile (char *filename)
+SavePositionToFile(char *filename)
 {
     FILE *f;
     char buf[MSG_SIZ];
@@ -13715,7 +13710,7 @@ SavePositionToFile (char *filename)
 
 /* Save the current position to the given open file and close the file */
 int
-SavePosition (FILE *f, int dummy, char *dummy2)
+SavePosition(FILE *f, int dummy, char *dummy2)
 {
     time_t tm;
     char *fen;
@@ -13739,7 +13734,7 @@ SavePosition (FILE *f, int dummy, char *dummy2)
 }
 
 void
-ReloadCmailMsgEvent (int unregister)
+ReloadCmailMsgEvent(int unregister)
 {
 #if !WIN32
     static char *inFilename = NULL;
@@ -13805,7 +13800,7 @@ ReloadCmailMsgEvent (int unregister)
 }
 
 int
-RegisterMove ()
+RegisterMove(void)
 {
     FILE *f;
     char string[MSG_SIZ];
@@ -13895,7 +13890,7 @@ RegisterMove ()
 }
 
 void
-MailMoveEvent ()
+MailMoveEvent(void)
 {
 #if !WIN32
     static char *partCommandString = "cmail -xv%s -remail -game %s 2>&1";
@@ -13983,7 +13978,7 @@ MailMoveEvent ()
 }
 
 char *
-CmailMsg ()
+CmailMsg(void)
 {
 #if WIN32
     return NULL;
@@ -14056,7 +14051,7 @@ CmailMsg ()
 }
 
 void
-ResetGameEvent ()
+ResetGameEvent(void)
 {
     if (gameMode == Training)
       SetTrainingModeOff();
@@ -14070,7 +14065,7 @@ ResetGameEvent ()
 }
 
 void
-ExitEvent (int status)
+ExitEvent(int status)
 {
     exiting++;
     if (exiting > 2) {
@@ -14131,21 +14126,21 @@ ExitEvent (int status)
 }
 
 void
-PauseEngine (ChessProgramState *cps)
+PauseEngine(ChessProgramState *cps)
 {
     SendToProgram("pause\n", cps);
     cps->pause = 2;
 }
 
 void
-UnPauseEngine (ChessProgramState *cps)
+UnPauseEngine(ChessProgramState *cps)
 {
     SendToProgram("resume\n", cps);
     cps->pause = 1;
 }
 
 void
-PauseEvent ()
+PauseEvent(void)
 {
     if (appData.debugMode)
 	fprintf(debugFP, "PauseEvent(): pausing %d\n", pausing);
@@ -14244,7 +14239,7 @@ PauseEvent ()
 }
 
 void
-EditCommentEvent ()
+EditCommentEvent(void)
 {
     char title[MSG_SIZ];
 
@@ -14261,7 +14256,7 @@ EditCommentEvent ()
 
 
 void
-EditTagsEvent ()
+EditTagsEvent(void)
 {
     char *tags = PGNTags(&gameInfo);
     bookUp = FALSE;
@@ -14270,7 +14265,7 @@ EditTagsEvent ()
 }
 
 void
-ToggleSecond ()
+ToggleSecond(void)
 {
   if(second.analyzing) {
     SendToProgram("exit\n", &second);
@@ -14287,14 +14282,14 @@ ToggleSecond ()
 
 /* Toggle ShowThinking */
 void
-ToggleShowThinking()
+ToggleShowThinking(void)
 {
   appData.showThinking = !appData.showThinking;
   ShowThinkingEvent();
 }
 
 int
-AnalyzeModeEvent ()
+AnalyzeModeEvent(void)
 {
     char buf[MSG_SIZ];
 
@@ -14360,7 +14355,7 @@ AnalyzeModeEvent ()
 }
 
 void
-AnalyzeFileEvent ()
+AnalyzeFileEvent(void)
 {
     if (appData.noChessProgram || gameMode == AnalyzeFile)
       return;
@@ -14397,7 +14392,7 @@ AnalyzeFileEvent ()
 }
 
 void
-MachineWhiteEvent ()
+MachineWhiteEvent(void)
 {
     char buf[MSG_SIZ];
     char *bookHit = NULL;
@@ -14478,7 +14473,7 @@ MachineWhiteEvent ()
 }
 
 void
-MachineBlackEvent ()
+MachineBlackEvent(void)
 {
   char buf[MSG_SIZ];
   char *bookHit = NULL;
@@ -14554,7 +14549,7 @@ MachineBlackEvent ()
 
 
 void
-DisplayTwoMachinesTitle ()
+DisplayTwoMachinesTitle(void)
 {
     char buf[MSG_SIZ];
     if (appData.matchGames > 0) {
@@ -14582,7 +14577,7 @@ DisplayTwoMachinesTitle ()
 }
 
 void
-SettingsMenuIfReady ()
+SettingsMenuIfReady(void)
 {
   if (second.lastPing != second.lastPong) {
     DisplayMessage("", _("Waiting for second chess program"));
@@ -14595,7 +14590,7 @@ SettingsMenuIfReady ()
 }
 
 int
-WaitForEngine (ChessProgramState *cps, DelayedEventCallback retry)
+WaitForEngine(ChessProgramState *cps, DelayedEventCallback retry)
 {
     char buf[MSG_SIZ];
     if (cps->pr == NoProc) {
@@ -14616,7 +14611,7 @@ WaitForEngine (ChessProgramState *cps, DelayedEventCallback retry)
 }
 
 void
-TwoMachinesEvent P((void))
+TwoMachinesEvent(void)
 {
     int i;
     char buf[MSG_SIZ];
@@ -14766,7 +14761,7 @@ TwoMachinesEvent P((void))
 }
 
 void
-TrainingEvent ()
+TrainingEvent(void)
 {
     if (gameMode == Training) {
       SetTrainingModeOff();
@@ -14789,7 +14784,7 @@ TrainingEvent ()
 }
 
 void
-IcsClientEvent ()
+IcsClientEvent(void)
 {
     if (!appData.icsActive) return;
     switch (gameMode) {
@@ -14824,7 +14819,7 @@ IcsClientEvent ()
 }
 
 void
-EditGameEvent ()
+EditGameEvent(void)
 {
     int i;
 
@@ -14914,7 +14909,7 @@ EditGameEvent ()
 
 
 void
-EditPositionEvent ()
+EditPositionEvent(void)
 {
     if (gameMode == EditPosition) {
 	EditGameEvent();
@@ -14939,7 +14934,7 @@ EditPositionEvent ()
 }
 
 void
-ExitAnalyzeMode ()
+ExitAnalyzeMode(void)
 {
     /* [DM] icsEngineAnalyze - possible call from other functions */
     if (appData.icsEngineAnalyze) {
@@ -14955,7 +14950,7 @@ ExitAnalyzeMode ()
 }
 
 void
-EditPositionDone (Boolean fakeRights)
+EditPositionDone(Boolean fakeRights)
 {
     int king = gameInfo.variant == VariantKnightmate ? WhiteUnicorn : WhiteKing;
 
@@ -15007,7 +15002,7 @@ EditPositionDone (Boolean fakeRights)
 /* Pause for `ms' milliseconds */
 /* !! Ugh, this is a kludge. Fix it sometime. --tpm */
 void
-TimeDelay (long ms)
+TimeDelay(long ms)
 {
     TimeMark m1, m2;
 
@@ -15019,7 +15014,7 @@ TimeDelay (long ms)
 
 /* !! Ugh, this is a kludge. Fix it sometime. --tpm */
 void
-SendMultiLineToICS (char *buf)
+SendMultiLineToICS(char *buf)
 {
     char temp[MSG_SIZ+1], *p;
     int len;
@@ -15044,7 +15039,7 @@ SendMultiLineToICS (char *buf)
 }
 
 void
-SetWhiteToPlayEvent ()
+SetWhiteToPlayEvent(void)
 {
     if (gameMode == EditPosition) {
 	blackPlaysFirst = FALSE;
@@ -15056,7 +15051,7 @@ SetWhiteToPlayEvent ()
 }
 
 void
-SetBlackToPlayEvent ()
+SetBlackToPlayEvent(void)
 {
     if (gameMode == EditPosition) {
 	blackPlaysFirst = TRUE;
@@ -15070,7 +15065,7 @@ SetBlackToPlayEvent ()
 }
 
 void
-EditPositionMenuEvent (ChessSquare selection, int x, int y)
+EditPositionMenuEvent(ChessSquare selection, int x, int y)
 {
     char buf[MSG_SIZ];
     ChessSquare piece = boards[0][y][x];
@@ -15232,7 +15227,7 @@ EditPositionMenuEvent (ChessSquare selection, int x, int y)
 
 
 void
-DropMenuEvent (ChessSquare selection, int x, int y)
+DropMenuEvent(ChessSquare selection, int x, int y)
 {
     ChessMove moveType;
 
@@ -15273,7 +15268,7 @@ DropMenuEvent (ChessSquare selection, int x, int y)
 }
 
 void
-AcceptEvent ()
+AcceptEvent(void)
 {
     /* Accept a pending offer of any kind from opponent */
 
@@ -15298,7 +15293,7 @@ AcceptEvent ()
 }
 
 void
-DeclineEvent ()
+DeclineEvent(void)
 {
     /* Decline a pending offer of any kind from opponent */
 
@@ -15323,7 +15318,7 @@ DeclineEvent ()
 }
 
 void
-RematchEvent ()
+RematchEvent(void)
 {
     /* Issue ICS rematch command */
     if (appData.icsActive) {
@@ -15333,7 +15328,7 @@ RematchEvent ()
 }
 
 void
-CallFlagEvent ()
+CallFlagEvent(void)
 {
     /* Call your opponent's flag (claim a win on time) */
     if (appData.icsActive) {
@@ -15370,7 +15365,7 @@ CallFlagEvent ()
 }
 
 void
-ClockClick (int which)
+ClockClick(int which)
 {	// [HGM] code moved to back-end from winboard.c
 	if(which) { // black clock
 	  if (gameMode == EditPosition || gameMode == IcsExamining) {
@@ -15402,7 +15397,7 @@ ClockClick (int which)
 }
 
 void
-DrawEvent ()
+DrawEvent(void)
 {
     /* Offer draw or accept pending draw offer from opponent */
 
@@ -15444,7 +15439,7 @@ DrawEvent ()
 }
 
 void
-AdjournEvent ()
+AdjournEvent(void)
 {
     /* Offer Adjourn or accept pending Adjourn offer from opponent */
 
@@ -15458,7 +15453,7 @@ AdjournEvent ()
 
 
 void
-AbortEvent ()
+AbortEvent(void)
 {
     /* Offer Abort or accept pending Abort offer from opponent */
 
@@ -15471,7 +15466,7 @@ AbortEvent ()
 }
 
 void
-ResignEvent ()
+ResignEvent(void)
 {
     /* Resign.  You can do this even if it's not your turn. */
 
@@ -15505,7 +15500,7 @@ ResignEvent ()
 
 
 void
-StopObservingEvent ()
+StopObservingEvent(void)
 {
     /* Stop observing current games */
     SendToICS(ics_prefix);
@@ -15513,7 +15508,7 @@ StopObservingEvent ()
 }
 
 void
-StopExaminingEvent ()
+StopExaminingEvent(void)
 {
     /* Stop observing current game */
     SendToICS(ics_prefix);
@@ -15521,7 +15516,7 @@ StopExaminingEvent ()
 }
 
 void
-ForwardInner (int target)
+ForwardInner(int target)
 {
     int limit; int oldSeekGraphUp = seekGraphUp;
 
@@ -15601,7 +15596,7 @@ ForwardInner (int target)
 
 
 void
-ForwardEvent ()
+ForwardEvent(void)
 {
     if (gameMode == IcsExamining && !pausing) {
         SendToICS(ics_prefix);
@@ -15612,7 +15607,7 @@ ForwardEvent ()
 }
 
 void
-ToEndEvent ()
+ToEndEvent(void)
 {
     if (gameMode == AnalyzeMode || gameMode == AnalyzeFile) {
 	/* to optimze, we temporarily turn off analysis mode while we feed
@@ -15642,7 +15637,7 @@ ToEndEvent ()
 }
 
 void
-BackwardInner (int target)
+BackwardInner(int target)
 {
     int full_redraw = TRUE; /* [AS] Was FALSE, had to change it! */
 
@@ -15719,7 +15714,7 @@ BackwardInner (int target)
 }
 
 void
-BackwardEvent ()
+BackwardEvent(void)
 {
     if (gameMode == IcsExamining && !pausing) {
         SendToICS(ics_prefix);
@@ -15730,7 +15725,7 @@ BackwardEvent ()
 }
 
 void
-ToStartEvent ()
+ToStartEvent(void)
 {
     if (gameMode == AnalyzeMode || gameMode == AnalyzeFile) {
 	/* to optimize, we temporarily turn off analysis mode while we undo
@@ -15759,7 +15754,7 @@ ToStartEvent ()
 }
 
 void
-ToNrEvent (int to)
+ToNrEvent(int to)
 {
   if (gameMode == PlayFromGameFile && !pausing) PauseEvent();
   if (to >= forwardMostMove) to = forwardMostMove;
@@ -15772,7 +15767,7 @@ ToNrEvent (int to)
 }
 
 void
-RevertEvent (Boolean annotate)
+RevertEvent(Boolean annotate)
 {
     if(PopTail(annotate)) { // [HGM] vari: restore old game tail
 	return;
@@ -15790,7 +15785,7 @@ RevertEvent (Boolean annotate)
 }
 
 void
-RetractMoveEvent ()
+RetractMoveEvent(void)
 {
     switch (gameMode) {
       case MachinePlaysWhite:
@@ -15829,7 +15824,7 @@ RetractMoveEvent ()
 }
 
 void
-MoveNowEvent ()
+MoveNowEvent(void)
 {
     ChessProgramState *cps;
 
@@ -15864,7 +15859,7 @@ MoveNowEvent ()
 }
 
 void
-TruncateGameEvent ()
+TruncateGameEvent(void)
 {
     EditGameEvent();
     if (gameMode != EditGame) return;
@@ -15872,7 +15867,7 @@ TruncateGameEvent ()
 }
 
 void
-TruncateGame ()
+TruncateGame(void)
 {
     CleanupTail(); // [HGM] vari: only keep current variation if we explicitly truncate
     if (forwardMostMove > currentMove) {
@@ -15888,7 +15883,7 @@ TruncateGame ()
 }
 
 void
-HintEvent ()
+HintEvent(void)
 {
     if (appData.noChessProgram) return;
     switch (gameMode) {
@@ -15914,7 +15909,7 @@ HintEvent ()
 }
 
 int
-SaveSelected (FILE *g, int dummy, char *dummy2)
+SaveSelected(FILE *g, int dummy, char *dummy2)
 {
     ListGame * lg = (ListGame *) gameList.head;
     int nItem, cnt=0;
@@ -15944,7 +15939,7 @@ SaveSelected (FILE *g, int dummy, char *dummy2)
 }
 
 void
-CreateBookEvent ()
+CreateBookEvent(void)
 {
     ListGame * lg = (ListGame *) gameList.head;
     FILE *f, *g;
@@ -15981,7 +15976,7 @@ CreateBookEvent ()
 }
 
 void
-BookEvent ()
+BookEvent(void)
 {
     if (appData.noChessProgram) return;
     switch (gameMode) {
@@ -16012,7 +16007,7 @@ BookEvent ()
 }
 
 void
-AboutGameEvent ()
+AboutGameEvent(void)
 {
     char *tags = PGNTags(&gameInfo);
     TagsPopUp(tags, CmailMsg());
@@ -16022,7 +16017,7 @@ AboutGameEvent ()
 /* end button procedures */
 
 void
-PrintPosition (FILE *fp, int move)
+PrintPosition(FILE *fp, int move)
 {
     int i, j;
 
@@ -16040,7 +16035,7 @@ PrintPosition (FILE *fp, int move)
 }
 
 void
-PrintOpponents (FILE *fp)
+PrintOpponents(FILE *fp)
 {
     if (gameInfo.white != NULL) {
 	fprintf(fp, "\t%s vs. %s\n", gameInfo.white, gameInfo.black);
@@ -16051,7 +16046,7 @@ PrintOpponents (FILE *fp)
 
 /* Find last component of program's own name, using some heuristics */
 void
-TidyProgramName (char *prog, char *host, char buf[MSG_SIZ])
+TidyProgramName(char *prog, char *host, char buf[MSG_SIZ])
 {
     char *p, *q, c;
     int local = (strcmp(host, "localhost") == 0);
@@ -16081,7 +16076,7 @@ TidyProgramName (char *prog, char *host, char buf[MSG_SIZ])
 }
 
 char *
-TimeControlTagValue ()
+TimeControlTagValue(void)
 {
     char buf[MSG_SIZ];
     if (!appData.clockMode) {
@@ -16097,7 +16092,7 @@ TimeControlTagValue ()
 }
 
 void
-SetGameInfo ()
+SetGameInfo(void)
 {
     /* This routine is used only for certain modes */
     VariantClass v = gameInfo.variant;
@@ -16197,7 +16192,7 @@ SetGameInfo ()
 }
 
 void
-ReplaceComment (int index, char *text)
+ReplaceComment(int index, char *text)
 {
     int len;
     char *p;
@@ -16238,7 +16233,7 @@ ReplaceComment (int index, char *text)
 }
 
 void
-CrushCRs (char *text)
+CrushCRs(char *text)
 {
   char *p = text;
   char *q = text;
@@ -16252,7 +16247,7 @@ CrushCRs (char *text)
 }
 
 void
-AppendComment (int index, char *text, Boolean addBraces)
+AppendComment(int index, char *text, Boolean addBraces)
 /* addBraces  tells if we should add {} */
 {
     int oldlen, len;
@@ -16302,7 +16297,7 @@ if(appData.debugMode) fprintf(debugFP, "Append: in='%s' %d\n", text, addBraces);
 }
 
 static char *
-FindStr (char * text, char * sub_text)
+FindStr(char *text, char *sub_text)
 {
     char * result = strstr( text, sub_text );
 
@@ -16316,7 +16311,7 @@ FindStr (char * text, char * sub_text)
 /* [AS] Try to extract PV info from PGN comment */
 /* [HGM] PV time: and then remove it, to prevent it appearing twice */
 char *
-GetInfoFromComment (int index, char * text)
+GetInfoFromComment(int index, char *text)
 {
     char * sep = text, *p;
 
@@ -16415,7 +16410,7 @@ GetInfoFromComment (int index, char * text)
 }
 
 void
-SendToProgram (char *message, ChessProgramState *cps)
+SendToProgram(char *message, ChessProgramState *cps)
 {
     int count, outCount, error;
     char buf[MSG_SIZ];
@@ -16459,7 +16454,7 @@ SendToProgram (char *message, ChessProgramState *cps)
 }
 
 void
-ReceiveFromProgram (InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
+ReceiveFromProgram(InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
 {
     char *end_str;
     char buf[MSG_SIZ];
@@ -16554,7 +16549,7 @@ ReceiveFromProgram (InputSourceRef isr, VOIDSTAR closure, char *message, int cou
 
 
 void
-SendTimeControl (ChessProgramState *cps, int mps, long tc, int inc, int sd, int st)
+SendTimeControl(ChessProgramState *cps, int mps, long tc, int inc, int sd, int st)
 {
     char buf[MSG_SIZ];
     int seconds;
@@ -16619,7 +16614,7 @@ SendTimeControl (ChessProgramState *cps, int mps, long tc, int inc, int sd, int 
 }
 
 ChessProgramState *
-WhitePlayer ()
+WhitePlayer(void)
 /* [HGM] return pointer to 'first' or 'second', depending on who plays white */
 {
     if(gameMode == TwoMachinesPlay && first.twoMachinesColor[0] == 'b' ||
@@ -16629,7 +16624,7 @@ WhitePlayer ()
 }
 
 void
-SendTimeRemaining (ChessProgramState *cps, int machineWhite)
+SendTimeRemaining(ChessProgramState *cps, int machineWhite)
 {
     char message[MSG_SIZ];
     long time, otime;
@@ -16659,7 +16654,7 @@ SendTimeRemaining (ChessProgramState *cps, int machineWhite)
 }
 
 char *
-EngineDefinedVariant (ChessProgramState *cps, int n)
+EngineDefinedVariant(ChessProgramState *cps, int n)
 {   // return name of n-th unknown variant that engine supports
     static char buf[MSG_SIZ];
     char *p, *s = cps->variants;
@@ -16684,7 +16679,7 @@ EngineDefinedVariant (ChessProgramState *cps, int n)
 }
 
 int
-BoolFeature (char **p, char *name, int *loc, ChessProgramState *cps)
+BoolFeature(char **p, char *name, int *loc, ChessProgramState *cps)
 {
   char buf[MSG_SIZ];
   int len = strlen(name);
@@ -16704,7 +16699,7 @@ BoolFeature (char **p, char *name, int *loc, ChessProgramState *cps)
 }
 
 int
-IntFeature (char **p, char *name, int *loc, ChessProgramState *cps)
+IntFeature(char **p, char *name, int *loc, ChessProgramState *cps)
 {
   char buf[MSG_SIZ];
   int len = strlen(name);
@@ -16720,7 +16715,7 @@ IntFeature (char **p, char *name, int *loc, ChessProgramState *cps)
 }
 
 int
-StringFeature (char **p, char *name, char **loc, ChessProgramState *cps)
+StringFeature(char **p, char *name, char **loc, ChessProgramState *cps)
 {
   char buf[MSG_SIZ];
   int len = strlen(name);
@@ -16739,7 +16734,7 @@ StringFeature (char **p, char *name, char **loc, ChessProgramState *cps)
 }
 
 int
-ParseOption (Option *opt, ChessProgramState *cps)
+ParseOption(Option *opt, ChessProgramState *cps)
 // [HGM] options: process the string that defines an engine option, and determine
 // name, type, default value, and allowed value range
 {
@@ -16830,7 +16825,7 @@ ParseOption (Option *opt, ChessProgramState *cps)
 }
 
 void
-FeatureDone (ChessProgramState *cps, int val)
+FeatureDone(ChessProgramState *cps, int val)
 {
   DelayedEventCallback cb = GetDelayedEvent();
   if ((cb == InitBackEnd3 && cps == &first) ||
@@ -16846,7 +16841,7 @@ FeatureDone (ChessProgramState *cps, int val)
 
 /* Parse feature command from engine */
 void
-ParseFeatures (char *args, ChessProgramState *cps)
+ParseFeatures(char *args, ChessProgramState *cps)
 {
   char *p = args;
   char *q = NULL;
@@ -16943,7 +16938,7 @@ ParseFeatures (char *args, ChessProgramState *cps)
 }
 
 void
-PeriodicUpdatesEvent (int newState)
+PeriodicUpdatesEvent(int newState)
 {
     if (newState == appData.periodicUpdates)
       return;
@@ -16961,7 +16956,7 @@ PeriodicUpdatesEvent (int newState)
 }
 
 void
-PonderNextMoveEvent (int newState)
+PonderNextMoveEvent(int newState)
 {
     if (newState == appData.ponderNextMove) return;
     if (gameMode == EditPosition) EditPositionDone(TRUE);
@@ -16981,7 +16976,7 @@ PonderNextMoveEvent (int newState)
 }
 
 void
-NewSettingEvent (int option, int *feature, char *command, int value)
+NewSettingEvent(int option, int *feature, char *command, int value)
 {
     char buf[MSG_SIZ];
 
@@ -16994,7 +16989,7 @@ NewSettingEvent (int option, int *feature, char *command, int value)
 }
 
 void
-ShowThinkingEvent ()
+ShowThinkingEvent(void)
 // [HGM] thinking: this routine is now also called from "Options -> Engine..." popup
 {
     static int oldState = 2; // kludge alert! Neither true nor fals, so first time oldState is always updated
@@ -17021,7 +17016,7 @@ ShowThinkingEvent ()
 }
 
 void
-AskQuestionEvent (char *title, char *question, char *replyPrefix, char *which)
+AskQuestionEvent(char *title, char *question, char *replyPrefix, char *which)
 {
   ProcRef pr = (which[0] == '1') ? first.pr : second.pr;
   if (pr == NoProc) return;
@@ -17029,7 +17024,7 @@ AskQuestionEvent (char *title, char *question, char *replyPrefix, char *which)
 }
 
 void
-TypeInEvent (char firstChar)
+TypeInEvent(char firstChar)
 {
     if ((gameMode == BeginningOfGame && !appData.icsActive) ||
         gameMode == MachinePlaysWhite || gameMode == MachinePlaysBlack ||
@@ -17043,7 +17038,7 @@ TypeInEvent (char firstChar)
 }
 
 void
-TypeInDoneEvent (char *move)
+TypeInDoneEvent(char *move)
 {
 	Board board;
 	int n, fromX, fromY, toX, toY;
@@ -17086,7 +17081,7 @@ TypeInDoneEvent (char *move)
 }
 
 void
-DisplayMove (int moveNumber)
+DisplayMove(int moveNumber)
 {
     char message[MSG_SIZ];
     char res[MSG_SIZ];
@@ -17143,7 +17138,7 @@ DisplayMove (int moveNumber)
 }
 
 void
-DisplayComment (int moveNumber, char *text)
+DisplayComment(int moveNumber, char *text)
 {
     char title[MSG_SIZ];
 
@@ -17165,7 +17160,7 @@ DisplayComment (int moveNumber, char *text)
  * ioctl, which does not work properly on some flavors of Unix.
  */
 void
-Attention (ChessProgramState *cps)
+Attention(ChessProgramState *cps)
 {
 #if ATTENTION
     if (!cps->useSigint) return;
@@ -17192,7 +17187,7 @@ Attention (ChessProgramState *cps)
 }
 
 int
-CheckFlags ()
+CheckFlags(void)
 {
     if (whiteTimeRemaining <= 0) {
 	if (!whiteFlag) {
@@ -17242,7 +17237,7 @@ CheckFlags ()
 }
 
 void
-CheckTimeControl ()
+CheckTimeControl(void)
 {
     if (!appData.clockMode || appData.icsActive || searchTime || // [HGM] st: no inc in st mode
 	gameMode == PlayFromGameFile || forwardMostMove == 0) return;
@@ -17267,7 +17262,7 @@ CheckTimeControl ()
 }
 
 void
-DisplayBothClocks ()
+DisplayBothClocks(void)
 {
     int wom = gameMode == EditPosition ?
       !blackPlaysFirst : WhiteOnMove(currentMove);
@@ -17289,7 +17284,7 @@ DisplayBothClocks ()
 
 /* Get the current time as a TimeMark */
 void
-GetTimeMark (TimeMark *tm)
+GetTimeMark(TimeMark *tm)
 {
 #if HAVE_GETTIMEOFDAY
 
@@ -17321,7 +17316,7 @@ GetTimeMark (TimeMark *tm)
    time marks.  We assume the difference will fit in a long!
 */
 long
-SubtractTimeMarks (TimeMark *tm2, TimeMark *tm1)
+SubtractTimeMarks(TimeMark *tm2, TimeMark *tm1)
 {
     return 1000L*(tm2->sec - tm1->sec) +
            (long) (tm2->ms - tm1->ms);
@@ -17342,7 +17337,7 @@ static TimeMark tickStartTM;
 static long intendedTickLength;
 
 long
-NextTickLength (long timeRemaining)
+NextTickLength(long timeRemaining)
 {
     long nominalTickLength, nextTickLength;
 
@@ -17358,7 +17353,7 @@ NextTickLength (long timeRemaining)
 
 /* Adjust clock one minute up or down */
 void
-AdjustClock (Boolean which, int dir)
+AdjustClock(Boolean which, int dir)
 {
     if(appData.autoCallFlag) { DisplayError(_("Clock adjustment not allowed in auto-flag mode"), 0); return; }
     if(which) blackTimeRemaining += 60000*dir;
@@ -17369,7 +17364,7 @@ AdjustClock (Boolean which, int dir)
 
 /* Stop clocks and reset to a fresh time control */
 void
-ResetClocks ()
+ResetClocks(void)
 {
     (void) StopClockTimer();
     if (appData.icsActive) {
@@ -17395,7 +17390,7 @@ ResetClocks ()
 
 /* Decrement running clock by amount of time that has passed */
 void
-DecrementClocks ()
+DecrementClocks(void)
 {
     long timeRemaining;
     long lastTickLength, fudge;
@@ -17485,7 +17480,7 @@ DecrementClocks ()
    from the color that is *not* on move now.
 */
 void
-SwitchClocks (int newMoveNr)
+SwitchClocks(int newMoveNr)
 {
     long lastTickLength;
     TimeMark now;
@@ -17548,7 +17543,7 @@ SwitchClocks (int newMoveNr)
 
 /* Stop both clocks */
 void
-StopClocks ()
+StopClocks(void)
 {
     long lastTickLength;
     TimeMark now;
@@ -17574,7 +17569,7 @@ StopClocks ()
 /* Start clock of player on move.  Time may have been reset, so
    if clock is already running, stop and restart it. */
 void
-StartClocks ()
+StartClocks(void)
 {
     (void) StopClockTimer(); /* in case it was running already */
     DisplayBothClocks();
@@ -17605,7 +17600,7 @@ StartClocks ()
 }
 
 char *
-TimeString (long ms)
+TimeString(long ms)
 {
     long second, minute, hour, day;
     char *sign = "";
@@ -17652,7 +17647,7 @@ TimeString (long ms)
  * This is necessary because some C libraries aren't ANSI C compliant yet.
  */
 char *
-StrStr (char *string, char *match)
+StrStr(char *string, char *match)
 {
     int i, length;
 
@@ -17666,7 +17661,7 @@ StrStr (char *string, char *match)
 }
 
 char *
-StrCaseStr (char *string, char *match)
+StrCaseStr(char *string, char *match)
 {
     int i, j, length;
 
@@ -17685,7 +17680,7 @@ StrCaseStr (char *string, char *match)
 
 #ifndef _amigados
 int
-StrCaseCmp (char *s1, char *s2)
+StrCaseCmp(char *s1, char *s2)
 {
     char c1, c2;
 
@@ -17700,21 +17695,21 @@ StrCaseCmp (char *s1, char *s2)
 
 
 int
-ToLower (int c)
+ToLower(int c)
 {
     return isupper(c) ? tolower(c) : c;
 }
 
 
 int
-ToUpper (int c)
+ToUpper(int c)
 {
     return islower(c) ? toupper(c) : c;
 }
 #endif /* !_amigados	*/
 
 char *
-StrSave (char *s)
+StrSave(char *s)
 {
   char *ret;
 
@@ -17726,7 +17721,7 @@ StrSave (char *s)
 }
 
 char *
-StrSavePtr (char *s, char **savePtr)
+StrSavePtr(char *s, char **savePtr)
 {
     if (*savePtr) {
 	free(*savePtr);
@@ -17738,7 +17733,7 @@ StrSavePtr (char *s, char **savePtr)
 }
 
 char *
-PGNDate ()
+PGNDate(void)
 {
     time_t clock;
     struct tm *tm;
@@ -17753,7 +17748,7 @@ PGNDate ()
 
 
 char *
-PositionToFEN (int move, char *overrideCastling, int moveCounts)
+PositionToFEN(int move, char *overrideCastling, int moveCounts)
 {
     int i, j, fromX, fromY, toX, toY;
     int whiteToPlay;
@@ -17953,7 +17948,7 @@ PositionToFEN (int move, char *overrideCastling, int moveCounts)
 }
 
 Boolean
-ParseFEN (Board board, int *blackPlaysFirst, char *fen, Boolean autoSize)
+ParseFEN(Board board, int *blackPlaysFirst, char *fen, Boolean autoSize)
 {
     int i, j, k, w=0, subst=0, shuffle=0;
     char *p, c;
@@ -18266,7 +18261,7 @@ ParseFEN (Board board, int *blackPlaysFirst, char *fen, Boolean autoSize)
 }
 
 void
-EditPositionPasteFEN (char *fen)
+EditPositionPasteFEN(char *fen)
 {
   if (fen != NULL) {
     Board initial_position;
@@ -18290,7 +18285,7 @@ EditPositionPasteFEN (char *fen)
 static char cseq[12] = "\\   ";
 
 Boolean
-set_cont_sequence (char *new_seq)
+set_cont_sequence(char *new_seq)
 {
     int len;
     Boolean ret;
@@ -18316,7 +18311,7 @@ set_cont_sequence (char *new_seq)
     passed back upon exit.
 */
 int
-wrap (char *dest, char *src, int count, int width, int *lp)
+wrap(char *dest, char *src, int count, int width, int *lp)
 {
     int len, i, ansi, cseq_len, line, old_line, old_i, old_len, clen;
 
@@ -18400,7 +18395,7 @@ wrap (char *dest, char *src, int count, int width, int *lp)
 Boolean modeRestore = FALSE;
 
 void
-PushInner (int firstMove, int lastMove)
+PushInner(int firstMove, int lastMove)
 {
 	int i, j, nrMoves = lastMove - firstMove;
 
@@ -18431,7 +18426,7 @@ PushInner (int firstMove, int lastMove)
 }
 
 void
-PushTail (int firstMove, int lastMove)
+PushTail(int firstMove, int lastMove)
 {
 	if(appData.icsActive) { // only in local mode
 		forwardMostMove = currentMove; // mimic old ICS behavior
@@ -18445,7 +18440,7 @@ PushTail (int firstMove, int lastMove)
 }
 
 void
-PopInner (Boolean annotate)
+PopInner(Boolean annotate)
 {
 	int i, j, nrMoves;
 	char buf[8000], moveBuf[20];
@@ -18492,7 +18487,7 @@ PopInner (Boolean annotate)
 }
 
 Boolean
-PopTail (Boolean annotate)
+PopTail(Boolean annotate)
 {
 	if(appData.icsActive) return FALSE; // only in local mode
 	if(!storedGames) return FALSE; // sanity
@@ -18507,7 +18502,7 @@ PopTail (Boolean annotate)
 }
 
 void
-CleanupTail ()
+CleanupTail(void)
 {	// remove all shelved variations
 	int i;
 	for(i=0; i<storedGames; i++) {
@@ -18524,7 +18519,7 @@ CleanupTail ()
 }
 
 void
-LoadVariation (int index, char *text)
+LoadVariation(int index, char *text)
 {       // [HGM] vari: shelve previous line and load new variation, parsed from text around text[index]
 	char *p = text, *start = NULL, *end = NULL, wait = NULLCHAR;
 	int level = 0, move;
@@ -18556,7 +18551,7 @@ LoadVariation (int index, char *text)
 }
 
 void
-LoadTheme ()
+LoadTheme(void)
 {
     char *p, *q, buf[MSG_SIZ];
     if(engineLine && engineLine[0]) { // a theme was selected from the listbox
