@@ -51,7 +51,7 @@
 /* Parse PGN tags; returns 0 for success or error number
  */
 int
-ParsePGNTag (char *tag, GameInfo *gameInfo)
+ParsePGNTag(char *tag, GameInfo *gameInfo)
 {
     char *name, *value, *p, *oldTags;
     int len;
@@ -147,7 +147,7 @@ ParsePGNTag (char *tag, GameInfo *gameInfo)
 
 /* Print game info */
 void
-PrintPGNTags (FILE *fp, GameInfo *gameInfo)
+PrintPGNTags(FILE *fp, GameInfo *gameInfo)
 {
     char *p;
     fprintf(fp, "[Event \"%s\"]\n", gameInfo->event ? gameInfo->event : "?");
@@ -175,7 +175,7 @@ PrintPGNTags (FILE *fp, GameInfo *gameInfo)
 /* Return a non-static buffer with a games info.
  */
 char *
-PGNTags (GameInfo *gameInfo)
+PGNTags(GameInfo *gameInfo)
 {
     size_t len;
     char *buf;
@@ -225,7 +225,7 @@ PGNTags (GameInfo *gameInfo)
 /* Returns pointer to a static string with a result.
  */
 char *
-PGNResult (ChessMove result)
+PGNResult(ChessMove result)
 {
     switch (result) {
       case GameUnfinished:
@@ -242,7 +242,7 @@ PGNResult (ChessMove result)
 
 /* Returns 0 for success, nonzero for error */
 int
-ReplaceTags (char *tags, GameInfo *gameInfo)
+ReplaceTags(char *tags, GameInfo *gameInfo)
 {
     ChessMove moveType;
     int err;
