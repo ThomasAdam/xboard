@@ -66,7 +66,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -107,7 +107,7 @@ Boolean saveSettingsOnExit;
 char *settingsFileName;
 
 static int
-LoadGamePopUp (FILE *f, int gameNumber, char *title)
+LoadGamePopUp(FILE *f, int gameNumber, char *title)
 {
     cmailMsgLoaded = FALSE;
     if (gameNumber == 0) {
@@ -126,7 +126,7 @@ LoadGamePopUp (FILE *f, int gameNumber, char *title)
 }
 
 void
-LoadGameProc ()
+LoadGameProc(void)
 {
     if (gameMode == AnalyzeMode || gameMode == AnalyzeFile) {
 	Reset(FALSE, TRUE);
@@ -135,43 +135,43 @@ LoadGameProc ()
 }
 
 void
-LoadNextGameProc ()
+LoadNextGameProc(void)
 {
     ReloadGame(1);
 }
 
 void
-LoadPrevGameProc ()
+LoadPrevGameProc(void)
 {
     ReloadGame(-1);
 }
 
 void
-ReloadGameProc ()
+ReloadGameProc(void)
 {
     ReloadGame(0);
 }
 
 void
-LoadNextPositionProc ()
+LoadNextPositionProc(void)
 {
     ReloadPosition(1);
 }
 
 void
-LoadPrevPositionProc ()
+LoadPrevPositionProc(void)
 {
     ReloadPosition(-1);
 }
 
 void
-ReloadPositionProc ()
+ReloadPositionProc(void)
 {
     ReloadPosition(0);
 }
 
 void
-LoadPositionProc()
+LoadPositionProc(void)
 {
     if (gameMode == AnalyzeMode || gameMode == AnalyzeFile) {
 	Reset(FALSE, TRUE);
@@ -180,7 +180,7 @@ LoadPositionProc()
 }
 
 void
-SaveGameProc ()
+SaveGameProc(void)
 {
     FileNamePopUp(_("Save game file name?"),
 		  DefaultFileName(appData.oldSaveStyle ? "game" : "pgn"),
@@ -189,7 +189,7 @@ SaveGameProc ()
 }
 
 void
-SavePositionProc ()
+SavePositionProc(void)
 {
     FileNamePopUp(_("Save position file name?"),
 		  DefaultFileName(appData.oldSaveStyle ? "pos" : "fen"),
@@ -198,19 +198,19 @@ SavePositionProc ()
 }
 
 void
-ReloadCmailMsgProc ()
+ReloadCmailMsgProc(void)
 {
     ReloadCmailMsgEvent(FALSE);
 }
 
 void
-CopyFENToClipboard ()
+CopyFENToClipboard(void)
 { // wrapper to make call from back-end possible
   CopyPositionProc();
 }
 
 void
-CopyPositionProc ()
+CopyPositionProc(void)
 {
     static char *selected_fen_position=NULL;
     if(gameMode == EditPosition) EditPositionDone(TRUE);
@@ -221,7 +221,7 @@ CopyPositionProc ()
 }
 
 void
-CopyGameProc ()
+CopyGameProc(void)
 {
   int ret;
 
@@ -232,63 +232,63 @@ CopyGameProc ()
 }
 
 void
-CopyGameListProc ()
+CopyGameListProc(void)
 {
   if(!SaveGameListAsText(fopen(gameCopyFilename, "w"))) return;
   CopySomething(NULL);
 }
 
 void
-AutoSaveGame ()
+AutoSaveGame(void)
 {
     SaveGameProc();
 }
 
 
 void
-QuitProc ()
+QuitProc(void)
 {
     ExitEvent(0);
 }
 
 void
-MatchProc ()
+MatchProc(void)
 {
     MatchEvent(2);
 }
 
 void
-AdjuWhiteProc ()
+AdjuWhiteProc(void)
 {
     UserAdjudicationEvent(+1);
 }
 
 void
-AdjuBlackProc ()
+AdjuBlackProc(void)
 {
     UserAdjudicationEvent(-1);
 }
 
 void
-AdjuDrawProc ()
+AdjuDrawProc(void)
 {
     UserAdjudicationEvent(0);
 }
 
 void
-RevertProc ()
+RevertProc(void)
 {
     RevertEvent(False);
 }
 
 void
-AnnotateProc ()
+AnnotateProc(void)
 {
     RevertEvent(True);
 }
 
 void
-FlipViewProc ()
+FlipViewProc(void)
 {
     if(twoBoards) { partnerUp = 1; DrawPosition(True, NULL); partnerUp = 0; }
     flipView = !flipView;
@@ -296,7 +296,7 @@ FlipViewProc ()
 }
 
 void
-SaveOnExitProc ()
+SaveOnExitProc(void)
 {
   saveSettingsOnExit = !saveSettingsOnExit;
 
@@ -304,13 +304,13 @@ SaveOnExitProc ()
 }
 
 void
-SaveSettingsProc ()
+SaveSettingsProc(void)
 {
   SaveSettings(settingsFileName);
 }
 
 void
-InfoProc ()
+InfoProc(void)
 {
     char buf[MSG_SIZ];
 #ifdef OSXAPP
@@ -323,7 +323,7 @@ InfoProc ()
 }
 
 void
-BugReportProc ()
+BugReportProc(void)
 {
     char buf[MSG_SIZ];
     snprintf(buf, MSG_SIZ, "%s mailto:bug-xboard@gnu.org", appData.sysOpen);
@@ -331,7 +331,7 @@ BugReportProc ()
 }
 
 void
-GuideProc ()
+GuideProc(void)
 {
     char buf[MSG_SIZ];
     snprintf(buf, MSG_SIZ, "%s http://www.gnu.org/software/xboard/user_guide/UserGuide.html", appData.sysOpen);
@@ -339,7 +339,7 @@ GuideProc ()
 }
 
 void
-HomePageProc ()
+HomePageProc(void)
 {
     char buf[MSG_SIZ];
     snprintf(buf, MSG_SIZ, "%s http://www.gnu.org/software/xboard/", appData.sysOpen);
@@ -347,7 +347,7 @@ HomePageProc ()
 }
 
 void
-NewsPageProc ()
+NewsPageProc(void)
 {
     char buf[MSG_SIZ];
     snprintf(buf, MSG_SIZ, "%s http://www.gnu.org/software/xboard/whats_new/portal.html", appData.sysOpen);
@@ -355,7 +355,7 @@ NewsPageProc ()
 }
 
 void
-AboutProc ()
+AboutProc(void)
 {
     char buf[2 * MSG_SIZ];
 #if ZIPPY
@@ -380,7 +380,7 @@ _("%s%s\n\n"
 }
 
 void
-DebugProc ()
+DebugProc(void)
 {
     appData.debugMode = !appData.debugMode;
     if(!strcmp(appData.nameOfDebugFile, "stderr")) return; // stderr is already open, and should never be closed
@@ -393,13 +393,13 @@ DebugProc ()
 }
 
 void
-EditEngineProc ()
+EditEngineProc(void)
 {
     EditTagsPopUp(firstChessProgramNames, &firstChessProgramNames);
 }
 
 void
-NothingProc ()
+NothingProc(void)
 {
     return;
 }
@@ -411,21 +411,21 @@ NothingProc ()
 #endif
 
 void
-PonderNextMoveProc ()
+PonderNextMoveProc(void)
 {
   PonderNextMoveEvent(!appData.ponderNextMove);
   MARK_MENU_ITEM("Options.PonderNextMove", appData.ponderNextMove);
 }
 
 void
-AlwaysQueenProc ()
+AlwaysQueenProc(void)
 {
     appData.alwaysPromoteToQueen = !appData.alwaysPromoteToQueen;
     MARK_MENU_ITEM("Options.AlwaysQueen", appData.alwaysPromoteToQueen);
 }
 
 void
-AnimateDraggingProc ()
+AnimateDraggingProc(void)
 {
     appData.animateDragging = !appData.animateDragging;
 
@@ -434,7 +434,7 @@ AnimateDraggingProc ()
 }
 
 void
-AnimateMovingProc ()
+AnimateMovingProc(void)
 {
     appData.animate = !appData.animate;
     if (appData.animate) CreateAnimVars();
@@ -442,21 +442,21 @@ AnimateMovingProc ()
 }
 
 void
-AutoflagProc ()
+AutoflagProc(void)
 {
     appData.autoCallFlag = !appData.autoCallFlag;
     MARK_MENU_ITEM("Options.AutoFlag", appData.autoCallFlag);
 }
 
 void
-AutoflipProc ()
+AutoflipProc(void)
 {
     appData.autoFlipView = !appData.autoFlipView;
     MARK_MENU_ITEM("Options.AutoFlipView", appData.autoFlipView);
 }
 
 void
-BlindfoldProc ()
+BlindfoldProc(void)
 {
     appData.blindfold = !appData.blindfold;
     MARK_MENU_ITEM("Options.Blindfold", appData.blindfold);
@@ -464,7 +464,7 @@ BlindfoldProc ()
 }
 
 void
-TestLegalityProc ()
+TestLegalityProc(void)
 {
     appData.testLegality = !appData.testLegality;
     MARK_MENU_ITEM("Options.TestLegality", appData.testLegality);
@@ -472,7 +472,7 @@ TestLegalityProc ()
 
 
 void
-FlashMovesProc ()
+FlashMovesProc(void)
 {
     if (appData.flashCount == 0) {
 	appData.flashCount = 3;
@@ -484,7 +484,7 @@ FlashMovesProc ()
 
 #if HIGHDRAG
 void
-HighlightDraggingProc ()
+HighlightDraggingProc(void)
 {
     appData.highlightDragging = !appData.highlightDragging;
     MARK_MENU_ITEM("Options.HighlightDragging", appData.highlightDragging);
@@ -492,70 +492,70 @@ HighlightDraggingProc ()
 #endif
 
 void
-HighlightLastMoveProc ()
+HighlightLastMoveProc(void)
 {
     appData.highlightLastMove = !appData.highlightLastMove;
     MARK_MENU_ITEM("Options.HighlightLastMove", appData.highlightLastMove);
 }
 
 void
-HighlightArrowProc ()
+HighlightArrowProc(void)
 {
     appData.highlightMoveWithArrow = !appData.highlightMoveWithArrow;
     MARK_MENU_ITEM("Options.HighlightWithArrow", appData.highlightMoveWithArrow);
 }
 
 void
-IcsAlarmProc ()
+IcsAlarmProc(void)
 {
     appData.icsAlarm = !appData.icsAlarm;
 //    MARK_MENU_ITEM("Options.ICSAlarm", appData.icsAlarm);
 }
 
 void
-MoveSoundProc ()
+MoveSoundProc(void)
 {
     appData.ringBellAfterMoves = !appData.ringBellAfterMoves;
     MARK_MENU_ITEM("Options.MoveSound", appData.ringBellAfterMoves);
 }
 
 void
-OneClickProc ()
+OneClickProc(void)
 {
     appData.oneClick = !appData.oneClick;
     MARK_MENU_ITEM("Options.OneClickMoving", appData.oneClick);
 }
 
 void
-PeriodicUpdatesProc ()
+PeriodicUpdatesProc(void)
 {
     PeriodicUpdatesEvent(!appData.periodicUpdates);
     MARK_MENU_ITEM("Options.PeriodicUpdates", appData.periodicUpdates);
 }
 
 void
-PopupExitMessageProc ()
+PopupExitMessageProc(void)
 {
     appData.popupExitMessage = !appData.popupExitMessage;
     MARK_MENU_ITEM("Options.PopupExitMessage", appData.popupExitMessage);
 }
 
 void
-PopupMoveErrorsProc ()
+PopupMoveErrorsProc(void)
 {
     appData.popupMoveErrors = !appData.popupMoveErrors;
     MARK_MENU_ITEM("Options.PopupMoveErrors", appData.popupMoveErrors);
 }
 
 void
-PremoveProc ()
+PremoveProc(void)
 {
     appData.premove = !appData.premove;
 //    MARK_MENU_ITEM("Options.Premove", appData.premove);
 }
 
 void
-ShowCoordsProc ()
+ShowCoordsProc(void)
 {
     appData.showCoords = !appData.showCoords;
     MARK_MENU_ITEM("Options.ShowCoords", appData.showCoords);
@@ -563,14 +563,14 @@ ShowCoordsProc ()
 }
 
 void
-ShowThinkingProc ()
+ShowThinkingProc(void)
 {
     appData.showThinking = !appData.showThinking; // [HGM] thinking: taken out of ShowThinkingEvent
     ShowThinkingEvent();
 }
 
 void
-HideThinkingProc ()
+HideThinkingProc(void)
 {
   appData.hideThinkingFromHuman = !appData.hideThinkingFromHuman; // [HGM] thinking: taken out of ShowThinkingEvent
   ShowThinkingEvent();
@@ -579,13 +579,13 @@ HideThinkingProc ()
 }
 
 void
-CreateBookDelayed ()
+CreateBookDelayed(void)
 {
   ScheduleDelayedEvent(CreateBookEvent, 50);
 }
 
 void
-SaveSelectedProc ()
+SaveSelectedProc(void)
 {
   FileNamePopUp(_("Save game file name?"),
 		  "",
@@ -819,7 +819,7 @@ Menu menuBar[] = {
 };
 
 MenuItem *
-MenuNameToItem (char *menuName)
+MenuNameToItem(char *menuName)
 {
     int i=0;
     char buf[MSG_SIZ], *p;
@@ -844,7 +844,7 @@ MenuNameToItem (char *menuName)
 int firstEngineItem;
 
 void
-AppendEnginesToMenu (char *list)
+AppendEnginesToMenu(char *list)
 {
     int i=0;
     char *p;
@@ -1039,7 +1039,7 @@ Enables userThinkingEnables[] = {
 };
 
 void
-SetICSMode ()
+SetICSMode(void)
 {
   SetMenuEnables(icsEnables);
 
@@ -1052,25 +1052,25 @@ SetICSMode ()
 }
 
 void
-SetNCPMode ()
+SetNCPMode(void)
 {
   SetMenuEnables(ncpEnables);
 }
 
 void
-SetGNUMode ()
+SetGNUMode(void)
 {
   SetMenuEnables(gnuEnables);
 }
 
 void
-SetCmailMode ()
+SetCmailMode(void)
 {
   SetMenuEnables(cmailEnables);
 }
 
 void
-SetTrainingModeOn ()
+SetTrainingModeOn(void)
 {
   SetMenuEnables(trainingOnEnables);
   if (appData.showButtonBar) {
@@ -1080,7 +1080,7 @@ SetTrainingModeOn ()
 }
 
 void
-SetTrainingModeOff ()
+SetTrainingModeOff(void)
 {
   SetMenuEnables(trainingOffEnables);
   if (appData.showButtonBar) {
@@ -1089,14 +1089,14 @@ SetTrainingModeOff ()
 }
 
 void
-SetUserThinkingEnables ()
+SetUserThinkingEnables(void)
 {
   if (appData.noChessProgram) return;
   SetMenuEnables(userThinkingEnables);
 }
 
 void
-SetMachineThinkingEnables ()
+SetMachineThinkingEnables(void)
 {
   if (appData.noChessProgram) return;
   SetMenuEnables(machineThinkingEnables);
@@ -1112,14 +1112,14 @@ SetMachineThinkingEnables ()
 }
 
 void
-GreyRevert (Boolean grey)
+GreyRevert(Boolean grey)
 {
     EnableNamedMenuItem("Edit.Revert", !grey);
     EnableNamedMenuItem("Edit.Annotate", !grey);
 }
 
 char *
-ModeToWidgetName (GameMode mode)
+ModeToWidgetName(GameMode mode)
 {
     switch (mode) {
       case BeginningOfGame:
@@ -1161,7 +1161,7 @@ ModeToWidgetName (GameMode mode)
 }
 
 static void
-InstallNewEngine (char *command, char *dir, char *variants, char *protocol)
+InstallNewEngine(char *command, char *dir, char *variants, char *protocol)
 { // install the given engine in XBoard's -firstChessProgramNames
     char buf[MSG_SIZ], *quote = "";
     if(strchr(command, ' ')) { // quoting needed
@@ -1191,7 +1191,7 @@ InstallNewEngine (char *command, char *dir, char *variants, char *protocol)
 #endif
 
 static void
-InstallFromDir (char *dirName, char *protocol, char *settingsFile)
+InstallFromDir(char *dirName, char *protocol, char *settingsFile)
 {   // scan system for new plugin specs in given directory
     DIR *dir;
     struct dirent *dp;
@@ -1234,21 +1234,21 @@ InstallFromDir (char *dirName, char *protocol, char *settingsFile)
 }
 
 static void
-AutoInstallProtocol (char *settingsFile, char *protocol)
+AutoInstallProtocol(char *settingsFile, char *protocol)
 {   // install new engines for given protocol (both from package and source)
     InstallFromDir("/usr/local/share/games/plugins", protocol, settingsFile);
     InstallFromDir("/usr/share/games/plugins", protocol, settingsFile);
 }
 
 void
-AutoInstall (char *settingsFile)
+AutoInstall(char *settingsFile)
 {   // install all new XBoard and UCI engines
     AutoInstallProtocol(settingsFile, "xboard");
     AutoInstallProtocol(settingsFile, "uci");
 }
 
 void
-InitMenuMarkers()
+InitMenuMarkers(void)
 {
 #ifndef OPTIONSDIALOG
     if (appData.alwaysPromoteToQueen) {
