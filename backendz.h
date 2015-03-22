@@ -61,13 +61,12 @@ extern ProcRef firstProgramPR;
 extern int startedFromSetupPosition;
 extern int firstMove;
 extern GameInfo gameInfo;
-extern void ics_printf P((char *format, ...));
-extern void SendToICS P((char *s));
-extern int looking_at P((char *, int *, char *));
-extern void SendToProgram P((char *message, ChessProgramState *cps));
-extern void SendBoard P((ChessProgramState *cps, int moveNum));
-void SendTimeRemaining P((ChessProgramState *cps,
-			  int/*boolean*/ machineWhite));
+extern void ics_printf(char *, ...);
+extern void SendToICS(char *);
+extern int looking_at(char *, int *, char *);
+extern void SendToProgram(char *, ChessProgramState *);
+extern void SendBoard(ChessProgramState *, int);
+void SendTimeRemaining(ChessProgramState *, int/*boolean*/ machineWhite);
 
 extern char ics_handle[];
 extern char *ics_prefix;
