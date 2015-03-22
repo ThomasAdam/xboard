@@ -764,12 +764,10 @@ CommonEngineInit ()
 
     if(programVersion) free(programVersion);
     if (appData.noChessProgram) {
-	programVersion = malloc(5 + strlen(PACKAGE_STRING));
-	sprintf(programVersion, "%s", PACKAGE_STRING);
+	asprintf(&programVersion, "%s", PACKAGE_STRING);
     } else {
       /* [HGM] tidy: use tidy name, in stead of full pathname (which was probably a bug due to / vs \ ) */
-      programVersion = malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
-      sprintf(programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
+      asprintf(&programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
     }
 }
 
@@ -1020,7 +1018,6 @@ Load (ChessProgramState *cps, int i)
     if(!nickName[0]) useNick = FALSE;
     if(useNick) ASSIGN(appData.pgnName[i], nickName);
     if(addToList) {
-	int len;
 	char quote;
 	q = firstChessProgramNames;
 	if(nickName[0]) snprintf(buf, MSG_SIZ, "\"%s\" -fcp ", nickName); else buf[0] = NULLCHAR;
@@ -1036,9 +1033,8 @@ Load (ChessProgramState *cps, int i)
 			storeVariant ? " -variant " : "",
 			storeVariant ? VariantName(gameInfo.variant) : "");
 	if(wbOptions && wbOptions[0]) snprintf(buf+strlen(buf)-1, MSG_SIZ-strlen(buf), " %s\n", wbOptions);
-	firstChessProgramNames = malloc(len = strlen(q) + strlen(buf) + 1);
 	if(insert != q) insert[-1] = NULLCHAR;
-	snprintf(firstChessProgramNames, len, "%s\n%s%s", q, buf, insert);
+	asprintf(&firstChessProgramNames, "%s\n%s%s", q, buf, insert);
 	if(q) 	free(q);
 	FloatToFront(&appData.recentEngineList, buf);
     }
@@ -1505,8 +1501,7 @@ ReserveGame (int gameNr, char resChar)
     }
     while(*q && *q != ' ') q++; // get first un-played game (could be beyond end!)
     nextGame = q - p;
-    q = malloc(strlen(p) + 2); // could be arbitrary long, but allow to extend by one!
-    safeStrCpy(q, p, strlen(p) + 2);
+    asprintf(&q, "%s", p);
     if(gameNr >= 0) q[gameNr] = resChar; // replace '*' with result
     if(appData.debugMode) fprintf(debugFP, "pick next game from '%s': %d\n", q, nextGame);
     if(nextGame <= appData.matchGames && resChar != ' ' && !abortMatch) { // reserve next game if tourney not yet done
@@ -1616,8 +1611,7 @@ InitBackEnd3 P((void))
 
     if(!appData.noChessProgram) {  /* [HGM] tidy: redo program version to use name from myname feature */
 	free(programVersion);
-	programVersion = malloc(8 + strlen(PACKAGE_STRING) + strlen(first.tidy));
-	sprintf(programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
+	asprintf(&programVersion, "%s + %s", PACKAGE_STRING, first.tidy);
 	FloatToFront(&appData.recentEngineList, comboLine ? comboLine : appData.firstChessProgram);
     }
 
@@ -13769,11 +13763,8 @@ ReloadCmailMsgEvent (int unregister)
     if (inFilename == NULL) {
 	/* Because the filenames are static they only get malloced once  */
 	/* and they never get freed                                      */
-	inFilename = malloc(strlen(appData.cmailGameName) + 9);
-	sprintf(inFilename, "%s.game.in", appData.cmailGameName);
-
-	outFilename = malloc(strlen(appData.cmailGameName) + 5);
-	sprintf(outFilename, "%s.out", appData.cmailGameName);
+	asprintf(&inFilename, "%s.game.in", appData.cmailGameName);
+	asprintf(&outFilename, "%s.out", appData.cmailGameName);
     }
 
     status = stat(outFilename, &outbuf);
@@ -17718,10 +17709,7 @@ StrSave (char *s)
 {
   char *ret;
 
-  if ((ret = malloc(strlen(s) + 1)))
-    {
-      safeStrCpy(ret, s, strlen(s)+1);
-    }
+  asprintf(&ret, "%s", s);
   return ret;
 }
 
@@ -17731,9 +17719,7 @@ StrSavePtr (char *s, char **savePtr)
     if (*savePtr) {
 	free(*savePtr);
     }
-    if ((*savePtr = malloc(strlen(s) + 1))) {
-      safeStrCpy(*savePtr, s, strlen(s)+1);
-    }
+    asprintf(savePtr, "%s", s);
     return(*savePtr);
 }
 
@@ -18568,7 +18554,6 @@ LoadTheme ()
     p = nickName;
     if(*p && !strchr(p, '"')) // theme name specified and well-formed; add settings to theme list
     {
-	int len;
 	q = appData.themeNames;
 	snprintf(buf, MSG_SIZ, "\"%s\"", nickName);
       if(appData.useBitmaps) {
@@ -18604,9 +18589,8 @@ LoadTheme ()
       snprintf(buf+strlen(buf), MSG_SIZ-strlen(buf), " -hsc %s -phc %s\n",
 		Col2Text(4),   // highlightSquareColor
 		Col2Text(5) ); // premoveHighlightColor
-	appData.themeNames = malloc(len = strlen(q) + strlen(buf) + 1);
 	if(insert != q) insert[-1] = NULLCHAR;
-	snprintf(appData.themeNames, len, "%s\n%s%s", q, buf, insert);
+	asprintf(&appData.themeNames, "%s\n%s%s", q, buf, insert);
 	if(q) 	free(q);
     }
     ActivateTheme(FALSE);

@@ -456,10 +456,8 @@ GameListLineOld (int number, GameInfo *gameInfo)
     char *white = gameInfo->white ? gameInfo->white : "?";
     char *black = gameInfo->black ? gameInfo->black : "?";
     char *date = gameInfo->date ? gameInfo->date : "?";
-    int len = 10 + strlen(event) + 2 + strlen(white) + 1 +
-      strlen(black) + 11 + strlen(date) + 1;
-    char *ret = malloc(len);
-    sprintf(ret, "%d. %s, %s-%s, %s, %s",
+    char *ret;
+    asprintf(&ret, "%d. %s, %s-%s, %s, %s",
 	    number, event, white, black, PGNResult(gameInfo->result), date);
     return ret;
 }
@@ -557,12 +555,9 @@ GameListLineFull (int number, GameInfo * gameInfo)
     char * date = gameInfo->date ? gameInfo->date : "?";
     char * oob = gameInfo->outOfBook ? gameInfo->outOfBook : "";
     char * reason = gameInfo->resultDetails ? gameInfo->resultDetails : "";
+    char *ret;
 
-    int len = 64 + strlen(event) + strlen(site) + strlen(white) + strlen(black) + strlen(date) + strlen(oob) + strlen(reason);
-
-    char *ret = malloc(len);
-
-    sprintf(ret, "%d, \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\"",
+    asprintf(&ret, "%d, \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\"",
 	number, event, site, round, white, black, PGNResult(gameInfo->result), reason, date, oob );
 
     return ret;

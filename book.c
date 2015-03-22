@@ -715,16 +715,15 @@ MovesToText(int count, entry_t *entries)
 {
 	int i, totalWeight = 0;
 	char algMove[6];
-	char *p = malloc(40*count+1);
+	char *p;
 	for(i=0; i<count; i++) totalWeight += entries[i].weight;
-	*p = 0;
 	for(i=0; i<count; i++) {
 	    char buf[MSG_SIZ];
 	    move_to_string(algMove, entries[i].move);
 	    buf[0] = NULLCHAR;
 	    if(entries[i].learnCount || entries[i].learnPoints)
 		snprintf(buf, MSG_SIZ, " {%d/%d}", entries[i].learnPoints, entries[i].learnCount);
-	    snprintf(p+strlen(p), 40, "%5.1f%% %5d %s%s\n", 100*entries[i].weight/(totalWeight+0.001),
+	    asprintf(&p, "%5.1f%% %5d %s%s\n", 100*entries[i].weight/(totalWeight+0.001),
 					entries[i].weight, algMove, buf);
 //lastEntries[i] = entries[i];
 	}

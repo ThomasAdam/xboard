@@ -168,11 +168,7 @@ GenericReadout (Option *opts, int selected)
 			if(currentCps) {
 			    snprintf(buf, MSG_SIZ,  "option %s=%s\n", opts[i].name, val);
 			    SendToProgram(buf, currentCps);
-			} else {
-			    if(*dest) free(*dest);
-			    *dest = malloc(strlen(val)+1);
 			}
-			safeStrCpy(*dest, val, MSG_SIZ - (*dest - opts[i].name)); // copy text there
 		    }
 		    break;
 		case Spin:
@@ -1933,8 +1929,8 @@ OutputChatMessage (int partner, char *mess)
     int len = strlen(mess) + 1;
 
     if(p) len += strlen(p);
-    texts[partner] = malloc(len);
-    snprintf(texts[partner], len, "%s%s", p ? p : "", mess);
+
+    asprintf(&texts[partner], "%s%s", p ? p : "", mess);
     FREE(p);
     if(partner == activePartner && !hidden) {
 	AppendText(&chatOptions[CHAT_OUT], mess);
