@@ -51,23 +51,21 @@
  *------------------------------------------------------------------------
  ** See the file ChangeLog for a revision history.  */
 
-extern ChessSquare PromoPiece P((ChessMove moveType));
-extern ChessMove PromoCharToMoveType P((int whiteOnMove, int promoChar));
-extern char PieceToChar P((ChessSquare p));
-extern ChessSquare CharToPiece P((int c));
-extern int PieceToNumber P((ChessSquare p));
+extern ChessSquare PromoPiece(ChessMove);
+extern ChessMove PromoCharToMoveType(int, int);
+extern char PieceToChar(ChessSquare);
+extern ChessSquare CharToPiece(int);
+extern int PieceToNumber(ChessSquare);
 
-extern void CopyBoard P((Board to, Board from));
-extern int CompareBoards P((Board board1, Board board2));
+extern void CopyBoard(Board, Board);
+extern int CompareBoards(Board, Board);
 extern char pieceToChar[(int)EmptySquare+1];
 extern char pieceNickName[(int)EmptySquare];
 extern char *pieceDesc[(int)EmptySquare];
 extern Board initialPosition;
 extern Boolean pieceDefs;
 
-typedef void (*MoveCallback) P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+typedef void (*MoveCallback)(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 /* Values for flags arguments */
 #define F_WHITE_ON_MOVE 1
@@ -110,8 +108,7 @@ typedef void (*MoveCallback) P((Board board, int flags, ChessMove kind,
    EP_UNKNOWN if we don't know and want to allow all e.p. captures.
    Promotion moves generated are to Queen only.
 */
-extern void GenPseudoLegal P((Board board, int flags,
-			      MoveCallback callback, VOIDSTAR closure, ChessSquare filter));
+extern void GenPseudoLegal(Board, int, MoveCallback, VOIDSTAR, ChessSquare);
 
 /* Like GenPseudoLegal, but include castling moves and (unless
    F_IGNORE_CHECK is set in the flags) omit moves that would leave the
@@ -119,8 +116,7 @@ extern void GenPseudoLegal P((Board board, int flags,
    ruled out by a move of the king or rook.  Return TRUE if the player
    on move is currently in check and F_IGNORE_CHECK is not set.
 */
-extern int GenLegal P((Board board, int flags,
-			MoveCallback callback, VOIDSTAR closure, ChessSquare filter));
+extern int GenLegal(Board, int, MoveCallback, VOIDSTAR, ChessSquare);
 
 /* If the player on move were to move from (rf, ff) to (rt, ft), would
    he leave himself in check?  Or if rf == -1, is the player on move
@@ -129,15 +125,12 @@ extern int GenLegal P((Board board, int flags,
    back rank is not accounted for (i.e., we still return nonzero), as
    this is illegal anyway.  Return value is the number of times the
    king is in check. */
-extern int CheckTest P((Board board, int flags,
-			int rf, int ff, int rt, int ft, int enPassant));
+extern int CheckTest(Board, int, int, int, int, int, int);
 
 /* Is a move from (rf, ff) to (rt, ft) legal for the player whom the
    flags say is on move?  Other arguments as in GenPseudoLegal.
    Returns the type of move made, taking promoChar into account. */
-extern ChessMove LegalityTest P((Board board, int flags,
-				 int rf, int ff, int rt, int ft,
-				 int promoChar));
+extern ChessMove LegalityTest(Board, int, int, int, int, int, int);
 
 #define MT_NONE 0
 #define MT_CHECK 1
@@ -151,7 +144,7 @@ extern ChessMove LegalityTest P((Board board, int flags,
 #define MT_NOKING    9 /* [HGM] atomic: for games lost through king capture              */
 
 /* Return MT_NONE, MT_CHECK, MT_CHECKMATE, or MT_STALEMATE */
-extern int MateTest P((Board board, int flags));
+extern int MateTest(Board, int);
 
 typedef struct {
     /* Input data */
@@ -168,14 +161,12 @@ typedef struct {
 } DisambiguateClosure;
 
 /* Disambiguate a partially-known move */
-void Disambiguate P((Board board, int flags, DisambiguateClosure *closure));
+void Disambiguate(Board, int, DisambiguateClosure *);
 
 
 /* Convert coordinates to normal algebraic notation.
    promoChar must be NULLCHAR or '.' if not a promotion.
 */
-ChessMove CoordsToAlgebraic P((Board board, int flags,
-			       int rf, int ff, int rt, int ft,
-			       int promoChar, char out[MOVE_LEN]));
+ChessMove CoordsToAlgebraic(Board, int, int, int, int, int, int, char *);
 
 extern int quickFlag, killX, killY, legNr;

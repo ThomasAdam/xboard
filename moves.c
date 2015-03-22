@@ -66,10 +66,10 @@
 #include "moves.h"
 #include "parser.h"
 
-int WhitePiece P((ChessSquare));
-int BlackPiece P((ChessSquare));
-int SameColor P((ChessSquare, ChessSquare));
-int PosFlags(int index);
+int WhitePiece(ChessSquare);
+int BlackPiece(ChessSquare);
+int SameColor(ChessSquare, ChessSquare);
+int PosFlags(int);
 
 extern signed char initialRights[BOARD_FILES]; /* [HGM] all rights enabled, set in InitPosition */
 int quickFlag;
@@ -86,13 +86,13 @@ char *defaultDesc[EmptySquare] = {
 };
 
 int
-WhitePiece (ChessSquare piece)
+WhitePiece(ChessSquare piece)
 {
     return (int) piece >= (int) WhitePawn && (int) piece < (int) BlackPawn;
 }
 
 int
-BlackPiece (ChessSquare piece)
+BlackPiece(ChessSquare piece)
 {
     return (int) piece >= (int) BlackPawn && (int) piece < (int) EmptySquare;
 }
@@ -123,14 +123,14 @@ char pieceToChar[] = {
 char pieceNickName[EmptySquare];
 
 char
-PieceToChar (ChessSquare p)
+PieceToChar(ChessSquare p)
 {
     if((int)p < 0 || (int)p >= (int)EmptySquare) return('x'); /* [HGM] for safety */
     return pieceToChar[(int) p];
 }
 
 int
-PieceToNumber (ChessSquare p)  /* [HGM] holdings: count piece type, ignoring non-participating piece types */
+PieceToNumber(ChessSquare p)  /* [HGM] holdings: count piece type, ignoring non-participating piece types */
 {
     int i=0;
     ChessSquare start = (int)p >= (int)BlackPawn ? BlackPawn : WhitePawn;
@@ -140,7 +140,7 @@ PieceToNumber (ChessSquare p)  /* [HGM] holdings: count piece type, ignoring non
 }
 
 ChessSquare
-CharToPiece (int c)
+CharToPiece(int c)
 {
      int i;
      if(c == '.') return EmptySquare;
@@ -152,7 +152,7 @@ CharToPiece (int c)
 }
 
 void
-CopyBoard (Board to, Board from)
+CopyBoard(Board to, Board from)
 {
     int i, j;
 
@@ -166,7 +166,7 @@ CopyBoard (Board to, Board from)
 }
 
 int
-CompareBoards (Board board1, Board board2)
+CompareBoards(Board board1, Board board2)
 {
     int i, j;
 
@@ -186,7 +186,7 @@ char xqName[]      = "PH.R.AE..K.C................................"  // white
                      "ph.r.ae..k.c................................"; // black
 
 char *
-CollectPieceDescriptors ()
+CollectPieceDescriptors(void)
 {   // make a line of piece descriptions for use in the PGN Piece tag:
     // dump all engine defined pieces, and pieces with non-standard names,
     // but suppress black pieces that are the same as their white counterpart
@@ -256,13 +256,13 @@ int rot[][4] = { // rotation matrices for each direction
 };
 
 void
-OK (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR cl)
+OK(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR cl)
 {
     (*(int*)cl)++;
 }
 
 void
-MovesFromString (Board board, int flags, int f, int r, int tx, int ty, int angle, char *desc, MoveCallback cb, VOIDSTAR cl)
+MovesFromString(Board board, int flags, int f, int r, int tx, int ty, int angle, char *desc, MoveCallback cb, VOIDSTAR cl)
 {
     char buf[80], *p = desc, *atom = NULL;
     int mine, his, dir, bit, occup, i, promoRank = -1;
@@ -450,7 +450,7 @@ MovesFromString (Board board, int flags, int f, int r, int tx, int ty, int angle
 // [HGM] move generation now based on hierarchy of subroutines for rays and combinations of rays
 
 void
-SlideForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideForward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int i, rt, ft = ff;
   for (i = 1;; i++) {
@@ -463,7 +463,7 @@ SlideForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOI
 }
 
 void
-SlideBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideBackward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int i, rt, ft = ff;
   for (i = 1;; i++) {
@@ -476,14 +476,14 @@ SlideBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VO
 }
 
 void
-SlideVertical (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideVertical(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   SlideForward(board, flags, rf, ff, callback, closure);
   SlideBackward(board, flags, rf, ff, callback, closure);
 }
 
 void
-SlideSideways (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideSideways(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int i, s, rt = rf, ft;
   for(s = -1; s <= 1; s+= 2) {
@@ -498,7 +498,7 @@ SlideSideways (Board board, int flags, int rf, int ff, MoveCallback callback, VO
 }
 
 void
-SlideDiagForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideDiagForward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int i, s, rt, ft;
   for(s = -1; s <= 1; s+= 2) {
@@ -514,7 +514,7 @@ SlideDiagForward (Board board, int flags, int rf, int ff, MoveCallback callback,
 }
 
 void
-SlideDiagBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+SlideDiagBackward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int i, s, rt, ft;
   for(s = -1; s <= 1; s+= 2) {
@@ -530,21 +530,21 @@ SlideDiagBackward (Board board, int flags, int rf, int ff, MoveCallback callback
 }
 
 void
-Rook (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+Rook(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   SlideVertical(board, flags, rf, ff, callback, closure);
   SlideSideways(board, flags, rf, ff, callback, closure);
 }
 
 void
-Bishop (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+Bishop(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   SlideDiagForward(board, flags, rf, ff, callback, closure);
   SlideDiagBackward(board, flags, rf, ff, callback, closure);
 }
 
 void
-Sting (Board board, int flags, int rf, int ff, int dy, int dx, MoveCallback callback, VOIDSTAR closure)
+Sting(Board board, int flags, int rf, int ff, int dy, int dx, MoveCallback callback, VOIDSTAR closure)
 { // Lion-like move of Horned Falcon and Souring Eagle
   int ft = ff + dx, rt = rf + dy;
   if (rt < 0 || rt >= BOARD_HEIGHT || ft < BOARD_LEFT || ft >= BOARD_RGHT) return;
@@ -563,7 +563,7 @@ Sting (Board board, int flags, int rf, int ff, int dy, int dx, MoveCallback call
 }
 
 void
-StepForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepForward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int ft = ff, rt = rf + 1;
   if (rt >= BOARD_HEIGHT) return;
@@ -572,7 +572,7 @@ StepForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOID
 }
 
 void
-StepBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepBackward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int ft = ff, rt = rf - 1;
   if (rt < 0) return;
@@ -581,7 +581,7 @@ StepBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VOI
 }
 
 void
-StepSideways (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepSideways(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int ft, rt = rf;
   ft = ff + 1;
@@ -593,7 +593,7 @@ StepSideways (Board board, int flags, int rf, int ff, MoveCallback callback, VOI
 }
 
 void
-StepDiagForward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepDiagForward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int ft, rt = rf + 1;
   if (rt >= BOARD_HEIGHT) return;
@@ -606,7 +606,7 @@ StepDiagForward (Board board, int flags, int rf, int ff, MoveCallback callback, 
 }
 
 void
-StepDiagBackward (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepDiagBackward(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   int ft, rt = rf - 1;
   if(rt < 0) return;
@@ -619,28 +619,28 @@ StepDiagBackward (Board board, int flags, int rf, int ff, MoveCallback callback,
 }
 
 void
-StepVertical (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+StepVertical(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   StepForward(board, flags, rf, ff, callback, closure);
   StepBackward(board, flags, rf, ff, callback, closure);
 }
 
 void
-Ferz (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+Ferz(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   StepDiagForward(board, flags, rf, ff, callback, closure);
   StepDiagBackward(board, flags, rf, ff, callback, closure);
 }
 
 void
-Wazir (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+Wazir(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
   StepVertical(board, flags, rf, ff, callback, closure);
   StepSideways(board, flags, rf, ff, callback, closure);
 }
 
 void
-Knight (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
+Knight(Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR closure)
 {
     int i, j, s, rt, ft;
     for (i = -1; i <= 1; i += 2)
@@ -664,7 +664,7 @@ Knight (Board board, int flags, int rf, int ff, MoveCallback callback, VOIDSTAR 
    Promotion moves generated are to Queen only.
 */
 void
-GenPseudoLegal (Board board, int flags, MoveCallback callback, VOIDSTAR closure, ChessSquare filter)
+GenPseudoLegal(Board board, int flags, MoveCallback callback, VOIDSTAR closure, ChessSquare filter)
 // speed: only do moves with this piece type
 {
     int rf, ff;
@@ -1323,12 +1323,10 @@ typedef struct {
 int rFilter, fFilter; // [HGM] speed: sorry, but I get a bit tired of this closure madness
 Board xqCheckers, nullBoard;
 
-extern void GenLegalCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void GenLegalCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-GenLegalCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+GenLegalCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register GenLegalClosure *cl = (GenLegalClosure *) closure;
 
@@ -1386,7 +1384,7 @@ typedef struct {
    rook.  Return TRUE if the player on move is currently in check and
    F_IGNORE_CHECK is not set.  [HGM] add castlingRights parameter */
 int
-GenLegal (Board board, int  flags, MoveCallback callback, VOIDSTAR closure, ChessSquare filter)
+GenLegal(Board board, int  flags, MoveCallback callback, VOIDSTAR closure, ChessSquare filter)
 {
     GenLegalClosure cl;
     int ff, ft, k, left, right, swap;
@@ -1579,13 +1577,11 @@ typedef struct {
 } CheckTestClosure;
 
 
-extern void CheckTestCallback P((Board board, int flags, ChessMove kind,
-				 int rf, int ff, int rt, int ft,
-				 VOIDSTAR closure));
+extern void CheckTestCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 
 void
-CheckTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+CheckTestCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register CheckTestClosure *cl = (CheckTestClosure *) closure;
 
@@ -1608,7 +1604,7 @@ CheckTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, int r
    this is illegal anyway.  Return value is the number of times the
    king is in check. */
 int
-CheckTest (Board board, int flags, int rf, int ff, int rt, int ft, int enPassant)
+CheckTest(Board board, int flags, int rf, int ff, int rt, int ft, int enPassant)
 {
     CheckTestClosure cl;
     ChessSquare king = flags & F_WHITE_ON_MOVE ? WhiteKing : BlackKing;
@@ -1695,7 +1691,7 @@ CheckTest (Board board, int flags, int rf, int ff, int rt, int ft, int enPassant
 }
 
 int
-HasLion (Board board, int flags)
+HasLion(Board board, int flags)
 {
     int lion = F_WHITE_ON_MOVE & flags ? WhiteLion : BlackLion;
     int r, f;
@@ -1705,7 +1701,7 @@ HasLion (Board board, int flags)
 }
 
 ChessMove
-LegalDrop (Board board, int flags, ChessSquare piece, int rt, int ft)
+LegalDrop(Board board, int flags, ChessSquare piece, int rt, int ft)
 {   // [HGM] put drop legality testing in separate routine for clarity
     int n;
 if(appData.debugMode) fprintf(debugFP, "LegalDrop: %d @ %d,%d)\n", piece, ft, rt);
@@ -1738,12 +1734,10 @@ if(appData.debugMode) fprintf(debugFP, "LegalDrop: %d @ %d,%d)\n", piece, ft, rt
     return flags & F_WHITE_ON_MOVE ? WhiteDrop : BlackDrop;
 }
 
-extern void LegalityTestCallback P((Board board, int flags, ChessMove kind,
-				    int rf, int ff, int rt, int ft,
-				    VOIDSTAR closure));
+extern void LegalityTestCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-LegalityTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+LegalityTestCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register LegalityTestClosure *cl = (LegalityTestClosure *) closure;
 
@@ -1754,7 +1748,7 @@ LegalityTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, in
 }
 
 ChessMove
-LegalityTest (Board board, int flags, int rf, int ff, int rt, int ft, int promoChar)
+LegalityTest(Board board, int flags, int rf, int ff, int rt, int ft, int promoChar)
 {
     LegalityTestClosure cl; ChessSquare piece, filterPiece;
 
@@ -1879,12 +1873,10 @@ typedef struct {
     int count;
 } MateTestClosure;
 
-extern void MateTestCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void MateTestCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-MateTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+MateTestCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register MateTestClosure *cl = (MateTestClosure *) closure;
 
@@ -1893,7 +1885,7 @@ MateTestCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt
 
 /* Return MT_NONE, MT_CHECK, MT_CHECKMATE, or MT_STALEMATE */
 int
-MateTest (Board board, int flags)
+MateTest(Board board, int flags)
 {
     MateTestClosure cl;
     int inCheck, r, f, myPieces=0, hisPieces=0, nrKing=0;
@@ -1948,12 +1940,10 @@ MateTest (Board board, int flags)
 }
 
 
-extern void DisambiguateCallback P((Board board, int flags, ChessMove kind,
-				    int rf, int ff, int rt, int ft,
-				    VOIDSTAR closure));
+extern void DisambiguateCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-DisambiguateCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+DisambiguateCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register DisambiguateClosure *cl = (DisambiguateClosure *) closure;
     int wildCard = FALSE; ChessSquare piece = board[rf][ff];
@@ -1989,7 +1979,7 @@ DisambiguateCallback (Board board, int flags, ChessMove kind, int rf, int ff, in
 }
 
 void
-Disambiguate (Board board, int flags, DisambiguateClosure *closure)
+Disambiguate(Board board, int flags, DisambiguateClosure *closure)
 {
     int illegal = 0; char c = closure->promoCharIn;
 
@@ -2138,12 +2128,10 @@ typedef struct {
     int either;
 } CoordsToAlgebraicClosure;
 
-extern void CoordsToAlgebraicCallback P((Board board, int flags,
-					 ChessMove kind, int rf, int ff,
-					 int rt, int ft, VOIDSTAR closure));
+extern void CoordsToAlgebraicCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-CoordsToAlgebraicCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+CoordsToAlgebraicCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {
     register CoordsToAlgebraicClosure *cl =
       (CoordsToAlgebraicClosure *) closure;
@@ -2173,7 +2161,7 @@ CoordsToAlgebraicCallback (Board board, int flags, ChessMove kind, int rf, int f
    promoChar must be NULLCHAR or 'x' if not a promotion.
 */
 ChessMove
-CoordsToAlgebraic (Board board, int flags, int rf, int ff, int rt, int ft, int promoChar, char out[MOVE_LEN])
+CoordsToAlgebraic(Board board, int flags, int rf, int ff, int rt, int ft, int promoChar, char out[MOVE_LEN])
 {
     ChessSquare piece;
     ChessMove kind;
@@ -2411,12 +2399,10 @@ unsigned char rank, file;
 
 // there are three new callbacks for use with GenLegal: for adding captures, deleting them, and finding a recapture
 
-extern void AtacksCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void AtacksCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-AttacksCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+AttacksCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {   // For adding captures that can lead to chase indictment to the chaseStack
     if(board[rt][ft] == EmptySquare) return;                               // non-capture
     if(board[rt][ft] == WhitePawn && rt <  BOARD_HEIGHT/2) return;         // Pawn before river can be chased
@@ -2431,12 +2417,10 @@ AttacksCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt,
     chaseStackPointer++;
 }
 
-extern void ExistingAtacksCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void ExistingAtacksCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-ExistingAttacksCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+ExistingAttacksCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {   // for removing pre-exsting captures from the chaseStack, to be left with newly created ones
     int i;
     register ChaseClosure *cl = (ChaseClosure *) closure; //closure tells us the move played in the repeat loop
@@ -2456,12 +2440,10 @@ ExistingAttacksCallback (Board board, int flags, ChessMove kind, int rf, int ff,
     }
 }
 
-extern void ProtectedCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void ProtectedCallback(Board, int, ChessMove, int, int, int, int, VOIDSTAR);
 
 void
-ProtectedCallback (Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
+ProtectedCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
 {   // for determining if a piece (given through the closure) is protected
     register ChaseClosure *cl = (ChaseClosure *) closure; // closure tells us where to recapture
 
@@ -2473,7 +2455,7 @@ ProtectedCallback (Board board, int flags, ChessMove kind, int rf, int ff, int r
 extern char moveList[MAX_MOVES][MOVE_LEN];
 
 int
-PerpetualChase (int first, int last)
+PerpetualChase(int first, int last)
 {   // this routine detects if the side to move in the 'first' position is perpetually chasing (when not checking)
     int i, j, k, tail;
     ChaseClosure cl;
