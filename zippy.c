@@ -63,7 +63,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -93,8 +93,8 @@ extern char *getenv();
 #include "backend.h"
 #include "backendz.h"
 
-char *SendMoveToBookUser P((int nr, ChessProgramState *cps, int initial)); // [HGM] book
-void HandleMachineMove P((char *message, ChessProgramState *cps));
+char *SendMoveToBookUser(int, ChessProgramState *, int); // [HGM] book
+void HandleMachineMove(char *, ChessProgramState *);
 
 static char zippyPartner[MSG_SIZ];
 static char zippyLastOpp[MSG_SIZ];
@@ -106,7 +106,7 @@ extern void mysrandom(unsigned int seed);
 extern int myrandom(void);
 
 void
-ZippyInit ()
+ZippyInit(void)
 {
     char *p;
 
@@ -306,7 +306,7 @@ char *swifties[] = {
 #define MAX_SPEECH 250
 
 void
-Speak (char *how, char *whom)
+Speak(char *how, char *whom)
 {
     static FILE *zipfile = NULL;
     static struct stat zipstat;
@@ -381,7 +381,7 @@ Speak (char *how, char *whom)
 }
 
 int
-ZippyCalled (char *str)
+ZippyCalled(char *str)
 {
     return ics_handle[0] != NULLCHAR && StrCaseStr(str, ics_handle) != NULL;
 }
@@ -392,13 +392,13 @@ static int num_opps=0;
 extern ColorClass curColor;
 
 static void
-SetCurColor (ColorClass color)
+SetCurColor(ColorClass color)
 {
     curColor = color;
 }
 
 static void
-ColorizeEx (ColorClass color, int cont)
+ColorizeEx(ColorClass color, int cont)
 {
     if( appData.colorize ) {
         Colorize( color, cont );
@@ -407,7 +407,7 @@ ColorizeEx (ColorClass color, int cont)
 }
 
 int
-ZippyControl (char *buf, int *i)
+ZippyControl(char *buf, int *i)
 {
     char *player, *p;
     char reply[MSG_SIZ];
@@ -730,7 +730,7 @@ ZippyConverse(char *buf, int *i)
 }
 
 void
-ZippyGameStart (char *white, char* black)
+ZippyGameStart(char *white, char* black)
 {
     if (!first.initDone) {
       /* Game is starting prematurely.  We can't deal with this */
@@ -748,7 +748,7 @@ ZippyGameStart (char *white, char* black)
 }
 
 void
-ZippyGameEnd (ChessMove result, char *resultDetails)
+ZippyGameEnd(ChessMove result, char *resultDetails)
 {
     if (appData.zippyAcceptOnly[0] == NULLCHAR &&
 	appData.zippyGameEnd[0] != NULLCHAR) {
@@ -767,7 +767,7 @@ ZippyGameEnd (ChessMove result, char *resultDetails)
  */
 
 void
-ZippyHandleChallenge (char *srated, char *swild, char *sbase, char *sincrement, char *opponent)
+ZippyHandleChallenge(char *srated, char *swild, char *sbase, char *sincrement, char *opponent)
 {
     char buf[MSG_SIZ];
     int i=0;
@@ -852,7 +852,7 @@ ZippyHandleChallenge (char *srated, char *swild, char *sbase, char *sincrement, 
 
 /* Accept matches */
 int
-ZippyMatch (char *buf, int *i)
+ZippyMatch(char *buf, int *i)
 {
     if (looking_at(buf, i, "* * match * * requested with * (*)")) {
 
@@ -971,7 +971,7 @@ ZippyMatch (char *buf, int *i)
  * of a new or resumed game.
  */
 void
-ZippyFirstBoard (int moveNum, int basetime, int increment)
+ZippyFirstBoard(int moveNum, int basetime, int increment)
 {
     char buf[MSG_SIZ];
     int w, b;
@@ -1134,7 +1134,7 @@ ZippyFirstBoard (int moveNum, int basetime, int increment)
 
 
 void
-ZippyHoldings (char *white_holding, char *black_holding, char *new_piece)
+ZippyHoldings(char *white_holding, char *black_holding, char *new_piece)
 {
     char buf[MSG_SIZ];
     if (gameMode != IcsPlayingBlack && gameMode != IcsPlayingWhite) return;
