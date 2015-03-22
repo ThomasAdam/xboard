@@ -77,22 +77,22 @@ typedef struct {
 
 extern AnimState anims[];
 
-void DrawPolygon P((Pnt arrow[], int nr));
-void DrawOneSquare P((int x, int y, ChessSquare piece, int square_color, int marker, char *tString, char *bString, int align));
-void DrawDot P((int marker, int x, int y, int r));
-void DrawGrid P((void));
-int SquareColor P((int row, int column));
-void ScreenSquare P((int column, int row, Pnt *pt, int *color));
-void BoardSquare P((int x, int y, int *column, int *row));
-void FrameDelay P((int time));
-void InsertPiece P((AnimNr anr, ChessSquare piece));
-void DrawBlank P((AnimNr anr, int x, int y, int startColor));
-void CopyRectangle P((AnimNr anr, int srcBuf, int destBuf, int srcX, int srcY, int width, int height, int destX, int destY));
-void SetDragPiece P((AnimNr anr, ChessSquare piece));
-void DragPieceMove P((int x, int y));
-void DrawBorder P((int x, int y, int type, int odd));
-void FlashDelay P((int flash_delay));
-void SwitchWindow P((int main));
+void DrawPolygon(Pnt *, int);
+void DrawOneSquare(int, int, ChessSquare, int, int, char *, char *, int);
+void DrawDot(int, int, int, int);
+void DrawGrid(void);
+int SquareColor(int, int);
+void ScreenSquare(int, int, Pnt *, int *);
+void BoardSquare(int, int, int *, int *);
+void FrameDelay(int);
+void InsertPiece(AnimNr, ChessSquare);
+void DrawBlank(AnimNr, int, int, int);
+void CopyRectangle(AnimNr, int, int, int, int, int, int, int, int);
+void SetDragPiece(AnimNr, ChessSquare);
+void DragPieceMove(int, int);
+void DrawBorder(int, int, int, int);
+void FlashDelay(int);
+void SwitchWindow(int);
 
 extern int damage[2][BOARD_RANKS][BOARD_FILES];
 extern Option *currBoard;

@@ -66,7 +66,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -119,13 +119,13 @@ int damage[2][BOARD_RANKS][BOARD_FILES];
 
 AnimState anims[NrOfAnims];
 
-static void DrawSquare P((int row, int column, ChessSquare piece, int do_flash));
-static Boolean IsDrawArrowEnabled P((void));
-static void DrawArrowHighlight P((int fromX, int fromY, int toX,int toY));
-static void ArrowDamage P((int s_col, int s_row, int d_col, int d_row));
+static void DrawSquare(int, int, ChessSquare, int);
+static Boolean IsDrawArrowEnabled(void);
+static void DrawArrowHighlight(int, int, int,int);
+static void ArrowDamage(int, int, int, int);
 
 static void
-drawHighlight (int file, int rank, int type)
+drawHighlight(int file, int rank, int type)
 {
     int x, y;
 
@@ -148,7 +148,7 @@ int hi1X = -1, hi1Y = -1, hi2X = -1, hi2Y = -1;
 int pm1X = -1, pm1Y = -1, pm2X = -1, pm2Y = -1;
 
 void
-SetHighlights (int fromX, int fromY, int toX, int toY)
+SetHighlights(int fromX, int fromY, int toX, int toY)
 {
     int arrow = hi2X >= 0 && hi1Y >= 0 && IsDrawArrowEnabled();
 
@@ -188,14 +188,14 @@ SetHighlights (int fromX, int fromY, int toX, int toY)
 }
 
 void
-ClearHighlights ()
+ClearHighlights(void)
 {
     SetHighlights(-1, -1, -1, -1);
 }
 
 
 void
-SetPremoveHighlights (int fromX, int fromY, int toX, int toY)
+SetPremoveHighlights(int fromX, int fromY, int toX, int toY)
 {
     if (pm1X != fromX || pm1Y != fromY) {
 	if (pm1X >= 0 && pm1Y >= 0) {
@@ -220,7 +220,7 @@ SetPremoveHighlights (int fromX, int fromY, int toX, int toY)
 }
 
 void
-ClearPremoveHighlights ()
+ClearPremoveHighlights(void)
 {
   SetPremoveHighlights(-1, -1, -1, -1);
 }
@@ -230,7 +230,7 @@ ClearPremoveHighlights ()
  *   return -2.  Otherwise map the event coordinate to the square.
  */
 int
-EventToSquare (int x, int limit)
+EventToSquare(int x, int limit)
 {
     if (x <= 0)
       return -2;
@@ -247,7 +247,7 @@ EventToSquare (int x, int limit)
 
 /* [HR] determine square color depending on chess variant. */
 int
-SquareColor (int row, int column)
+SquareColor(int row, int column)
 {
     int square_color;
 
@@ -281,7 +281,7 @@ SquareColor (int row, int column)
 /*	Convert board position to corner of screen rect and color	*/
 
 void
-ScreenSquare (int column, int row, Pnt *pt, int *color)
+ScreenSquare(int column, int row, Pnt *pt, int *color)
 {
   if (flipView) {
     pt->x = lineGap + ((BOARD_WIDTH-1)-column) * (squareSize + lineGap);
@@ -296,7 +296,7 @@ ScreenSquare (int column, int row, Pnt *pt, int *color)
 /*	Convert window coords to square			*/
 
 void
-BoardSquare (int x, int y, int *column, int *row)
+BoardSquare(int x, int y, int *column, int *row)
 {
   *column = EventToSquare(x, BOARD_WIDTH);
   if (flipView && *column >= 0)
@@ -317,7 +317,7 @@ BoardSquare (int x, int y, int *column, int *row)
 	noticeable.						*/
 
 static void
-Tween (Pnt *start, Pnt *mid, Pnt *finish, int factor, Pnt frames[], int *nFrames)
+Tween(Pnt *start, Pnt *mid, Pnt *finish, int factor, Pnt frames[], int *nFrames)
 {
   int fraction, n, count;
 
@@ -374,13 +374,13 @@ typedef struct {
 } MyRectangle;
 
 void
-DoSleep (int n)
+DoSleep(int n)
 {
     FrameDelay(n);
 }
 
 static void
-SetRect (MyRectangle *rect, int x, int y, int width, int height)
+SetRect(MyRectangle *rect, int x, int y, int width, int height)
 {
   rect->x = x;
   rect->y = y;
@@ -393,7 +393,7 @@ SetRect (MyRectangle *rect, int x, int y, int width, int height)
 	that rect within new. */
 
 static Boolean
-Intersect ( Pnt *old, Pnt *new, int size, MyRectangle *area, Pnt *pt)
+Intersect(Pnt *old, Pnt *new, int size, MyRectangle *area, Pnt *pt)
 {
   if (old->x > new->x + size || new->x > old->x + size ||
       old->y > new->y + size || new->y > old->y + size) {
@@ -411,7 +411,7 @@ Intersect ( Pnt *old, Pnt *new, int size, MyRectangle *area, Pnt *pt)
 	in the old that do not intersect with the new.   */
 
 static void
-CalcUpdateRects (Pnt *old, Pnt *new, int size, MyRectangle update[], int *nUpdates)
+CalcUpdateRects(Pnt *old, Pnt *new, int size, MyRectangle update[], int *nUpdates)
 {
   int	     count;
 
@@ -449,7 +449,7 @@ CalcUpdateRects (Pnt *old, Pnt *new, int size, MyRectangle update[], int *nUpdat
 /* Animate the movement of a single piece */
 
 static void
-BeginAnimation (AnimNr anr, ChessSquare piece, ChessSquare bgPiece, int startColor, Pnt *start)
+BeginAnimation(AnimNr anr, ChessSquare piece, ChessSquare bgPiece, int startColor, Pnt *start)
 {
   AnimState *anim = &anims[anr];
 
@@ -474,7 +474,7 @@ BeginAnimation (AnimNr anr, ChessSquare piece, ChessSquare bgPiece, int startCol
 }
 
 static void
-AnimationFrame (AnimNr anr, Pnt *frame, ChessSquare piece)
+AnimationFrame(AnimNr anr, Pnt *frame, ChessSquare piece)
 {
   MyRectangle updates[4];
   MyRectangle overlap;
@@ -532,7 +532,7 @@ AnimationFrame (AnimNr anr, Pnt *frame, ChessSquare piece)
 }
 
 static void
-EndAnimation (AnimNr anr, Pnt *finish)
+EndAnimation(AnimNr anr, Pnt *finish)
 {
   MyRectangle updates[4];
   MyRectangle overlap;
@@ -558,7 +558,7 @@ EndAnimation (AnimNr anr, Pnt *finish)
 }
 
 static void
-FrameSequence (AnimNr anr, ChessSquare piece, int startColor, Pnt *start, Pnt *finish, Pnt frames[], int nFrames)
+FrameSequence(AnimNr anr, ChessSquare piece, int startColor, Pnt *start, Pnt *finish, Pnt frames[], int nFrames)
 {
   int n;
 
@@ -571,7 +571,7 @@ FrameSequence (AnimNr anr, ChessSquare piece, int startColor, Pnt *start, Pnt *f
 }
 
 void
-AnimateAtomicCapture (Board board, int fromX, int fromY, int toX, int toY)
+AnimateAtomicCapture(Board board, int fromX, int fromY, int toX, int toY)
 {
     int i, x, y;
     ChessSquare piece = board[fromY][toY];
@@ -596,7 +596,7 @@ AnimateAtomicCapture (Board board, int fromX, int fromY, int toX, int toY)
 /* Main control logic for deciding what to animate and how */
 
 void
-AnimateMove (Board board, int fromX, int fromY, int toX, int toY)
+AnimateMove(Board board, int fromX, int fromY, int toX, int toY)
 {
   ChessSquare piece;
   int hop, x = toX, y = toY;
@@ -666,14 +666,14 @@ again:
 }
 
 void
-ChangeDragPiece (ChessSquare piece)
+ChangeDragPiece(ChessSquare piece)
 {
   anims[Player].dragPiece = piece;
   SetDragPiece(Player, piece);
 }
 
 void
-DragPieceMove (int x, int y)
+DragPieceMove(int x, int y)
 {
     Pnt corner;
 
@@ -699,7 +699,7 @@ DragPieceMove (int x, int y)
 }
 
 void
-DragPieceEnd (int x, int y)
+DragPieceEnd(int x, int y)
 {
     int boardX, boardY, color;
     Pnt corner;
@@ -727,7 +727,7 @@ DragPieceEnd (int x, int y)
 }
 
 void
-DragPieceBegin (int x, int y, Boolean instantly)
+DragPieceBegin(int x, int y, Boolean instantly)
 {
     int	 boardX, boardY, color;
     Pnt corner;
@@ -771,7 +771,7 @@ DragPieceBegin (int x, int y, Boolean instantly)
 /* Handle expose event while piece being dragged */
 
 static void
-DrawDragPiece ()
+DrawDragPiece(void)
 {
   if (!anims[Player].dragActive || appData.blindfold)
     return;
@@ -787,7 +787,7 @@ DrawDragPiece ()
 }
 
 static void
-DrawSquare (int row, int column, ChessSquare piece, int do_flash)
+DrawSquare(int row, int column, ChessSquare piece, int do_flash)
 {
     int square_color, x, y, align=0;
     int i;
@@ -846,7 +846,7 @@ DrawSquare (int row, int column, ChessSquare piece, int do_flash)
 /* Returns 1 if there are "too many" differences between b1 and b2
    (i.e. more than 1 move was made) */
 static int
-too_many_diffs (Board b1, Board b2)
+too_many_diffs(Board b1, Board b2)
 {
     int i, j;
     int c = 0;
@@ -880,7 +880,7 @@ static int castling_matrix[4][5] = {
    to call too_many_diffs() first.
    */
 static int
-check_castle_draw (Board newb, Board oldb, int *rrow, int *rcol)
+check_castle_draw(Board newb, Board oldb, int *rrow, int *rcol)
 {
     int i, *r, j;
     int match;
@@ -909,7 +909,7 @@ check_castle_draw (Board newb, Board oldb, int *rrow, int *rcol)
 }
 
 void
-DrawPosition (int repaint, Board board)
+DrawPosition(int repaint, Board board)
 {
     int i, j, do_flash, exposeAll = False;
     static int lastFlipView = 0;
@@ -1056,19 +1056,19 @@ static double A_WIDTH = 5; /* Width of arrow body */
 #define A_WIDTH_FACTOR  3   /* Width of arrow "point", relative to body width */
 
 static double
-Sqr (double x)
+Sqr(double x)
 {
     return x*x;
 }
 
 static int
-Round (double x)
+Round(double x)
 {
     return (int) (x + 0.5);
 }
 
 void
-SquareToPos (int rank, int file, int *x, int *y)
+SquareToPos(int rank, int file, int *x, int *y)
 {
     if (flipView) {
 	*x = lineGap + ((BOARD_WIDTH-1)-file) * (squareSize + lineGap);
@@ -1081,7 +1081,7 @@ SquareToPos (int rank, int file, int *x, int *y)
 
 /* Draw an arrow between two points using current settings */
 static void
-DrawArrowBetweenPoints (int s_x, int s_y, int d_x, int d_y)
+DrawArrowBetweenPoints(int s_x, int s_y, int d_x, int d_y)
 {
     Pnt arrow[8];
     double dx, dy, j, k, x, y;
@@ -1184,7 +1184,7 @@ DrawArrowBetweenPoints (int s_x, int s_y, int d_x, int d_y)
 }
 
 static void
-ArrowDamage (int s_col, int s_row, int d_col, int d_row)
+ArrowDamage(int s_col, int s_row, int d_col, int d_row)
 {
     int hor, vert, i, n = partnerUp * twoBoards;
     hor = 64*s_col + 32; vert = 64*s_row + 32;
@@ -1199,7 +1199,7 @@ ArrowDamage (int s_col, int s_row, int d_col, int d_row)
 
 /* [AS] Draw an arrow between two squares */
 static void
-DrawArrowBetweenSquares (int s_col, int s_row, int d_col, int d_row)
+DrawArrowBetweenSquares(int s_col, int s_row, int d_col, int d_row)
 {
     int s_x, s_y, d_x, d_y;
 
@@ -1242,13 +1242,13 @@ DrawArrowBetweenSquares (int s_col, int s_row, int d_col, int d_row)
 }
 
 static Boolean
-IsDrawArrowEnabled ()
+IsDrawArrowEnabled(void)
 {
     return (appData.highlightMoveWithArrow || twoBoards && partnerUp) && squareSize >= 32;
 }
 
 static void
-DrawArrowHighlight (int fromX, int fromY, int toX,int toY)
+DrawArrowHighlight(int fromX, int fromY, int toX,int toY)
 {
     if( IsDrawArrowEnabled() && fromX >= 0 && fromY >= 0 && toX >= 0 && toY >= 0)
         DrawArrowBetweenSquares(fromX, fromY, toX, toY);
