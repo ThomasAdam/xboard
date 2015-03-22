@@ -34,7 +34,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -75,13 +75,13 @@ char *marked[NrOfDialogs];
 Boolean shellUp[NrOfDialogs];
 
 void
-MarkMenu (char *item, int dlgNr)
+MarkMenu(char *item, int dlgNr)
 {
     MarkMenuItem(marked[dlgNr] = item, True);
 }
 
 void
-AddLine (Option *opt, char *s)
+AddLine(Option *opt, char *s)
 {
     AppendText(opt, s);
     AppendText(opt, "\n");
@@ -90,7 +90,7 @@ AddLine (Option *opt, char *s)
 //---------------------------------------------- Update dialog controls ------------------------------------
 
 int
-SetCurrentComboSelection (Option *opt)
+SetCurrentComboSelection(Option *opt)
 {
     int j;
     if(!opt->textValue) opt->value = *(int*)opt->target; /* numeric */else {
@@ -102,7 +102,7 @@ SetCurrentComboSelection (Option *opt)
 }
 
 void
-GenericUpdate (Option *opts, int selected)
+GenericUpdate(Option *opts, int selected)
 {
     int i;
     char buf[MSG_SIZ];
@@ -150,7 +150,7 @@ GenericUpdate (Option *opts, int selected)
 //------------------------------------------- Read out dialog controls ------------------------------------
 
 int
-GenericReadout (Option *opts, int selected)
+GenericReadout(Option *opts, int selected)
 {
     int i, j, res=1;
     char *val;
@@ -243,14 +243,14 @@ GenericReadout (Option *opts, int selected)
 char *engineName, *engineChoice, *tfName;
 char *engineList[MAXENGINES] = {" "}, *engineMnemonic[MAXENGINES];
 
-static void AddToTourney P((int n, int sel));
-static void CloneTourney P((void));
-static void ReplaceParticipant P((void));
-static void UpgradeParticipant P((void));
-static void PseudoOK P((void));
+static void AddToTourney(int, int);
+static void CloneTourney(void);
+static void ReplaceParticipant(void);
+static void UpgradeParticipant(void);
+static void PseudoOK(void);
 
 static int
-MatchOK (int n)
+MatchOK(int n)
 {
     ASSIGN(appData.participants, engineName);
     if(!CreateTourney(tfName) || matchMode) return matchMode || !appData.participants[0];
@@ -315,21 +315,21 @@ static Option matchOptions[] = {
 };
 
 static void
-ReplaceParticipant ()
+ReplaceParticipant(void)
 {
     GenericReadout(matchOptions, PARTICIPANTS);
     Substitute(strdup(engineName), True);
 }
 
 static void
-UpgradeParticipant ()
+UpgradeParticipant(void)
 {
     GenericReadout(matchOptions, PARTICIPANTS);
     Substitute(strdup(engineName), False);
 }
 
 static void
-PseudoOK ()
+PseudoOK(void)
 {
     GenericReadout(matchOptions, -2); // read all, but suppress calling of MatchOK
     ASSIGN(appData.participants, engineName);
@@ -337,7 +337,7 @@ PseudoOK ()
 }
 
 static void
-CloneTourney ()
+CloneTourney(void)
 {
     FILE *f;
     char *name;
@@ -352,7 +352,7 @@ CloneTourney ()
 }
 
 static void
-AddToTourney (int n, int sel)
+AddToTourney(int n, int sel)
 {
     int nr;
     char buf[MSG_SIZ];
@@ -369,7 +369,7 @@ AddToTourney (int n, int sel)
 }
 
 void
-MatchOptionsProc ()
+MatchOptionsProc(void)
 {
    if(matchOptions[PARTICIPANTS+1].type != ListBox) {
 	DisplayError(_("Internal error: PARTICIPANTS set wrong"), 0);
@@ -388,7 +388,7 @@ MatchOptionsProc ()
 static int oldShow, oldBlind, oldPonder;
 
 static int
-GeneralOptionsOK (int n)
+GeneralOptionsOK(int n)
 {
 	int newPonder = appData.ponderNextMove;
 	appData.ponderNextMove = oldPonder;
@@ -434,7 +434,7 @@ static Option generalOptions[] = {
 };
 
 void
-OptionsProc ()
+OptionsProc(void)
 {
    oldPonder = appData.ponderNextMove;
    oldShow = appData.showCoords; oldBlind = appData.blindfold;
@@ -443,7 +443,7 @@ OptionsProc ()
 
 //---------------------------------------------- New Variant ------------------------------------------------
 
-static void Pick P((int n));
+static void Pick(int);
 
 static char warning[MSG_SIZ];
 static int ranksTmp, filesTmp, sizeTmp;
@@ -522,7 +522,7 @@ static Option variantDescriptors[] = {
 };
 
 static void
-Pick (int n)
+Pick(int n)
 {
 	VariantClass v = variantDescriptors[n].value;
 	if(v == VariantUnknown) safeStrCpy(engineVariant, variantDescriptors[n].name, MSG_SIZ); else *engineVariant = NULLCHAR;
@@ -558,7 +558,7 @@ Pick (int n)
 }
 
 void
-NewVariantProc ()
+NewVariantProc(void)
 {
    static int start;
    int i, last;
@@ -596,7 +596,7 @@ static int oldCores;
 static char *egtPath;
 
 static int
-CommonOptionsOK (int n)
+CommonOptionsOK(int n)
 {
 	int newPonder = appData.ponderNextMove;
 	if(*egtPath != '/' && strchr(egtPath, ':')) {
@@ -633,7 +633,7 @@ static Option commonEngineOptions[] = {
 };
 
 void
-UciMenuProc ()
+UciMenuProc(void)
 {
    oldCores = appData.smpCores;
    oldPonder = appData.ponderNextMove;
@@ -659,7 +659,7 @@ static Option adjudicationOptions[] = {
 };
 
 void
-EngineMenuProc ()
+EngineMenuProc(void)
 {
    GenericPopUp(adjudicationOptions, _("Adjudicate non-ICS Games"), TransientDlg, BoardWindow, MODAL, 0);
 }
@@ -667,7 +667,7 @@ EngineMenuProc ()
 //--------------------------------------------- ICS Options ---------------------------------------------
 
 static int
-IcsOptionsOK (int n)
+IcsOptionsOK(int n)
 {
     ParseIcsTextColors();
     return 1;
@@ -711,7 +711,7 @@ Option icsOptions[] = {
 };
 
 void
-IcsOptionsProc ()
+IcsOptionsProc(void)
 {
    GenericPopUp(icsOptions, _("ICS Options"), TransientDlg, BoardWindow, MODAL, 0);
 }
@@ -724,7 +724,7 @@ static char *modeValues[] = { "1", "2", "3", "4", "5", "6" };
 static char *searchMode, *countRange;
 
 static int
-LoadOptionsOK ()
+LoadOptionsOK(void)
 {
     appData.minPieces = appData.maxPieces = 0;
     sscanf(countRange, "%d-%d", &appData.minPieces, &appData.maxPieces);
@@ -753,7 +753,7 @@ static Option loadOptions[] = {
 };
 
 void
-LoadOptionsPopUp (DialogClass parent)
+LoadOptionsPopUp(DialogClass parent)
 {
    ASSIGN(countRange, "");
    ASSIGN(searchMode, modeValues[appData.searchMode-1]);
@@ -761,7 +761,7 @@ LoadOptionsPopUp (DialogClass parent)
 }
 
 void
-LoadOptionsProc ()
+LoadOptionsProc(void)
 {   // called from menu
     LoadOptionsPopUp(BoardWindow);
 }
@@ -782,14 +782,14 @@ static Option saveOptions[] = {
 };
 
 void
-SaveOptionsProc ()
+SaveOptionsProc(void)
 {
    GenericPopUp(saveOptions, _("Save Game Options"), TransientDlg, BoardWindow, MODAL, 0);
 }
 
 //----------------------------------------------- Sound Options ---------------------------------------------
 
-static void Test P((int n));
+static void Test(int);
 static char *trialSound;
 
 static char *soundNames[] = {
@@ -857,14 +857,14 @@ static Option soundOptions[] = {
 };
 
 static void
-Test (int n)
+Test(int n)
 {
     GenericReadout(soundOptions, 1);
     if(soundFiles[values[2]]) PlaySoundFile(soundFiles[values[2]]);
 }
 
 void
-SoundOptionsProc ()
+SoundOptionsProc(void)
 {
    free(soundFiles[2]);
    soundFiles[2] = strdup("*");
@@ -873,10 +873,10 @@ SoundOptionsProc ()
 
 //--------------------------------------------- Board Options --------------------------------------
 
-static void DefColor P((int n));
-static void AdjustColor P((int i));
-static void ThemeSel P((int n, int sel));
-static int BoardOptionsOK P((int n));
+static void DefColor(int);
+static void AdjustColor(int);
+static void ThemeSel(int, int);
+static int BoardOptionsOK(int);
 
 static char oldPieceDir[MSG_SIZ];
 extern char *engineLine, *nickName; // defined later on
@@ -943,7 +943,7 @@ static Option boardOptions[] = {
 };
 
 static int
-BoardOptionsOK (int n)
+BoardOptionsOK(int n)
 {
     if(n && (n = SelectedListBoxItem(&boardOptions[THEMELIST])) > 0 && *engineList[n] != '#') { // called by pressing OK, and theme selected
 	ASSIGN(engineLine, engineList[n]);
@@ -953,20 +953,20 @@ BoardOptionsOK (int n)
 }
 
 static void
-SetColorText (int n, char *buf)
+SetColorText(int n, char *buf)
 {
     SetWidgetText(&boardOptions[n-1], buf, TransientDlg);
     SetColor(buf, &boardOptions[n]);
 }
 
 static void
-DefColor (int n)
+DefColor(int n)
 {
     SetColorText(n, (char*) boardOptions[n].choice);
 }
 
 void
-RefreshColor (int source, int n)
+RefreshColor(int source, int n)
 {
     int col, j, r, g, b, step = 10;
     char *s, buf[MSG_SIZ]; // color string
@@ -988,14 +988,14 @@ RefreshColor (int source, int n)
 }
 
 static void
-AdjustColor (int i)
+AdjustColor(int i)
 {
     int n = boardOptions[i].value;
     RefreshColor(i-n-1, n);
 }
 
 void
-ThemeSel (int n, int sel)
+ThemeSel(int n, int sel)
 {
     int nr;
     char buf[MSG_SIZ];
@@ -1014,7 +1014,7 @@ ThemeSel (int n, int sel)
 }
 
 void
-BoardOptionsProc ()
+BoardOptionsProc(void)
 {
    strncpy(oldPieceDir, appData.pieceDirectory, MSG_SIZ-1); // to see if it changed
    ASSIGN(engineLine, "");
@@ -1027,12 +1027,12 @@ BoardOptionsProc ()
 //-------------------------------------------- ICS Text Menu Options ------------------------------
 
 Option textOptions[100];
-static void PutText P((char *text, int pos));
-static void NewChat P((char *name));
+static void PutText(char *, int);
+static void NewChat(char *);
 static char clickedWord[MSG_SIZ], click;
 
 void
-SendString (char *p)
+SendString(char *p)
 {
     char buf[MSG_SIZ], buf2[MSG_SIZ], *q;
     if(q = strstr(p, "$name")) { // in Xaw this is already intercepted
@@ -1063,7 +1063,7 @@ SendString (char *p)
 }
 
 void
-IcsTextPopUp ()
+IcsTextPopUp(void)
 {
    int i=0, j;
    char *p, *q, *r;
@@ -1096,7 +1096,7 @@ IcsTextPopUp ()
 }
 
 void
-IcsTextProc ()
+IcsTextProc(void)
 {
     if(shellUp[TextMenuDlg]) PopDown(TextMenuDlg);
     else IcsTextPopUp();
@@ -1106,14 +1106,14 @@ IcsTextProc ()
 
 static char *commentText;
 static int commentIndex;
-static void ClearComment P((int n));
-static void SaveChanges P((int n));
+static void ClearComment(int);
+static void SaveChanges(int);
 int savedIndex;  /* gross that this is global (and even across files...) */
 
-static int CommentClick P((Option *opt, int n, int x, int y, char *val, int index));
+static int CommentClick(Option *, int, int, int, char *, int);
 
 static int
-NewComCallback (int n)
+NewComCallback(int n)
 {
     ReplaceComment(commentIndex, commentText);
     return 1;
@@ -1127,7 +1127,7 @@ Option commentOptions[] = {
 };
 
 static int
-CommentClick (Option *opt, int n, int x, int y, char *val, int index)
+CommentClick(Option *opt, int n, int x, int y, char *val, int index)
 {
 	if(n != 3) return FALSE; // only button-3 press is of interest
 	ReplaceComment(savedIndex, val);
@@ -1137,20 +1137,20 @@ CommentClick (Option *opt, int n, int x, int y, char *val, int index)
 }
 
 static void
-SaveChanges (int n)
+SaveChanges(int n)
 {
     GenericReadout(commentOptions, 0);
     ReplaceComment(commentIndex, commentText);
 }
 
 static void
-ClearComment (int n)
+ClearComment(int n)
 {
     SetWidgetText(&commentOptions[0], "", CommentDlg);
 }
 
 void
-NewCommentPopup (char *title, char *text, int index)
+NewCommentPopup(char *title, char *text, int index)
 {
     if(DialogExists(CommentDlg)) { // if already exists, alter title and content
 	SetDialogTitle(CommentDlg, title);
@@ -1164,7 +1164,7 @@ NewCommentPopup (char *title, char *text, int index)
 }
 
 void
-EditCommentPopUp (int index, char *title, char *text)
+EditCommentPopUp(int index, char *title, char *text)
 {
     savedIndex = index;
     if (text == NULL) text = "";
@@ -1172,21 +1172,21 @@ EditCommentPopUp (int index, char *title, char *text)
 }
 
 void
-CommentPopUp (char *title, char *text)
+CommentPopUp(char *title, char *text)
 {
     savedIndex = currentMove; // [HGM] vari
     NewCommentPopup(title, text, currentMove);
 }
 
 void
-CommentPopDown ()
+CommentPopDown(void)
 {
     PopDown(CommentDlg);
 }
 
 
 void
-EditCommentProc ()
+EditCommentProc(void)
 {
     if (PopDown(CommentDlg)) { // popdown succesful
 //	MarkMenuItem("Edit.EditComment", False);
@@ -1197,13 +1197,13 @@ EditCommentProc ()
 
 //------------------------------------------------------ Edit Tags ----------------------------------
 
-static void changeTags P((int n));
+static void changeTags(int);
 static char *tagsText, **resPtr;
 
-static int TagsClick P((Option *opt, int n, int x, int y, char *val, int index));
+static int TagsClick(Option *, int, int, int, char *, int);
 
 static int
-NewTagsCallback (int n)
+NewTagsCallback(int n)
 {
     if(bookUp) SaveToBook(tagsText), DisplayBook(currentMove); else
     if(resPtr) { ASSIGN(*resPtr, tagsText); } else
@@ -1212,7 +1212,7 @@ NewTagsCallback (int n)
 }
 
 static void
-NewMove ()
+NewMove(void)
 {
     addToBookFlag = !addToBookFlag;
 }
@@ -1225,7 +1225,7 @@ static Option tagsOptions[] = {
 { 0,SAME_ROW, 0, NULL, (void*) &NewTagsCallback, "", NULL, EndMark , "" }
 };
 
-static int TagsClick (Option *opt, int n, int x, int y, char *val, int index)
+static int TagsClick(Option *opt, int n, int x, int y, char *val, int index)
 {
     if(!bookUp || n != 3) return FALSE; // only button-3 press in Edit Book is of interest
     PlayBookMove(val, index);
@@ -1233,7 +1233,7 @@ static int TagsClick (Option *opt, int n, int x, int y, char *val, int index)
 }
 
 static void
-changeTags (int n)
+changeTags(int n)
 {
     GenericReadout(tagsOptions, 1);
     if(bookUp) SaveToBook(tagsText), DisplayBook(currentMove); else
@@ -1242,7 +1242,7 @@ changeTags (int n)
 }
 
 void
-NewTagsPopup (char *text, char *msg)
+NewTagsPopup(char *text, char *msg)
 {
     char *title = bookUp ? _("Edit book") : _("Tags");
 
@@ -1259,20 +1259,20 @@ NewTagsPopup (char *text, char *msg)
 }
 
 void
-TagsPopUp (char *tags, char *msg)
+TagsPopUp(char *tags, char *msg)
 {
     NewTagsPopup(tags, cmailMsgLoaded ? msg : NULL);
 }
 
 void
-EditTagsPopUp (char *tags, char **dest)
+EditTagsPopUp(char *tags, char **dest)
 {   // wrapper to preserve old name used in back-end
     resPtr = dest; 
     NewTagsPopup(tags, NULL);
 }
 
 void
-TagsPopDown()
+TagsPopDown(void)
 {
     PopDown(TagsDlg);
     bookUp = False;
@@ -1285,7 +1285,7 @@ EditTagsProc ()
 }
 
 void
-AddBookMove (char *text)
+AddBookMove(char *text)
 {
     AppendText(&tagsOptions[1], text);
 }
@@ -1300,7 +1300,7 @@ static char *history[HISTORY_SIZE];
 static int histIn = 0, histP = 0;
 
 static void
-SaveInHistory (char *cmd)
+SaveInHistory(char *cmd)
 {
   if (history[histIn] != NULL) {
     free(history[histIn]);
@@ -1317,7 +1317,7 @@ SaveInHistory (char *cmd)
 }
 
 static char *
-PrevInHistory (char *cmd)
+PrevInHistory(char *cmd)
 {
   int newhp;
   if (histP == histIn) {
@@ -1331,7 +1331,7 @@ PrevInHistory (char *cmd)
 }
 
 static char *
-NextInHistory ()
+NextInHistory(void)
 {
   if (histP == histIn) return NULL;
   histP = (histP + 1) % HISTORY_SIZE;
@@ -1347,7 +1347,7 @@ Option boxOptions[] = {
 };
 
 void
-ICSInputSendText ()
+ICSInputSendText(void)
 {
     char *val;
 
@@ -1358,7 +1358,7 @@ ICSInputSendText ()
 }
 
 void
-IcsKey (int n)
+IcsKey(int n)
 {   // [HGM] input: let up-arrow recall previous line from history
     char *val = NULL; // to suppress spurious warning
 
@@ -1379,7 +1379,7 @@ IcsKey (int n)
 }
 
 void
-ICSInputBoxPopUp ()
+ICSInputBoxPopUp(void)
 {
     MarkMenu("View.ICSInputBox", InputBoxDlg);
     if(GenericPopUp(boxOptions, _("ICS input box"), InputBoxDlg, BoardWindow, NONMODAL, 0))
@@ -1388,14 +1388,14 @@ ICSInputBoxPopUp ()
 }
 
 void
-IcsInputBoxProc ()
+IcsInputBoxProc(void)
 {
     if (!PopDown(InputBoxDlg)) ICSInputBoxPopUp();
 }
 
 //--------------------------------------------- Move Type In ------------------------------------------
 
-static int TypeInOK P((int n));
+static int TypeInOK(int);
 
 Option typeOptions[] = {
 { 30, T_TOP, 400, NULL, (void*) &icsText, NULL, NULL, TextBox, "" },
@@ -1403,14 +1403,14 @@ Option typeOptions[] = {
 };
 
 static int
-TypeInOK (int n)
+TypeInOK(int n)
 {
     TypeInDoneEvent(icsText);
     return TRUE;
 }
 
 void
-PopUpMoveDialog (char firstchar)
+PopUpMoveDialog(char firstchar)
 {
     static char buf[2];
     buf[0] = firstchar; ASSIGN(icsText, buf);
@@ -1420,7 +1420,7 @@ PopUpMoveDialog (char firstchar)
 }
 
 void
-BoxAutoPopUp (char *buf)
+BoxAutoPopUp(char *buf)
 {       // only used in Xaw. GTK calls ConsoleAutoPopUp in stead (when we type to board)
 	if(!appData.autoBox) return;
 	if(appData.icsActive) { // text typed to board in ICS mode: divert to ICS input box
@@ -1438,7 +1438,7 @@ BoxAutoPopUp (char *buf)
 //------------------------------------------ Engine Settings ------------------------------------
 
 void
-SettingsPopUp (ChessProgramState *cps)
+SettingsPopUp(ChessProgramState *cps)
 {
    if(!cps->nrOptions) { DisplayNote(_("Engine has no options")); return; }
    currentCps = cps;
@@ -1446,13 +1446,13 @@ SettingsPopUp (ChessProgramState *cps)
 }
 
 void
-FirstSettingsProc ()
+FirstSettingsProc(void)
 {
     SettingsPopUp(&first);
 }
 
 void
-SecondSettingsProc ()
+SecondSettingsProc(void)
 {
    if(WaitForEngine(&second, SettingsMenuIfReady)) return;
    SettingsPopUp(&second);
@@ -1463,8 +1463,8 @@ SecondSettingsProc ()
 char *engineDir, *engineLine, *nickName, *params;
 Boolean isUCI, hasBook, storeVariant, v1, addToList, useNick, secondEng;
 
-static void EngSel P((int n, int sel));
-static int InstallOK P((int n));
+static void EngSel(int, int);
+static int InstallOK(int);
 
 static Option installOptions[] = {
 {   0,LR|T2T, 0, NULL, NULL, NULL, NULL, Label, N_("Select engine from list:") },
@@ -1485,7 +1485,7 @@ static Option installOptions[] = {
 };
 
 static int
-InstallOK (int n)
+InstallOK(int n)
 {
     if(n && (n = SelectedListBoxItem(&installOptions[1])) > 0) { // called by pressing OK, and engine selected
 	ASSIGN(engineLine, engineList[n]);
@@ -1496,7 +1496,7 @@ InstallOK (int n)
 }
 
 static void
-EngSel (int n, int sel)
+EngSel(int n, int sel)
 {
     int nr;
     char buf[MSG_SIZ];
@@ -1514,7 +1514,7 @@ EngSel (int n, int sel)
 }
 
 static void
-LoadEngineProc (int engineNr, char *title)
+LoadEngineProc(int engineNr, char *title)
 {
    isUCI = storeVariant = v1 = useNick = False; addToList = hasBook = True; // defaults
    secondEng = engineNr;
@@ -1528,13 +1528,13 @@ LoadEngineProc (int engineNr, char *title)
 }
 
 void
-LoadEngine1Proc ()
+LoadEngine1Proc(void)
 {
     LoadEngineProc (0, _("Load first engine"));
 }
 
 void
-LoadEngine2Proc ()
+LoadEngine2Proc(void)
 {
     LoadEngineProc (1, _("Load second engine"));
 }
@@ -1549,10 +1549,10 @@ EditBookProc ()
 
 //--------------------------------------------------- New Shuffle Game ------------------------------
 
-static void SetRandom P((int n));
+static void SetRandom(int);
 
 static int
-ShuffleOK (int n)
+ShuffleOK(int n)
 {
     ResetGameEvent();
     return 1;
@@ -1568,7 +1568,7 @@ static Option shuffleOptions[] = {
 };
 
 static void
-SetRandom (int n)
+SetRandom(int n)
 {
     int r = n==2 ? -1 : random() & (1<<30)-1;
     char buf[MSG_SIZ];
@@ -1578,20 +1578,20 @@ SetRandom (int n)
 }
 
 void
-ShuffleMenuProc ()
+ShuffleMenuProc(void)
 {
     GenericPopUp(shuffleOptions, _("New Shuffle Game"), TransientDlg, BoardWindow, MODAL, 0);
 }
 
 //------------------------------------------------------ Time Control -----------------------------------
 
-static int TcOK P((int n));
+static int TcOK(int);
 int tmpMoves, tmpTc, tmpInc, tmpOdds1, tmpOdds2, tcType;
 
-static void SetTcType P((int n));
+static void SetTcType(int);
 
 static char *
-Value (int n)
+Value(int n)
 {
 	static char buf[MSG_SIZ];
 	snprintf(buf, MSG_SIZ, "%d", n);
@@ -1612,7 +1612,7 @@ static Option tcOptions[] = {
 };
 
 static int
-TcOK (int n)
+TcOK(int n)
 {
     char *tc;
     if(tcType == 0 && tmpMoves <= 0) return 0;
@@ -1641,7 +1641,7 @@ TcOK (int n)
 }
 
 static void
-SetTcType (int n)
+SetTcType(int n)
 {
     switch(tcType = n) {
       case 0:
@@ -1662,7 +1662,7 @@ SetTcType (int n)
 }
 
 void
-TimeControlProc ()
+TimeControlProc(void)
 {
    tmpMoves = appData.movesPerSession;
    tmpInc = appData.timeIncrement; if(tmpInc < 0) tmpInc = 0;
@@ -1674,7 +1674,7 @@ TimeControlProc ()
 
 //------------------------------- Ask Question -----------------------------------------
 
-int SendReply P((int n));
+int SendReply(int);
 char pendingReplyPrefix[MSG_SIZ];
 ProcRef pendingReplyPR;
 char *answer;
@@ -1686,7 +1686,7 @@ Option askOptions[] = {
 };
 
 int
-SendReply (int n)
+SendReply(int n)
 {
     char buf[MSG_SIZ];
     int err;
@@ -1702,7 +1702,7 @@ SendReply (int n)
 }
 
 void
-AskQuestion (char *title, char *question, char *replyPrefix, ProcRef pr)
+AskQuestion(char *title, char *question, char *replyPrefix, ProcRef pr)
 {
     safeStrCpy(pendingReplyPrefix, replyPrefix, sizeof(pendingReplyPrefix)/sizeof(pendingReplyPrefix[0]) );
     pendingReplyPR = pr;
@@ -1716,7 +1716,7 @@ AskQuestion (char *title, char *question, char *replyPrefix, ProcRef pr)
 
 static int count;
 
-static void PromoPick P((int n));
+static void PromoPick(int);
 
 static Option promoOptions[] = {
 {   0,         0,    0, NULL, (void*) &PromoPick, NULL, NULL, Button, NULL },
@@ -1731,7 +1731,7 @@ static Option promoOptions[] = {
 };
 
 static void
-PromoPick (int n)
+PromoPick(int n)
 {
     int promoChar = promoOptions[n+count].value;
 
@@ -1754,7 +1754,7 @@ PromoPick (int n)
 }
 
 static void
-SetPromo (char *name, int nr, char promoChar)
+SetPromo(char *name, int nr, char promoChar)
 {
     ASSIGN(promoOptions[nr].name, name);
     promoOptions[nr].value = promoChar;
@@ -1762,7 +1762,7 @@ SetPromo (char *name, int nr, char promoChar)
 }
 
 void
-PromotionPopUp (char choice)
+PromotionPopUp(char choice)
 { // choice depends on variant: prepare dialog acordingly
   count = 8;
   SetPromo(_("Cancel"), --count, -1); // Beware: GenericPopUp cannot handle user buttons named "cancel" (lowe case)!
@@ -1806,8 +1806,8 @@ static char *line, *memo, *chatMemo, *partner, *texts[MAX_CHAT], dirty[MAX_CHAT]
 static int activePartner;
 int hidden = 1;
 
-void ChatSwitch P((int n));
-int  ChatOK P((int n));
+void ChatSwitch(int);
+int  ChatOK(int);
 
 #define CHAT_ICS     6
 #define CHAT_PARTNER 8
@@ -1815,13 +1815,13 @@ int  ChatOK P((int n));
 #define CHAT_PANE   12
 #define CHAT_IN     13
 
-void PaneSwitch P((void));
-void ClearChat P((void));
+void PaneSwitch(void);
+void ClearChat(void);
 
 WindowPlacement wpTextMenu;
 
 int
-ContextMenu (Option *opt, int button, int x, int y, char *text, int index)
+ContextMenu(Option *opt, int button, int x, int y, char *text, int index)
 { // callback for ICS-output clicks; handles button 3, passes on other events
   int h;
   if(button == -3) return TRUE; // supress default GTK context menu on up-click
@@ -1869,7 +1869,7 @@ Option chatOptions[] = {
 };
 
 static void
-PutText (char *text, int pos)
+PutText(char *text, int pos)
 {
     char buf[MSG_SIZ], *p;
     DialogClass dlg = ChatDlg;
@@ -1888,7 +1888,7 @@ PutText (char *text, int pos)
 }
 
 int
-IcsHist (int n, Option *opt, DialogClass dlg)
+IcsHist(int n, Option *opt, DialogClass dlg)
 {   // [HGM] input: let up-arrow recall previous line from history
     char *val = NULL; // to suppress spurious warning
     int chat, start;
@@ -1927,7 +1927,7 @@ IcsHist (int n, Option *opt, DialogClass dlg)
 }
 
 void
-OutputChatMessage (int partner, char *mess)
+OutputChatMessage(int partner, char *mess)
 {
     char *p = texts[partner];
     int len = strlen(mess) + 1;
@@ -1946,7 +1946,7 @@ OutputChatMessage (int partner, char *mess)
 }
 
 int
-ChatOK (int n)
+ChatOK(int n)
 {   // can only be called through <Enter> in chat-partner text-edit, as there is no OK button
     char buf[MSG_SIZ];
 
@@ -1981,14 +1981,14 @@ ChatOK (int n)
 }
 
 void
-DelayedSetText ()
+DelayedSetText(void)
 {
     SetWidgetText(&chatOptions[CHAT_IN], tmpLine, -1); // leave focus on chat-partner field!
     SetInsertPos(&chatOptions[CHAT_IN], strlen(tmpLine));
 }
 
 void
-DelayedScroll ()
+DelayedScroll(void)
 {   // If we do this immediately it does it before shrinking the memo, so the lower half remains hidden (Ughh!)
     SetInsertPos(&chatOptions[CHAT_ICS], 999999);
     SetWidgetText(&chatOptions[CHAT_IN], tmpLine, ChatDlg);
@@ -1996,7 +1996,7 @@ DelayedScroll ()
 }
 
 void
-ChatSwitch (int n)
+ChatSwitch(int n)
 {
     int i, j;
     char *v;
@@ -2025,7 +2025,7 @@ ChatSwitch (int n)
 }
 
 void
-PaneSwitch ()
+PaneSwitch(void)
 {
     char *v;
     Show(&chatOptions[CHAT_PANE], hidden = 1); // hide
@@ -2038,7 +2038,7 @@ PaneSwitch ()
 }
 
 void
-ClearChat ()
+ClearChat(void)
 {   // clear the chat to make it free for other use
     chatPartner[activePartner][0] = NULLCHAR;
     ASSIGN(texts[activePartner], "");
@@ -2051,7 +2051,7 @@ ClearChat ()
 }
 
 static void
-NewChat (char *name)
+NewChat(char *name)
 {   // open a chat on program request. If no empty one available, use last
     int i;
     for(i=0; i<MAX_CHAT-1; i++) if(!chatPartner[i][0]) break;
@@ -2069,7 +2069,7 @@ ConsoleWrite(char *message, int count)
 }
 
 void
-ChatPopUp ()
+ChatPopUp(void)
 {
     if(GenericPopUp(chatOptions, _("ICS Interaction"), ChatDlg, BoardWindow, NONMODAL, appData.topLevel))
 	AddHandler(&chatOptions[CHAT_PARTNER], ChatDlg, 2), AddHandler(&chatOptions[CHAT_IN], ChatDlg, 2); // treats return as OK
@@ -2080,14 +2080,14 @@ ChatPopUp ()
 }
 
 void
-ChatProc ()
+ChatProc(void)
 {
     if(shellUp[ChatDlg]) PopDown(ChatDlg);
     else ChatPopUp();
 }
 
 void
-ConsoleAutoPopUp (char *buf)
+ConsoleAutoPopUp(char *buf)
 {
 	if(!appData.autoBox) return;
 	if(appData.icsActive) { // text typed to board in ICS mode: divert to ICS input box
@@ -2108,33 +2108,33 @@ char *strings[LPUSERGLT_SIZE];
 int stringPtr;
 
 void
-GLT_ClearList ()
+GLT_ClearList(void)
 {
     strings[0] = NULL;
     stringPtr = 0;
 }
 
 void
-GLT_AddToList (char *name)
+GLT_AddToList(char *name)
 {
     strings[stringPtr++] = name;
     strings[stringPtr] = NULL;
 }
 
 Boolean
-GLT_GetFromList (int index, char *name)
+GLT_GetFromList(int index, char *name)
 {
   safeStrCpy(name, strings[index], MSG_SIZ);
   return TRUE;
 }
 
 void
-GLT_DeSelectList ()
+GLT_DeSelectList(void)
 {
 }
 
-static void GLT_Button P((int n));
-static int GLT_OK P((int n));
+static void GLT_Button(int);
+static int GLT_OK(int);
 
 static Option listOptions[] = {
 {300, LR|TB, 200, NULL, (void*) strings, NULL, NULL, ListBox, "" }, // For GTK we need to specify a height, as default would just show 3 lines
@@ -2145,7 +2145,7 @@ static Option listOptions[] = {
 };
 
 static int
-GLT_OK (int n)
+GLT_OK(int n)
 {
     GLT_ParseList();
     appData.gameListTags = strdup(lpUserGLT);
@@ -2154,7 +2154,7 @@ GLT_OK (int n)
 }
 
 static void
-GLT_Button (int n)
+GLT_Button(int n)
 {
     int index = SelectedListBoxItem (&listOptions[0]);
     char *p;
@@ -2185,7 +2185,7 @@ GLT_Button (int n)
 }
 
 void
-GameListOptionsPopUp (DialogClass parent)
+GameListOptionsPopUp(DialogClass parent)
 {
     safeStrCpy(lpUserGLT, appData.gameListTags, LPUSERGLT_SIZE);
     GLT_TagsToList(lpUserGLT);
@@ -2194,7 +2194,7 @@ GameListOptionsPopUp (DialogClass parent)
 }
 
 void
-GameListOptionsProc ()
+GameListOptionsProc(void)
 {
     GameListOptionsPopUp(BoardWindow);
 }
@@ -2215,7 +2215,7 @@ GameListOptionsProc ()
 int errorUp = False;
 
 void
-ErrorPopDown ()
+ErrorPopDown(void)
 {
     if (!errorUp) return;
     dialogError = errorUp = False;
@@ -2224,7 +2224,7 @@ ErrorPopDown ()
 }
 
 static int
-ErrorOK (int n)
+ErrorOK(int n)
 {
     dialogError = errorUp = False;
     PopDown(n == 1 ? FatalDlg : ErrorDlg); // kludge: non-modal dialogs have one less (dummy) option
@@ -2250,7 +2250,7 @@ ErrorPopUp (char *title, char *label, int modal)
 }
 
 void
-DisplayError (String message, int error)
+DisplayError(String message, int error)
 {
     char buf[MSG_SIZ];
 
@@ -2271,7 +2271,7 @@ DisplayError (String message, int error)
 
 
 void
-DisplayMoveError (String message)
+DisplayMoveError(String message)
 {
     fromX = fromY = -1;
     ClearHighlights();
@@ -2288,7 +2288,7 @@ DisplayMoveError (String message)
 
 
 void
-DisplayFatalError (String message, int error, int status)
+DisplayFatalError(String message, int error, int status)
 {
     char buf[MSG_SIZ];
 
@@ -2311,21 +2311,21 @@ DisplayFatalError (String message, int error, int status)
 }
 
 void
-DisplayInformation (String message)
+DisplayInformation(String message)
 {
     ErrorPopDown();
     ErrorPopUp(_("Information"), message, TRUE);
 }
 
 void
-DisplayNote (String message)
+DisplayNote(String message)
 {
     ErrorPopDown();
     ErrorPopUp(_("Note"), message, FALSE);
 }
 
 void
-DisplayTitle (char *text)
+DisplayTitle(char *text)
 {
     char title[MSG_SIZ];
     char icon[MSG_SIZ];
@@ -2400,17 +2400,17 @@ static ChessSquare dropMenuTranslation[DROP_MENU_SIZE] = {
 
 // [HGM] experimental code to pop up window just like the main window, using GenercicPopUp
 
-static Option *Exp P((int n, int x, int y));
-void MenuCallback P((int n));
-void SizeKludge P((int n));
-static Option *LogoW P((int n, int x, int y));
-static Option *LogoB P((int n, int x, int y));
+static Option *Exp(int, int, int);
+void MenuCallback(int);
+void SizeKludge(int);
+static Option *LogoW(int, int, int);
+static Option *LogoB(int, int, int);
 
 static int pmFromX = -1, pmFromY = -1;
 void *userLogo;
 
 void
-DisplayLogos (Option *w1, Option *w2)
+DisplayLogos(Option *w1, Option *w2)
 {
 	void *whiteLogo = first.programLogo, *blackLogo = second.programLogo;
 	if(appData.autoLogo) {
@@ -2449,7 +2449,7 @@ DisplayLogos (Option *w1, Option *w2)
 }
 
 static void
-PMSelect (int n)
+PMSelect(int n)
 {   // user callback for board context menus
     if (pmFromX < 0 || pmFromY < 0) return;
     if(n == W_DROP) DropMenuEvent(dropMenuTranslation[values[n]], pmFromX, pmFromY);
@@ -2457,7 +2457,7 @@ PMSelect (int n)
 }
 
 static void
-CCB (int n)
+CCB(int n)
 {
     shiftKey = (ShiftKeys() & 3) != 0;
     if(n < 0) { // button != 1
@@ -2502,21 +2502,21 @@ Option mainOptions[] = { // description of main window in terms of generic dialo
 };
 
 Option *
-LogoW (int n, int x, int y)
+LogoW(int n, int x, int y)
 {
     if(n == 10) DisplayLogos(&mainOptions[W_WHITE-1], NULL);
     return NULL;
 }
 
 Option *
-LogoB (int n, int x, int y)
+LogoB(int n, int x, int y)
 {
     if(n == 10) DisplayLogos(NULL, &mainOptions[W_BLACK+1]);
     return NULL;
 }
 
 void
-SizeKludge (int n)
+SizeKludge(int n)
 {   // callback called by GenericPopUp immediately after sizing the menu bar
     int width = BOARD_WIDTH*(squareSize + lineGap) + lineGap;
     int w = width - 44 - mainOptions[n].min;
@@ -2526,7 +2526,7 @@ SizeKludge (int n)
 }
 
 void
-MenuCallback (int n)
+MenuCallback(int n)
 {
     MenuProc *proc = (MenuProc *) (((MenuItem*)(mainOptions[n].choice))[values[n]].proc);
 
@@ -2534,7 +2534,7 @@ MenuCallback (int n)
 }
 
 static Option *
-Exp (int n, int x, int y)
+Exp(int n, int x, int y)
 {
     static int but1, but3, oldW, oldH;
     int menuNr = -3, sizing, f, r;
@@ -2587,7 +2587,7 @@ Exp (int n, int x, int y)
 }
 
 Option *
-BoardPopUp (int squareSize, int lineGap, void *clockFontThingy)
+BoardPopUp(int squareSize, int lineGap, void *clockFontThingy)
 {
     int i, size = BOARD_WIDTH*(squareSize + lineGap) + lineGap, logo = appData.logoSize;
     int f = 2*appData.fixedSize; // width fudge, needed for unknown reasons to not clip board
@@ -2616,7 +2616,7 @@ BoardPopUp (int squareSize, int lineGap, void *clockFontThingy)
 }
 
 static Option *
-SlaveExp (int n, int x, int y)
+SlaveExp(int n, int x, int y)
 {
     if(n == 10) { // expose event
 	flipView = !flipView; partnerUp = !partnerUp;
@@ -2635,7 +2635,7 @@ Option dualOptions[] = { // auxiliary board window
 };
 
 void
-SlavePopUp ()
+SlavePopUp(void)
 {
     int size = BOARD_WIDTH*(squareSize + lineGap) + lineGap;
     // copy params from main board
@@ -2649,7 +2649,7 @@ SlavePopUp ()
 }
 
 void
-DisplayWhiteClock (long timeRemaining, int highlight)
+DisplayWhiteClock(long timeRemaining, int highlight)
 {
     if(appData.noGUI) return;
     if(twoBoards && partnerUp) {
@@ -2661,7 +2661,7 @@ DisplayWhiteClock (long timeRemaining, int highlight)
 }
 
 void
-DisplayBlackClock (long timeRemaining, int highlight)
+DisplayBlackClock(long timeRemaining, int highlight)
 {
     if(appData.noGUI) return;
     if(twoBoards && partnerUp) {
@@ -2676,7 +2676,7 @@ DisplayBlackClock (long timeRemaining, int highlight)
 //---------------------------------------------
 
 void
-DisplayMessage (char *message, char *extMessage)
+DisplayMessage(char *message, char *extMessage)
 {
   /* display a message in the message widget */
 
@@ -2762,12 +2762,12 @@ NULL,
 ""
 };
 
-void DirSelProc P((int n, int sel));
-void FileSelProc P((int n, int sel));
-void SetTypeFilter P((int n));
-int BrowseOK P((int n));
-void Switch P((int n));
-void CreateDir P((int n));
+void DirSelProc(int, int);
+void FileSelProc(int, int);
+void SetTypeFilter(int);
+int BrowseOK(int);
+void Switch(int);
+void CreateDir(int);
 
 Option browseOptions[] = {
 {   0,    LR|T2T,      500, NULL, NULL, NULL, NULL, Label, title },
@@ -2784,7 +2784,7 @@ Option browseOptions[] = {
 };
 
 int
-BrowseOK (int n)
+BrowseOK(int n)
 {
 	if(!fileName[0]) { // it is enough to have a file selected
 	    if(browseOptions[6].textValue) { // kludge: if callback specified we browse for file
@@ -2814,7 +2814,7 @@ BrowseOK (int n)
 }
 
 int
-AlphaNumCompare (char *p, char *q)
+AlphaNumCompare(char *p, char *q)
 {
     while(*p) {
 	if(isdigit(*p) && isdigit(*q) && atoi(p) != atoi(q))
@@ -2827,7 +2827,7 @@ AlphaNumCompare (char *p, char *q)
 }
 
 int
-Comp (const void *s, const void *t)
+Comp(const void *s, const void *t)
 {
     char *p = *(char**) s, *q = *(char**) t;
     if(extFlag) {
@@ -2843,7 +2843,7 @@ Comp (const void *s, const void *t)
 }
 
 void
-ListDir (int pathFlag)
+ListDir(int pathFlag)
 {
 	DIR *dir;
 	struct dirent *dp;
@@ -2889,7 +2889,7 @@ ListDir (int pathFlag)
 }
 
 void
-Refresh (int pathFlag)
+Refresh(int pathFlag)
 {
     ListDir(pathFlag); // and make new one
     LoadListBox(&browseOptions[5], "", -1, -1);
@@ -2901,7 +2901,7 @@ static char msg1[] = N_("FIRST TYPE DIRECTORY NAME HERE");
 static char msg2[] = N_("TRY ANOTHER NAME");
 
 void
-CreateDir (int n)
+CreateDir(int n)
 {
     char *name, *errmsg = "";
     GetWidgetText(&browseOptions[n-1], &name);
@@ -2916,7 +2916,7 @@ CreateDir (int n)
 }
 
 void
-Switch (int n)
+Switch(int n)
 {
     if(byExtension == (n == 4)) return;
     extFlag = byExtension = (n == 4);
@@ -2925,7 +2925,7 @@ Switch (int n)
 }
 
 void
-SetTypeFilter (int n)
+SetTypeFilter(int n)
 {
     int j = values[n];
     if(j == browseOptions[n].value) return; // no change
@@ -2947,7 +2947,7 @@ FileSelProc (int n, int sel)
 }
 
 void
-DirSelProc (int n, int sel)
+DirSelProc(int n, int sel)
 {
     if(!chdir(folderList[sel])) { // cd succeeded, so we are in new directory now
 	Refresh(-1);
@@ -2955,7 +2955,7 @@ DirSelProc (int n, int sel)
 }
 
 void
-Browse (DialogClass dlg, char *label, char *proposed, char *ext, Boolean pathFlag, char *mode, char **name, FILE **fp)
+Browse(DialogClass dlg, char *label, char *proposed, char *ext, Boolean pathFlag, char *mode, char **name, FILE **fp)
 {
     int j=0;
     savFP = fp; savMode = mode, namePtr = name, savCps = currentCps, oldVal = values[9]; // save params, for use in callback
@@ -2978,13 +2978,13 @@ char *fileOpenMode;
 FILE *openFP;
 
 void
-DelayedLoad ()
+DelayedLoad(void)
 {
   (void) (*fileProc)(openFP, 0, openName);
 }
 
 void
-FileNamePopUp (char *label, char *def, char *filter, FileProc proc, char *openMode)
+FileNamePopUp(char *label, char *def, char *filter, FileProc proc, char *openMode)
 {
     fileProc = proc;		/* I can't see a way not */
     fileOpenMode = openMode;	/*   to use globals here */
@@ -2992,7 +2992,7 @@ FileNamePopUp (char *label, char *def, char *filter, FileProc proc, char *openMo
 }
 
 void
-ActivateTheme (int col)
+ActivateTheme(int col)
 {
     if(appData.overrideLineGap >= 0) lineGap = appData.overrideLineGap; else lineGap = defaultLineGap;
     InitDrawingParams(strcmp(oldPieceDir, appData.pieceDirectory));

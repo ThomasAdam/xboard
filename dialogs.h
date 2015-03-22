@@ -112,11 +112,11 @@ MasterDlg,
 NrOfDialogs     // dummy for total
 } DialogClass;
 
-typedef int MemoCallback (Option *opt, int n, int x, int y, char *text, int index);
-typedef Option *PointerCallback(int n, int x, int y);
-typedef void ListBoxCallback(int n, int selected);
-typedef void ButtonCallback(int n);
-typedef int OKCallback(int n);
+typedef int MemoCallback(Option *, int, int, int, char *, int);
+typedef Option *PointerCallback(int, int, int);
+typedef void ListBoxCallback(int, int);
+typedef void ButtonCallback(int);
+typedef int OKCallback(int);
 
 extern char commentTranslations[];
 extern char historyTranslations[];
@@ -133,71 +133,71 @@ extern Boolean shellUp[];
 extern Option textOptions[], typeOptions[], dualOptions[], mainOptions[];
 
 
-void GetPlacement P((DialogClass dlg, WindowPlacement *wp));
-int DialogExists P((DialogClass n));
-int GenericPopUp P((Option *option, char *title, DialogClass dlgNr, DialogClass parent, int modal, int topLevel));
-int GenericReadout P((Option *currentOption, int selected));
-int PopDown P((DialogClass n));
-void MarkMenu P((char *item, int dlgNr));
-int AppendText P((Option *opt, char *s));
-void AppendColorized P((Option *opt, char *s, int count));
-void Show P((Option *opt, int hide));
-int  IcsHist P((int dir, Option *opt, DialogClass dlg));
-void HighlightText P((Option *opt, int from, int to, Boolean highlight));
-void SetColor P((char *colorName, Option *box));
+void GetPlacement(DialogClass, WindowPlacement *);
+int DialogExists(DialogClass);
+int GenericPopUp(Option *, char *, DialogClass, DialogClass, int, int);
+int GenericReadout(Option *currentOption, int selected);
+int PopDown(DialogClass);
+void MarkMenu(char *, int);
+int AppendText(Option *, char *);
+void AppendColorized(Option *, char *, int);
+void Show(Option *, int);
+int  IcsHist(int, Option *, DialogClass);
+void HighlightText(Option *, int, int, Boolean);
+void SetColor(char *, Option *);
 //void ColorChanged P((Widget w, XtPointer data, XEvent *event, Boolean *b));
-void SetInsertPos P((Option *opt, int pos));
-void HardSetFocus P((Option *opt, DialogClass dlg));
-void CursorAtEnd P((Option *opt));
-void GetWidgetText  P((Option *opt, char **buf));
-void SetWidgetText  P((Option *opt, char *buf, int n));
-void GetWidgetState  P((Option *opt, int *state));
-void SetWidgetState  P((Option *opt, int state));
-void SetWidgetLabel P((Option *opt, char *buf));
-void SetDialogTitle  P((DialogClass dlg, char *title));
-void LoadListBox P((Option *opt, char *emptyText, int n1, int n2));
-void HighlightListBoxItem P((Option *opt, int nr));
-void HighlightWithScroll P((Option *opt, int sel, int max));
-void ScrollToCursor P((Option *opt, int pos));
-int  SelectedListBoxItem P((Option *opt));
-void BoardFocus P((void));
-void FocusOnWidget P((Option *opt, DialogClass dlg));
-void UnCaret P((void));
-void SetIconName P((DialogClass dlg, char *name));
-int  ReadScroll P((Option *opt, float *top, float *bottom));
-void SetScroll P((Option *opt, float f));
-void AddHandler  P((Option *opt, DialogClass dlg, int nr));
-void SendText P((int n));
-void DisplayLogos P((Option *left, Option *right));
-void Browse P((DialogClass dlg, char *label, char *proposed, char *ext,
-                       Boolean pathFlag, char *mode, char **name, FILE **fp));
-void FileNamePopUpWrapper P((char *label, char *def, char *filter, FileProc proc,
-                  Boolean pathFlag, char *openMode, char **openName, FILE **openFP));
+void SetInsertPos(Option *, int);
+void HardSetFocus(Option *, DialogClass);
+void CursorAtEnd(Option *);
+void GetWidgetText(Option *, char **);
+void SetWidgetText(Option *, char *, int);
+void GetWidgetState(Option *, int *);
+void SetWidgetState(Option *, int);
+void SetWidgetLabel(Option *, char *);
+void SetDialogTitle(DialogClass, char *);
+void LoadListBox(Option *, char *, int, int);
+void HighlightListBoxItem(Option *, int);
+void HighlightWithScroll(Option *, int, int);
+void ScrollToCursor(Option *, int);
+int  SelectedListBoxItem(Option *);
+void BoardFocus(void);
+void FocusOnWidget(Option *, DialogClass);
+void UnCaret(void);
+void SetIconName(DialogClass, char *);
+int  ReadScroll(Option *, float *, float *);
+void SetScroll(Option *, float);
+void AddHandler(Option *, DialogClass, int);
+void SendText(int);
+void DisplayLogos(Option *, Option *);
+void Browse(DialogClass, char *, char *, char *,
+                       Boolean, char *, char **, FILE **);
+void FileNamePopUpWrapper(char *, char *, char *, FileProc,
+                  Boolean, char *, char **, FILE **);
 
-void InitDrawingParams P((int reload)); // in draw.c
-void InitDrawingHandle P((Option *opt));
-void ExposeRedraw P((Option *opt, int x, int y, int w, int h));
-void DrawLogo P((Option *opt, void *logo));
-void ErrorPopUp P((char *title, char *text, int modal));
-int  ShiftKeys P((void));
-void SetClockIcon P((int color));
-void DelayedLoad P((void));
-void DisplayTimerLabel P((Option *opt, char *color, long timer, int highlight));
-void SetWindowTitle P((char *text, char *title, char *icon));
-void SetupDropMenu P((void));
-Option *BoardPopUp P((int squareSize, int lineGap, void *clockFontThingy));
-void SlaveResize P((Option *opt));
+void InitDrawingParams(int); // in draw.c
+void InitDrawingHandle(Option *);
+void ExposeRedraw(Option *, int, int, int, int);
+void DrawLogo(Option *, void *);
+void ErrorPopUp(char *, char *, int);
+int  ShiftKeys(void);
+void SetClockIcon(int);
+void DelayedLoad(void);
+void DisplayTimerLabel(Option *, char *, long, int);
+void SetWindowTitle(char *, char *, char *);
+void SetupDropMenu(void);
+Option *BoardPopUp(int, int, void *);
+void SlaveResize(Option *);
 
-int  SetCurrentComboSelection P((Option *opt));
-void BoxAutoPopUp P((char *buf));
-void ConsoleAutoPopUp P((char *buf));
-void IcsKey P((int n));
-void ICSInputBoxPopUp P((void));
-void LoadOptionsPopUp P((DialogClass parent));
-void GameListOptionsPopUp P((DialogClass parent));
-void RefreshColor P((int source, int n));
-void SendString P((char *p));
+int  SetCurrentComboSelection(Option *);
+void BoxAutoPopUp(char *);
+void ConsoleAutoPopUp(char *);
+void IcsKey(int);
+void ICSInputBoxPopUp(void);
+void LoadOptionsPopUp(DialogClass);
+void GameListOptionsPopUp(DialogClass);
+void RefreshColor(int, int);
+void SendString(char *);
 
 // in ngamelist.c
-int GameListClicks P((int direction));
-void SetFilter P((void));
+int GameListClicks(int);
+void SetFilter(void);
