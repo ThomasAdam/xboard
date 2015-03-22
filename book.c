@@ -286,7 +286,7 @@ uint64 *RandomTurn      =Random64+780;
 
 
 uint64
-hash (int moveNr)
+hash(int moveNr)
 {
     int r, f, p_enc, squareNr, pieceGroup;
     uint64 key=0, holdingsKey=0, Zobrist;
@@ -389,7 +389,7 @@ static int bufSize;
 Boolean mcMode;
 
 int
-fsseek (FILE *f, int n, int mode)
+fsseek(FILE *f, int n, int mode)
 {
     if(f) return fseek(f, n, mode);
     if(mode == SEEK_SET) memPtr = memBuf + n; else
@@ -398,14 +398,14 @@ fsseek (FILE *f, int n, int mode)
 }
 
 int
-fstell (FILE *f)
+fstell(FILE *f)
 {
   if(f) return ftell(f);
   return memPtr - memBuf;
 }
 
 int
-fsgetc (FILE *f)
+fsgetc(FILE *f)
 {
   if(f) return fgetc(f);
   if(memPtr >= memBuf + 16*bufSize) return EOF;
@@ -413,7 +413,7 @@ fsgetc (FILE *f)
 }
 
 int
-int_from_file (FILE *f, int l, uint64 *r)
+int_from_file(FILE *f, int l, uint64 *r)
 {
     int i,c;
     for(i=0;i<l;i++){
@@ -427,7 +427,7 @@ int_from_file (FILE *f, int l, uint64 *r)
 }
 
 int
-entry_from_file (FILE *f, entry_t *entry)
+entry_from_file(FILE *f, entry_t *entry)
 {
     int ret;
     uint64 r;
@@ -451,7 +451,7 @@ entry_from_file (FILE *f, entry_t *entry)
 }
 
 int
-find_key (FILE *f, uint64 key, entry_t *entry)
+find_key(FILE *f, uint64 key, entry_t *entry)
 {
     int first, last, middle;
     entry_t last_entry,middle_entry;
@@ -481,7 +481,7 @@ find_key (FILE *f, uint64 key, entry_t *entry)
 }
 
 void
-move_to_string (char move_s[6], uint16 move)
+move_to_string(char move_s[6], uint16 move)
 {
     int f,fr,ff,t,tr,tf,p;
     int width = BOARD_RGHT - BOARD_LEFT, size; // allow for alternative board formats
@@ -531,7 +531,7 @@ move_to_string (char move_s[6], uint16 move)
 }
 
 int
-GetBookMoves (FILE *f, int moveNr, entry_t entries[], int max)
+GetBookMoves(FILE *f, int moveNr, entry_t entries[], int max)
 {   // retrieve all entries for given position from book in 'entries', return number.
     entry_t entry;
     int offset;
@@ -564,7 +564,7 @@ GetBookMoves (FILE *f, int moveNr, entry_t entries[], int max)
 }
 
 int
-ReadFromBookFile (int moveNr, char *book, entry_t entries[])
+ReadFromBookFile(int moveNr, char *book, entry_t entries[])
 {   // retrieve all entries for given position from book in 'entries', return number.
     static FILE *f = NULL;
     static char curBook[MSG_SIZ];
@@ -599,7 +599,7 @@ losses(entry_t *e)
 }
 
 static void
-CountMove (entry_t *e, int result)
+CountMove(entry_t *e, int result)
 {
     switch(result) {
       case 0: e->learnCount ++; break;
@@ -615,7 +615,7 @@ entry_t *memBook, *hashTab, *mergeBuf;
 int bookSize=1, mergeSize=1, mask = HASHSIZE-1;
 
 void
-InitMemBook ()
+InitMemBook(void)
 {
     static int initDone = FALSE;
     if(initDone) return;
@@ -628,7 +628,7 @@ InitMemBook ()
 }
 
 char *
-MCprobe (moveNr)
+MCprobe(int moveNr)
 {
     int count, count2, games, i, choice=0;
     entry_t entries[MOVE_BUF];
@@ -666,7 +666,7 @@ MCprobe (moveNr)
 }
 
 char
-*ProbeBook (int moveNr, char *book)
+*ProbeBook(int moveNr, char *book)
 {   //
     entry_t entries[MOVE_BUF];
     int count;
@@ -732,7 +732,7 @@ MovesToText(int count, entry_t *entries)
 }
 
 static int
-CoordsToMove (int fromX, int fromY, int toX, int toY, char promoChar)
+CoordsToMove(int fromX, int fromY, int toX, int toY, char promoChar)
 {
     int i, width = BOARD_RGHT - BOARD_LEFT;
     int to = toX - BOARD_LEFT + toY * width;
@@ -744,7 +744,7 @@ CoordsToMove (int fromX, int fromY, int toX, int toY, char promoChar)
 }
 
 int
-TextToMoves (char *text, int moveNum, entry_t *entries)
+TextToMoves(char *text, int moveNum, entry_t *entries)
 {
 	int i, w, count=0;
 	uint64 hashKey = hash(moveNum);
@@ -783,7 +783,7 @@ Boolean bookUp;
 int currentCount;
 
 Boolean
-DisplayBook (int moveNr)
+DisplayBook(int moveNr)
 {
     entry_t entries[MOVE_BUF];
     int count;
@@ -799,21 +799,21 @@ DisplayBook (int moveNr)
 }
 
 void
-EditBookEvent()
+EditBookEvent(void)
 {
       bookUp = TRUE;
 	bookUp = DisplayBook(currentMove);
 }
 
 void
-int_to_file (FILE *f, int l, uint64 r)
+int_to_file(FILE *f, int l, uint64 r)
 {
     int i;
     for(i=l-1;i>=0;i--) fputc(r>>8*i & 255, f);
 }
 
 void
-entry_to_file (FILE *f, entry_t *entry)
+entry_to_file(FILE *f, entry_t *entry)
 {
     int_to_file(f,8,entry->key);
     int_to_file(f,2,entry->move);
@@ -825,7 +825,7 @@ entry_to_file (FILE *f, entry_t *entry)
 char buf1[4096], buf2[4096];
 
 void
-SaveToBook (char *text)
+SaveToBook(char *text)
 {
     entry_t entries[MOVE_BUF], entry;
     int count = TextToMoves(text, currentMove, entries);
@@ -864,7 +864,7 @@ SaveToBook (char *text)
 }
 
 void
-NewEntry (entry_t *e, uint64 key, int move, int result)
+NewEntry(entry_t *e, uint64 key, int move, int result)
 {
     e->key = key;
     e->move = move;
@@ -874,7 +874,7 @@ NewEntry (entry_t *e, uint64 key, int move, int result)
 }
 
 void
-Merge ()
+Merge(void)
 {
     int i;
 
@@ -893,7 +893,7 @@ Merge ()
 }
 
 void
-AddToBook (int moveNr, int result)
+AddToBook(int moveNr, int result)
 {
     entry_t entry;
     int offset, start, move;
@@ -966,7 +966,7 @@ extern char moveList[][MOVE_LEN];
 }
 
 void
-AddGameToBook (int always)
+AddGameToBook(int always)
 {
     int i, result;
 
@@ -996,7 +996,7 @@ PlayBookMove(char *text, int index)
 }
 
 void
-FlushBook ()
+FlushBook(void)
 {
     FILE *f;
     int i;
