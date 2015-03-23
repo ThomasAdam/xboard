@@ -36,7 +36,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -75,13 +75,13 @@ static Widget memoWidget;
 static GdkPixbuf *iconsGTK[8];
 
 static void
-ReadIcon (gchar *svgFilename, int iconNr)
+ReadIcon(gchar *svgFilename, int iconNr)
 {
     iconsGTK[iconNr] = LoadIconFile(svgFilename);
 }
 
 void
-InitEngineOutput (Option *opt, Option *memo2)
+InitEngineOutput(Option *opt, Option *memo2)
 {	// front-end, because it must have access to the pixmaps
 #ifdef TODO_GTK
 	Widget w = opt->handle;
@@ -98,13 +98,13 @@ InitEngineOutput (Option *opt, Option *memo2)
 }
 
 void
-DrawWidgetIcon (Option *opt, int nIcon)
+DrawWidgetIcon(Option *opt, int nIcon)
 {   // as we are already in GTK front-end, so do GTK-stuff here
     if( nIcon != 0 ) gtk_image_set_from_pixbuf(GTK_IMAGE(opt->handle), GDK_PIXBUF(iconsGTK[nIcon]));
 }
 
 void
-InsertIntoMemo (int which, char * text, int where)
+InsertIntoMemo(int which, char * text, int where)
 {
     char *p;
     GtkTextIter start;
@@ -126,7 +126,7 @@ InsertIntoMemo (int which, char * text, int where)
 //------------------------------- pane switching -----------------------------------
 
 void
-ResizeWindowControls (int mode)
+ResizeWindowControls(int mode)
 {   // another hideous kludge: to have only a single pane, we resize the
     // second to 5 pixels (which makes it too small to display anything)
     if(mode) gtk_widget_show(engoutOptions[13].handle);
