@@ -85,7 +85,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -207,26 +207,26 @@ extern char *getenv();
 # define N_(s)  s
 #endif
 
-int main P((int argc, char **argv));
-RETSIGTYPE CmailSigHandler P((int sig));
-RETSIGTYPE IntSigHandler P((int sig));
-RETSIGTYPE TermSizeSigHandler P((int sig));
-char *InsertPxlSize P((char *pattern, int targetPxlSize));
+int main(int, char **);
+RETSIGTYPE CmailSigHandler(int);
+RETSIGTYPE IntSigHandler(int);
+RETSIGTYPE TermSizeSigHandler(int);
+char *InsertPxlSize(char *, int);
 #if ENABLE_NLS
-XFontSet CreateFontSet P((char *base_fnt_lst));
+XFontSet CreateFontSet(char *);
 #else
-char *FindFont P((char *pattern, int targetPxlSize));
+char *FindFont(char *, int);
 #endif
-void DelayedDrag P((void));
-void ICSInputBoxPopUp P((void));
-void MoveTypeInProc P((GdkEventKey *eventkey));
-gboolean KeyPressProc P((GtkWindow *window, GdkEventKey *eventkey, gpointer data));
+void DelayedDrag(void);
+void ICSInputBoxPopUp(void);
+void MoveTypeInProc(GdkEventKey *);
+gboolean KeyPressProc(GtkWindow *, GdkEventKey *, gpointer);
 Boolean TempBackwardActive = False;
-void DisplayMove P((int moveNumber));
-void update_ics_width P(());
-int CopyMemoProc P(());
-static gboolean EventProc P((GtkWidget *widget, GdkEvent *event, gpointer g));
-static int FindLogo P((char *place, char *name, char *buf));
+void DisplayMove(int);
+void update_ics_width(void);
+int CopyMemoProc(void);
+static gboolean EventProc(GtkWidget *, GdkEvent *, gpointer);
+static int FindLogo(char *, char *, char *);
 
 #ifdef TODO_GTK
 #if ENABLE_NLS
@@ -335,7 +335,7 @@ String xboardResources[] = {
 #endif
 
 void
-BoardToTop ()
+BoardToTop(void)
 {
   gtk_window_present(GTK_WINDOW(shells[BoardWindow]));
 }
@@ -386,7 +386,7 @@ Boolean fontIsSet[NUM_FONTS], fontValid[NUM_FONTS][MAX_SIZE];
 char *fontTable[NUM_FONTS][MAX_SIZE];
 
 void
-ParseFont (char *name, int number)
+ParseFont(char *name, int number)
 { // in XBoard, only 2 of the fonts are currently implemented, and we just copy their name
   int size;
   if(sscanf(name, "size%d:", &size)) {
@@ -431,7 +431,7 @@ ParseFont (char *name, int number)
 }
 
 void
-SetFontDefaults ()
+SetFontDefaults(void)
 { // only 2 fonts currently
   appData.clockFont = strdup(CLOCK_FONT_NAME);
   appData.coordFont = strdup(COORD_FONT_NAME);
@@ -444,47 +444,47 @@ SetFontDefaults ()
 }
 
 void
-CreateFonts ()
+CreateFonts(void)
 { // no-op, until we identify the code for this already in XBoard and move it here
 }
 
 void
-ParseColor (int n, char *name)
+ParseColor(int n, char *name)
 { // in XBoard, just copy the color-name string
   if(colorVariable[n] && *name == '#') *(char**)colorVariable[n] = strdup(name);
 }
 
 char *
-Col2Text (int n)
+Col2Text(int n)
 {
     return *(char**)colorVariable[n];
 }
 
 void
-ParseTextAttribs (ColorClass cc, char *s)
+ParseTextAttribs(ColorClass cc, char *s)
 {
     (&appData.colorShout)[cc] = strdup(s);
 }
 
 void
-ParseBoardSize (void *addr, char *name)
+ParseBoardSize(void *addr, char *name)
 {
     appData.boardSize = strdup(name);
 }
 
 void
-LoadAllSounds ()
+LoadAllSounds(void)
 { // In XBoard the sound-playing program takes care of obtaining the actual sound
 }
 
 void
-SetCommPortDefaults ()
+SetCommPortDefaults(void)
 { // for now, this is a no-op, as the corresponding option does not exist in XBoard
 }
 
 // [HGM] args: these three cases taken out to stay in front-end
 void
-SaveFontArg (FILE *f, ArgDescriptor *ad)
+SaveFontArg(FILE *f, ArgDescriptor *ad)
 {
   char *name;
   int i, n = (int)(intptr_t)ad->argLoc;
@@ -527,38 +527,38 @@ SaveFontArg (FILE *f, ArgDescriptor *ad)
 }
 
 void
-ExportSounds ()
+ExportSounds(void)
 { // nothing to do, as the sounds are at all times represented by their text-string names already
 }
 
 void
-SaveAttribsArg (FILE *f, ArgDescriptor *ad)
+SaveAttribsArg(FILE *f, ArgDescriptor *ad)
 {	// here the "argLoc" defines a table index. It could have contained the 'ta' pointer itself, though
 	fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", ad->argName, (&appData.colorShout)[(int)(intptr_t)ad->argLoc]);
 }
 
 void
-SaveColor (FILE *f, ArgDescriptor *ad)
+SaveColor(FILE *f, ArgDescriptor *ad)
 {	// in WinBoard the color is an int and has to be converted to text. In X it would be a string already?
 	if(colorVariable[(int)(intptr_t)ad->argLoc])
 	fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", ad->argName, *(char**)colorVariable[(int)(intptr_t)ad->argLoc]);
 }
 
 void
-SaveBoardSize (FILE *f, char *name, void *addr)
+SaveBoardSize(FILE *f, char *name, void *addr)
 { // wrapper to shield back-end from BoardSize & sizeInfo
   fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", name, appData.boardSize);
 }
 
 void
-ParseCommPortSettings (char *s)
+ParseCommPortSettings(char *s)
 { // no such option in XBoard (yet)
 }
 
 int frameX, frameY;
 
 void
-GetActualPlacement (GtkWidget *shell, WindowPlacement *wp)
+GetActualPlacement(GtkWidget *shell, WindowPlacement *wp)
 {
   GtkAllocation a;
   if(!shell) return;
@@ -573,13 +573,13 @@ GetActualPlacement (GtkWidget *shell, WindowPlacement *wp)
 }
 
 void
-GetPlacement (DialogClass dlg, WindowPlacement *wp)
+GetPlacement(DialogClass dlg, WindowPlacement *wp)
 { // wrapper to shield back-end from widget type
   if(shellUp[dlg]) GetActualPlacement(shells[dlg], wp);
 }
 
 void
-GetWindowCoords ()
+GetWindowCoords(void)
 { // wrapper to shield use of window handles from back-end (make addressible by number?)
   // In XBoard this will have to wait until awareness of window parameters is implemented
   GetActualPlacement(shellWidget, &wpMain);
@@ -593,29 +593,29 @@ GetWindowCoords ()
 }
 
 void
-PrintCommPortSettings (FILE *f, char *name)
+PrintCommPortSettings(FILE *f, char *name)
 { // This option does not exist in XBoard
 }
 
 void
-EnsureOnScreen (int *x, int *y, int minX, int minY)
+EnsureOnScreen(int *x, int *y, int minX, int minY)
 {
   return;
 }
 
 int
-MainWindowUp ()
+MainWindowUp(void)
 { // [HGM] args: allows testing if main window is realized from back-end
   return DialogExists(BoardWindow);
 }
 
 void
-PopUpStartupDialog ()
+PopUpStartupDialog(void)
 {  // start menu not implemented in XBoard
 }
 
 char *
-ConvertToLine (int argc, char **argv)
+ConvertToLine(int argc, char **argv)
 {
   static char line[128*1024], buf[1024];
   int i;
@@ -640,7 +640,7 @@ ConvertToLine (int argc, char **argv)
 int clockKludge;
 
 void
-ResizeBoardWindow (int w, int h, int inhibit)
+ResizeBoardWindow(int w, int h, int inhibit)
 {
     GtkAllocation a;
     int bw;
@@ -659,13 +659,13 @@ ResizeBoardWindow (int w, int h, int inhibit)
 }
 
 int
-MakeColors ()
+MakeColors(void)
 {   // dummy, as the GTK code does not make colors in advance
     return FALSE;
 }
 
 void
-InitializeFonts (int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
+InitializeFonts(int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
 {   // determine what fonts to use, and create them
 
     if(!fontIsSet[CLOCK_FONT] && fontValid[CLOCK_FONT][squareSize])
@@ -749,7 +749,7 @@ InitializeFonts (int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
 }
 
 char *
-PrintArg (ArgType t)
+PrintArg(ArgType t)
 {
   char *p="";
   switch(t) {
@@ -779,7 +779,7 @@ PrintArg (ArgType t)
 }
 
 void
-PrintOptions ()
+PrintOptions(void)
 {
   char buf[MSG_SIZ];
   int len=0;
@@ -808,7 +808,7 @@ PrintOptions ()
 }
 
 void
-SlaveResize (Option *opt)
+SlaveResize(Option *opt)
 {
     static int slaveW, slaveH, w, h;
     GtkAllocation a;
@@ -823,7 +823,7 @@ SlaveResize (Option *opt)
 }
 
 GdkPixbuf *
-LoadIconFile (gchar *svgFilename)
+LoadIconFile(gchar *svgFilename)
 {
     char buf[MSG_SIZ];
 
@@ -852,7 +852,7 @@ GtkosxApplication *theApp;
 #endif
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
     int i, clockFontPxlSize, coordFontPxlSize, fontPxlSize;
     int boardWidth, w, h; //, boardHeight;
@@ -1277,25 +1277,25 @@ gtk_main_iteration();
 }
 
 void
-DoEvents ()
+DoEvents(void)
 {
     while(gtk_events_pending()) gtk_main_iteration();
 }
 
 RETSIGTYPE
-TermSizeSigHandler (int sig)
+TermSizeSigHandler(int sig)
 {
     update_ics_width();
 }
 
 RETSIGTYPE
-IntSigHandler (int sig)
+IntSigHandler(int sig)
 {
     ExitEvent(sig);
 }
 
 RETSIGTYPE
-CmailSigHandler (int sig)
+CmailSigHandler(int sig)
 {
     int dummy = 0;
     int error;
@@ -1309,7 +1309,7 @@ CmailSigHandler (int sig)
 }
 
 void
-CmailSigHandlerCallBack (InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
+CmailSigHandlerCallBack(InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
 {
     BoardToTop();
     ReloadCmailMsgEvent(TRUE);	/* Reload cmail msg  */
@@ -1320,7 +1320,7 @@ CmailSigHandlerCallBack (InputSourceRef isr, VOIDSTAR closure, char *message, in
 #define Abs(n) ((n)<0 ? -(n) : (n))
 
 char *
-InsertPxlSize (char *pattern, int targetPxlSize)
+InsertPxlSize(char *pattern, int targetPxlSize)
 {
     char buf[MSG_SIZ];
     snprintf(buf, MSG_SIZ, pattern, targetPxlSize); // pattern is something like "Sans Bold %d"
@@ -1330,7 +1330,7 @@ InsertPxlSize (char *pattern, int targetPxlSize)
 #ifdef ENABLE_NLS
 #ifdef TODO_GTK
 char *
-InsertPxlSize (char *pattern, int targetPxlSize)
+InsertPxlSize(char *pattern, int targetPxlSize)
 {
     char *base_fnt_lst, strInt[12], *p, *q;
     int alternatives, i, len, strIntLen;
@@ -1383,7 +1383,7 @@ InsertPxlSize (char *pattern, int targetPxlSize)
 
 #ifdef TODO_GTK
 XFontSet
-CreateFontSet (char *base_fnt_lst)
+CreateFontSet(char *base_fnt_lst)
 {
     XFontSet fntSet;
     char **missing_list;
@@ -1429,7 +1429,7 @@ CreateFontSet (char *base_fnt_lst)
  */
 #ifdef TODO_GTK
 char *
-FindFont (char *pattern, int targetPxlSize)
+FindFont(char *pattern, int targetPxlSize)
 {
     char **fonts, *p, *best, *scalable, *scalableTail;
     int i, j, nfonts, minerr, err, pxlSize;
@@ -1488,7 +1488,7 @@ FindFont (char *pattern, int targetPxlSize)
 #endif
 
 void
-MarkMenuItem (char *menuRef, int state)
+MarkMenuItem(char *menuRef, int state)
 {
     MenuItem *item = MenuNameToItem(menuRef);
 
@@ -1499,7 +1499,7 @@ MarkMenuItem (char *menuRef, int state)
 }
 
 void
-EnableNamedMenuItem (char *menuRef, int state)
+EnableNamedMenuItem(char *menuRef, int state)
 {
     MenuItem *item = MenuNameToItem(menuRef);
 
@@ -1508,7 +1508,7 @@ EnableNamedMenuItem (char *menuRef, int state)
 }
 
 void
-EnableButtonBar (int state)
+EnableButtonBar(int state)
 {
 #ifdef TODO_GTK
     XtSetSensitive(optList[W_BUTTON].handle, state);
@@ -1517,7 +1517,7 @@ EnableButtonBar (int state)
 
 
 void
-SetMenuEnables (Enables *enab)
+SetMenuEnables(Enables *enab)
 {
   while (enab->name != NULL) {
     EnableNamedMenuItem(enab->name, enab->value);
@@ -1547,7 +1547,7 @@ gboolean KeyPressProc(window, eventkey, data)
 }
 #ifdef TODO_GTK
 void
-KeyBindingProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+KeyBindingProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // [HGM] new method of key binding: specify MenuItem(FlipView) in stead of FlipViewProc in translation string
     MenuItem *item;
     if(*nprms == 0) return;
@@ -1557,7 +1557,7 @@ KeyBindingProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 #endif
 
 void
-SetupDropMenu ()
+SetupDropMenu(void)
 {
 #ifdef TODO_GTK
     int i, j, count;
@@ -1584,19 +1584,19 @@ SetupDropMenu ()
 }
 
 static void
-do_flash_delay (unsigned long msec)
+do_flash_delay(unsigned long msec)
 {
     TimeDelay(msec);
 }
 
 void
-FlashDelay (int flash_delay)
+FlashDelay(int flash_delay)
 {
 	if(flash_delay) do_flash_delay(flash_delay);
 }
 
 double
-Fraction (int x, int start, int stop)
+Fraction(int x, int start, int stop)
 {
    double f = ((double) x - start)/(stop - start);
    if(f > 1.) f = 1.; else if(f < 0.) f = 0.;
@@ -1606,7 +1606,7 @@ Fraction (int x, int start, int stop)
 static WindowPlacement wpNew;
 
 void
-CoDrag (GtkWidget *sh, WindowPlacement *wp)
+CoDrag(GtkWidget *sh, WindowPlacement *wp)
 {
     int touch=0, fudge = 4, f = 3;
     GetActualPlacement(sh, wp);
@@ -1652,7 +1652,7 @@ CoDrag (GtkWidget *sh, WindowPlacement *wp)
 }
 
 void
-ReSize (WindowPlacement *wp)
+ReSize(WindowPlacement *wp)
 {
 	GtkAllocation a;
 	int sqx, sqy, w, h, lg = lineGap;
@@ -1697,7 +1697,7 @@ ReSize (WindowPlacement *wp)
 static guint delayedDragTag = 0;
 
 void
-DragProc ()
+DragProc(void)
 {
 	static int busy;
 	if(busy) return;
@@ -1724,7 +1724,7 @@ DragProc ()
 }
 
 void
-DelayedDrag ()
+DelayedDrag(void)
 {
 //printf("old timr = %d\n", delayedDragTag);
     if(delayedDragTag) g_source_remove(delayedDragTag);
@@ -1733,7 +1733,7 @@ DelayedDrag ()
 }
 
 static gboolean
-EventProc (GtkWidget *widget, GdkEvent *event, gpointer g)
+EventProc(GtkWidget *widget, GdkEvent *event, gpointer g)
 {
 //printf("event proc (%d,%d) %dx%d\n", event->configure.x, event->configure.y, event->configure.width, event->configure.height);
     // immediately
@@ -1751,7 +1751,7 @@ EventProc (GtkWidget *widget, GdkEvent *event, gpointer g)
 static int frozen = 0;
 
 void
-FreezeUI ()
+FreezeUI(void)
 {
   if (frozen) return;
   /* Grab by a widget that doesn't accept input */
@@ -1761,7 +1761,7 @@ FreezeUI ()
 
 /* Undo a FreezeUI */
 void
-ThawUI ()
+ThawUI(void)
 {
   if (!frozen) return;
   gtk_grab_remove(optList[W_MESSG].handle);
@@ -1769,7 +1769,7 @@ ThawUI ()
 }
 
 void
-ModeHighlight ()
+ModeHighlight(void)
 {
     static int oldPausing = FALSE;
     static GameMode oldmode = (GameMode) -1;
@@ -1850,7 +1850,7 @@ void CopyFileToClipboard(gchar *filename)
 }
 
 void
-CopySomething (char *src)
+CopySomething(char *src)
 {
     GdkDisplay *gdisp = gdk_display_get_default();
     GtkClipboard *cb;
@@ -1861,7 +1861,7 @@ CopySomething (char *src)
 }
 
 void
-PastePositionProc ()
+PastePositionProc(void)
 {
     GdkDisplay *gdisp = gdk_display_get_default();
     GtkClipboard *cb;
@@ -1876,7 +1876,7 @@ PastePositionProc ()
 }
 
 void
-PasteGameProc ()
+PasteGameProc(void)
 {
     gchar *text=NULL;
     GtkClipboard *cb;
@@ -1911,14 +1911,13 @@ PasteGameProc ()
 
 #ifdef TODO_GTK
 void
-QuitWrapper (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+QuitWrapper(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     QuitProc();
 }
 #endif
 
-void MoveTypeInProc(eventkey)
-    GdkEventKey  *eventkey;
+void MoveTypeInProc(GdkEventKey *eventkey)
 {
     char buf[10];
 
@@ -1935,7 +1934,7 @@ void MoveTypeInProc(eventkey)
 
 #ifdef TODO_GTK
 void
-TempBackwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TempBackwardProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
 	if (!TempBackwardActive) {
 		TempBackwardActive = True;
@@ -1944,7 +1943,7 @@ TempBackwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-TempForwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TempForwardProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
 	/* Check to see if triggered by a key release event for a repeating key.
 	 * If so the next queued event will be a key press of the same key at the same time */
@@ -1961,7 +1960,7 @@ TempForwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 #endif
 
 void
-ManProc ()
+ManProc(void)
 {   // called from menu
 #ifdef OSXAPP
     char buf[MSG_SIZ];
@@ -1973,7 +1972,7 @@ ManProc ()
 }
 
 void
-SetWindowTitle (char *text, char *title, char *icon)
+SetWindowTitle(char *text, char *title, char *icon)
 {
 #ifdef TODO_GTK
     Arg args[16];
@@ -1997,7 +1996,7 @@ SetWindowTitle (char *text, char *title, char *icon)
 
 
 void
-DisplayIcsInteractionTitle (String message)
+DisplayIcsInteractionTitle(String message)
 {
 #ifdef TODO_GTK
   if (oldICSInteractionTitle == NULL) {
@@ -2029,7 +2028,7 @@ DisplayIcsInteractionTitle (String message)
 
 
 void
-DisplayTimerLabel (Option *opt, char *color, long timer, int highlight)
+DisplayTimerLabel(Option *opt, char *color, long timer, int highlight)
 {
     GtkWidget *w = (GtkWidget *) opt->handle;
     GdkColor col;
@@ -2071,7 +2070,7 @@ DisplayTimerLabel (Option *opt, char *color, long timer, int highlight)
 static GdkPixbuf **clockIcons[] = { &WhiteIcon, &BlackIcon };
 
 void
-SetClockIcon (int color)
+SetClockIcon(int color)
 {
     GdkPixbuf *pm = *clockIcons[color];
     if (mainwindowIcon != pm) {
@@ -2098,10 +2097,7 @@ typedef struct {
 } InputSource;
 
 gboolean
-DoInputCallback(io, cond, data)
-     GIOChannel  *io;
-     GIOCondition cond;
-     gpointer    *data;
+DoInputCallback(GIOChannel *io, GIOCondition cond, gpointer *data)
 {
   /* read input from one of the input source (for example a chess program, ICS, etc).
    * and call a function that will handle the input
@@ -2160,11 +2156,8 @@ DoInputCallback(io, cond, data)
     return True; // Must return true or the watch will be removed
 }
 
-InputSourceRef AddInputSource(pr, lineByLine, func, closure)
-     ProcRef pr;
-     int lineByLine;
-     InputCallback func;
-     VOIDSTAR closure;
+InputSourceRef AddInputSource(ProcRef pr, int lineByLine, InputCallback func,
+    VOIDSTAR closure)
 {
     InputSource *is;
     GIOChannel *channel;
@@ -2197,8 +2190,7 @@ InputSourceRef AddInputSource(pr, lineByLine, func, closure)
 
 
 void
-RemoveInputSource(isr)
-     InputSourceRef isr;
+RemoveInputSource(InputSourceRef isr)
 {
     InputSource *is = (InputSource *) isr;
 
@@ -2213,7 +2205,7 @@ RemoveInputSource(isr)
 static Boolean frameWaiting;
 
 static RETSIGTYPE
-FrameAlarm (int sig)
+FrameAlarm(int sig)
 {
   frameWaiting = False;
   /* In case System-V style signals.  Needed?? */
@@ -2221,7 +2213,7 @@ FrameAlarm (int sig)
 }
 
 void
-FrameDelay (int time)
+FrameDelay(int time)
 {
   struct itimerval delay;
 
@@ -2243,7 +2235,7 @@ FrameDelay (int time)
 #else
 
 void
-FrameDelay (int time)
+FrameDelay(int time)
 {
 #ifdef TODO_GTK
   XSync(xDisplay, False);
@@ -2257,7 +2249,7 @@ FrameDelay (int time)
 #endif
 
 static int
-FindLogo (char *place, char *name, char *buf)
+FindLogo(char *place, char *name, char *buf)
 {   // check if file exists in given place
     FILE *f;
     if(!place) return 0;
@@ -2270,7 +2262,7 @@ FindLogo (char *place, char *name, char *buf)
 }
 
 static void
-LoadLogo (ChessProgramState *cps, int n, Boolean ics)
+LoadLogo(ChessProgramState *cps, int n, Boolean ics)
 {
     char buf[MSG_SIZ], *logoName = buf;
     if(appData.logo[n][0]) {
@@ -2290,7 +2282,7 @@ LoadLogo (ChessProgramState *cps, int n, Boolean ics)
 }
 
 void
-UpdateLogos (int displ)
+UpdateLogos(int displ)
 {
     if(optList[W_WHITE-1].handle == NULL) return;
     LoadLogo(&first, 0, 0);
@@ -2299,15 +2291,8 @@ UpdateLogos (int displ)
     return;
 }
 
-void FileNamePopUpWrapper(label, def, filter, proc, pathFlag, openMode, name, fp)
-     char *label;
-     char *def;
-     char *filter;
-     FileProc proc;
-     char *openMode;
-     Boolean pathFlag;
-     char **name;
-     FILE **fp;
+void FileNamePopUpWrapper(char *label, char *def, char *filter, FileProc proc,
+    Boolean pathFlag, char *openMode, char **name, FILE **fp)
 {
   GtkWidget     *dialog;
   GtkFileFilter *gtkfilter;

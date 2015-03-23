@@ -120,24 +120,24 @@ typedef struct {
 #define SETTINGS_FILE           SYSCONFDIR"/xboard.conf"
 #define COLOR_BKGD              "white"
 
-GdkPixbuf *LoadIconFile P((char *name));
-void NewTagsPopup P((char *text, char *msg));
-int AppendText P((Option *opt, char *s));
-void NewCommentPopup P((char *title, char *text, int index));
-void GetActualPlacement P((GtkWidget *shell, WindowPlacement *wp));
+GdkPixbuf *LoadIconFile(char *);
+void NewTagsPopup(char *, char *);
+int AppendText(Option *, char *);
+void NewCommentPopup(char *, char *, int);
+void GetActualPlacement(GtkWidget *, WindowPlacement *);
 #ifdef TODO_GTK
-void CatchDeleteWindow(Widget w, String procname);
-void GenericPopDown P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void SetFocus(Widget w, XtPointer data, XEvent *event, Boolean *b); // from xoptions.c
-void TypeInProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-Widget CreateMenuItem P((Widget menu, char *msg, XtCallbackProc CB, int n));
-void WheelProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void TabProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void GenericMenu P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
+void CatchDeleteWindow(Widget, String);
+void GenericPopDown(Widget, XEvent *, String *, Cardinal *);
+void SetFocus(Widget, XtPointer, XEvent *, Boolean *); // from xoptions.c
+void TypeInProc(Widget, XEvent *, String *, Cardinal *);
+Widget CreateMenuItem(Widget, char *, XtCallbackProc, int);
+void WheelProc(Widget, XEvent *, String *, Cardinal *);
+void TabProc(Widget, XEvent *, String *, Cardinal *);
+void GenericMenu(Widget, XEvent *, String *, Cardinal *);
 
 // from xengineoutput.c
-void SelectPV P((Widget w, XEvent * event, String * params, Cardinal * nParams));
-void StopPV P((Widget w, XEvent * event, String * params, Cardinal * nParams));
+void SelectPV(Widget, XEvent *, String *, Cardinal *);
+void StopPV(Widget, XEvent *, String *, Cardinal *);
 #endif
 
 extern char memoTranslations[];
