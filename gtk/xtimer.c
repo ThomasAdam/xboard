@@ -63,7 +63,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -117,7 +117,7 @@ FireDelayedEvent(gpointer data)
 }
 
 void
-ScheduleDelayedEvent (DelayedEventCallback cb, long millisec)
+ScheduleDelayedEvent(DelayedEventCallback cb, long millisec)
 {
     if(delayedEventTimerTag && delayedEventCallback == cb)
 	// [HGM] alive: replace, rather than add or flush identical event
@@ -128,7 +128,7 @@ ScheduleDelayedEvent (DelayedEventCallback cb, long millisec)
 }
 
 DelayedEventCallback
-GetDelayedEvent ()
+GetDelayedEvent(void)
 {
   if (delayedEventTimerTag) {
     return delayedEventCallback;
@@ -138,7 +138,7 @@ GetDelayedEvent ()
 }
 
 void
-CancelDelayedEvent ()
+CancelDelayedEvent(void)
 {
   if (delayedEventTimerTag) {
     g_source_remove(delayedEventTimerTag);
@@ -149,13 +149,13 @@ CancelDelayedEvent ()
 
 guint loadGameTimerTag = 0;
 
-int LoadGameTimerRunning()
+int LoadGameTimerRunning(void)
 {
     return loadGameTimerTag != 0;
 }
 
 int
-StopLoadGameTimer ()
+StopLoadGameTimer(void)
 {
     if (loadGameTimerTag != 0) {
 	g_source_remove(loadGameTimerTag);
@@ -175,7 +175,7 @@ LoadGameTimerCallback(gpointer data)
 }
 
 void
-StartLoadGameTimer (long millisec)
+StartLoadGameTimer(long millisec)
 {
     loadGameTimerTag =
 	g_timeout_add( millisec, (GSourceFunc) LoadGameTimerCallback, NULL);
@@ -193,7 +193,7 @@ AnalysisClockCallback(gpointer data)
 }
 
 void
-StartAnalysisClock ()
+StartAnalysisClock(void)
 {
     analysisClockTag =
 	g_timeout_add( 2000,(GSourceFunc) AnalysisClockCallback, NULL);
@@ -202,13 +202,13 @@ StartAnalysisClock ()
 guint clockTimerTag = 0;
 
 int
-ClockTimerRunning ()
+ClockTimerRunning(void)
 {
     return clockTimerTag != 0;
 }
 
 int
-StopClockTimer ()
+StopClockTimer(void)
 {
     if (clockTimerTag != 0)
     {
@@ -231,7 +231,7 @@ ClockTimerCallback(gpointer data)
 }
 
 void
-StartClockTimer (long millisec)
+StartClockTimer(long millisec)
 {
     clockTimerTag = g_timeout_add(millisec,(GSourceFunc) ClockTimerCallback,NULL);
 }
