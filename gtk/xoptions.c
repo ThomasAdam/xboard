@@ -34,7 +34,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -80,7 +80,7 @@ static Option *currentOption;
 static Boolean browserUp;
 
 void
-UnCaret ()
+UnCaret(void)
 {
 #ifdef TODO_GTK
     Arg args[2];
@@ -95,7 +95,7 @@ UnCaret ()
 
 #ifdef TODO_GTK
 void
-SetFocus (Widget w, XtPointer data, XEvent *event, Boolean *b)
+SetFocus(Widget w, XtPointer data, XEvent *event, Boolean *b)
 {
     Arg args[2];
     char *s;
@@ -114,7 +114,7 @@ SetFocus (Widget w, XtPointer data, XEvent *event, Boolean *b)
 #endif
 
 void
-BoardFocus ()
+BoardFocus(void)
 {
 #ifdef TODO_GTK
     XtSetKeyboardFocus(shellWidget, formWidget);
@@ -158,7 +158,7 @@ void GetWidgetTextGTK(GtkWidget *w, char **buf)
 }
 
 void
-GetWidgetText (Option *opt, char **buf)
+GetWidgetText(Option *opt, char **buf)
 {
     int x;
     static char val[12];
@@ -205,7 +205,7 @@ void SetWidgetTextGTK(GtkWidget *w, char *text)
 }
 
 void
-SetWidgetText (Option *opt, char *buf, int n)
+SetWidgetText(Option *opt, char *buf, int n)
 {
     switch(opt->type) {
       case Fractional:
@@ -223,19 +223,19 @@ SetWidgetText (Option *opt, char *buf, int n)
 }
 
 void
-GetWidgetState (Option *opt, int *state)
+GetWidgetState(Option *opt, int *state)
 {
     *state = gtk_toggle_button_get_active(opt->handle);
 }
 
 void
-SetWidgetState (Option *opt, int state)
+SetWidgetState(Option *opt, int state)
 {
     gtk_toggle_button_set_active(opt->handle, state);
 }
 
 void
-SetWidgetLabel (Option *opt, char *buf)
+SetWidgetLabel(Option *opt, char *buf)
 {
     if(opt->type == Button) // Chat window uses this routine for changing button labels
 	gtk_button_set_label(opt->handle, buf);
@@ -244,13 +244,13 @@ SetWidgetLabel (Option *opt, char *buf)
 }
 
 void
-SetDialogTitle (DialogClass dlg, char *title)
+SetDialogTitle(DialogClass dlg, char *title)
 {
     gtk_window_set_title(GTK_WINDOW(shells[dlg]), title);
 }
 
 void
-SetWidgetFont (GtkWidget *w, char **s)
+SetWidgetFont(GtkWidget *w, char **s)
 {
     PangoFontDescription *pfd;
     if (!s || !*s || !**s) return; // uses no font, no font spec or empty font spec
@@ -259,7 +259,7 @@ SetWidgetFont (GtkWidget *w, char **s)
 }
 
 void
-SetListBoxItem (GtkListStore *store, int n, char *msg)
+SetListBoxItem(GtkListStore *store, int n, char *msg)
 {
     GtkTreeIter iter;
     GtkTreePath *path = gtk_tree_path_new_from_indices(n, -1);
@@ -269,7 +269,7 @@ SetListBoxItem (GtkListStore *store, int n, char *msg)
 }
 
 void
-LoadListBox (Option *opt, char *emptyText, int n1, int n2)
+LoadListBox(Option *opt, char *emptyText, int n1, int n2)
 {
     char **data = (char **) (opt->target);
     GtkWidget *list = (GtkWidget *) (opt->handle);
@@ -293,7 +293,7 @@ LoadListBox (Option *opt, char *emptyText, int n1, int n2)
 }
 
 void
-HighlightItem (Option *opt, int index, int scroll)
+HighlightItem(Option *opt, int index, int scroll)
 {
     GtkWidget *list = (GtkWidget *) (opt->handle);
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
@@ -304,19 +304,19 @@ HighlightItem (Option *opt, int index, int scroll)
 }
 
 void
-HighlightListBoxItem (Option *opt, int index)
+HighlightListBoxItem(Option *opt, int index)
 {
     HighlightItem (opt, index, FALSE);
 }
 
 void
-HighlightWithScroll (Option *opt, int index, int max)
+HighlightWithScroll(Option *opt, int index, int max)
 {
     HighlightItem (opt, index, TRUE); // ignore max
 }
 
 void
-ScrollToCursor (Option *opt, int caretPos)
+ScrollToCursor(Option *opt, int caretPos)
 {
     static GtkTextIter iter;
     GtkTextMark *mark = gtk_text_buffer_get_mark((GtkTextBuffer *) opt->handle, "scrollmark");
@@ -326,7 +326,7 @@ ScrollToCursor (Option *opt, int caretPos)
 }
 
 int
-SelectedListBoxItem (Option *opt)
+SelectedListBoxItem(Option *opt)
 {
     int i;
     char *value, **data = (char **) (opt->target);
@@ -343,7 +343,7 @@ SelectedListBoxItem (Option *opt)
 }
 
 void
-FocusOnWidget (Option *opt, DialogClass dlg)
+FocusOnWidget(Option *opt, DialogClass dlg)
 {
     UnCaret();
 #ifdef TODO_GTK
@@ -354,7 +354,7 @@ FocusOnWidget (Option *opt, DialogClass dlg)
 }
 
 void
-SetIconName (DialogClass dlg, char *name)
+SetIconName(DialogClass dlg, char *name)
 {
 #ifdef TODO_GTK
 	Arg args[16];
@@ -386,7 +386,7 @@ void ComboSelect(GtkWidget *widget, gpointer addr)
 
 #ifdef TODO_GTK
 Widget
-CreateMenuItem (Widget menu, char *msg, XtCallbackProc CB, int n)
+CreateMenuItem(Widget menu, char *msg, XtCallbackProc CB, int n)
 {
     int j=0;
     Widget entry;
@@ -402,7 +402,7 @@ CreateMenuItem (Widget menu, char *msg, XtCallbackProc CB, int n)
 #endif
 
 static void
-MenuSelect (gpointer addr) // callback for all combo items
+MenuSelect(gpointer addr) // callback for all combo items
 {
     Option *opt = dialogOptions[((intptr_t)addr)>>24]; // applicable option list
     int i = ((intptr_t)addr)>>16 & 255; // option number
@@ -413,7 +413,7 @@ MenuSelect (gpointer addr) // callback for all combo items
 }
 
 static GtkWidget *
-CreateMenuPopup (Option *opt, int n, int def)
+CreateMenuPopup(Option *opt, int n, int def)
 {   // fromList determines if the item texts are taken from a list of strings, or from a menu table
     int i;
     GtkWidget *menu, *entry;
@@ -468,13 +468,13 @@ CreateMenuPopup (Option *opt, int n, int def)
 Option *icsBox; // kludge to distinguish type-in callback from input-box callback
 
 void
-CursorAtEnd (Option *opt)
+CursorAtEnd(Option *opt)
 {
     gtk_editable_set_position(opt->handle, -1);
 }
 
 static gboolean
-ICSKeyEvent (int keyval)
+ICSKeyEvent(int keyval)
 {   // TODO_GTK: arrow-handling should really be integrated in type-in proc, and this should be a backe-end OK handler
     switch(keyval) {
       case GDK_Return: IcsKey(0); return TRUE;
@@ -487,7 +487,7 @@ ICSKeyEvent (int keyval)
 int shiftState, controlState;
 
 static gboolean
-TypeInProc (GtkWidget *widget, GdkEventKey *event, gpointer gdata)
+TypeInProc(GtkWidget *widget, GdkEventKey *event, gpointer gdata)
 {   // This callback catches key presses on text-entries, and uses <Enter> and <Esc> as synonyms for dialog OK or Cancel
     // *** kludge alert *** If a dialog does want some other action, like sending the line typed in the text-entry to an ICS,
     // it should define an OK handler that does so, and returns FALSE to suppress the popdown.
@@ -520,7 +520,7 @@ TypeInProc (GtkWidget *widget, GdkEventKey *event, gpointer gdata)
 }
 
 void
-HighlightText (Option *opt, int from, int to, Boolean highlight)
+HighlightText(Option *opt, int from, int to, Boolean highlight)
 {
 #   define INIT 0x8000
     static GtkTextIter start, end;
@@ -551,7 +551,7 @@ SetTextColor(char **cnames, int fg, int bg, int attr)
 }
 
 void
-AppendColorized (Option *opt, char *s, int count)
+AppendColorized(Option *opt, char *s, int count)
 {
     static GtkTextIter end;
     static GtkTextTag *fgTags[8], *bgTags[8], *font, *bold, *normal, *attr = NULL;
@@ -584,14 +584,14 @@ AppendColorized (Option *opt, char *s, int count)
 }
 
 void
-Show (Option *opt, int hide)
+Show(Option *opt, int hide)
 {
     if(hide) gtk_widget_hide(opt->handle);
     else     gtk_widget_show(opt->handle);
 }
 
 int
-ShiftKeys ()
+ShiftKeys(void)
 {   // bassic primitive for determining if modifier keys are pressed
     return 3*(shiftState != 0) + 0xC*(controlState != 0); // rely on what last mouse button press left us
 }
@@ -690,7 +690,7 @@ printf("*** selected\n");
 }
 
 void
-AddHandler (Option *opt, DialogClass dlg, int nr)
+AddHandler(Option *opt, DialogClass dlg, int nr)
 {
     switch(nr) {
       case 0: // history (now uses generic textview callback)
@@ -723,13 +723,13 @@ WindowPlacement *wp[NrOfDialogs] = { // Beware! Order must correspond to DialogC
 };
 
 int
-DialogExists (DialogClass n)
+DialogExists(DialogClass n)
 {   // accessor for use in back-end
     return shells[n] != NULL;
 }
 
 void
-RaiseWindow (DialogClass dlg)
+RaiseWindow(DialogClass dlg)
 {
 #ifdef TODO_GTK
     static XEvent xev;
@@ -759,7 +759,7 @@ MemoEvent(GtkWidget *widget, GdkEvent *event, gpointer gdata)
 }
 
 int
-PopDown (DialogClass n)
+PopDown(DialogClass n)
 {
     //Arg args[10];
 
@@ -791,10 +791,7 @@ PopDown (DialogClass n)
 }
 
 /* GTK callback used when OK/cancel clicked in genericpopup for non-modal dialog */
-gboolean GenericPopDown(w, resptype, gdata)
-     GtkWidget *w;
-     GtkResponseType  resptype;
-     gpointer  gdata;
+gboolean GenericPopDown(GtkWidget *w, GtkResponseType resptype, gpointer gdata)
 {
     DialogClass dlg = (intptr_t) gdata; /* dialog number dlgnr */
     GtkWidget *sh = shells[dlg];
@@ -840,7 +837,7 @@ int AppendText(Option *opt, char *s)
 }
 
 void
-SetColor (char *colorName, Option *box)
+SetColor(char *colorName, Option *box)
 {       // sets the color of a widget
     GdkColor color;
 
@@ -851,7 +848,7 @@ SetColor (char *colorName, Option *box)
 
 #ifdef TODO_GTK
 void
-ColorChanged (Widget w, XtPointer data, XEvent *event, Boolean *b)
+ColorChanged(Widget w, XtPointer data, XEvent *event, Boolean *b)
 {   // for detecting a typed change in color
     char buf[10];
     if ( (XLookupString(&(event->xkey), buf, 2, NULL, NULL) == 1) && *buf == '\r' )
@@ -956,7 +953,7 @@ GraphEventProc(GtkWidget *widget, GdkEvent *event, gpointer gdata)
 }
 
 void
-GraphExpose (Option *opt, int x, int y, int w, int h)
+GraphExpose(Option *opt, int x, int y, int w, int h)
 {
 #if 0
   GdkRectangle r;
@@ -1068,7 +1065,7 @@ void BrowseGTK(GtkWidget *widget, gpointer gdata)
 }
 
 gboolean
-ListCallback (GtkWidget *widget, GdkEventButton *event, gpointer gdata)
+ListCallback(GtkWidget *widget, GdkEventButton *event, gpointer gdata)
 {
     int n = (intptr_t) gdata & 0xFFFF;
     int dlg = (intptr_t) gdata >> 16;
@@ -1088,7 +1085,7 @@ static char *oneLiner  =
 
 #ifdef TODO_GTK
 static void
-SqueezeIntoBox (Option *opt, int nr, int width)
+SqueezeIntoBox(Option *opt, int nr, int width)
 {   // size buttons in bar to fit, clipping button names where necessary
     int i, wtot = 0;
     Dimension widths[20], oldWidths[20];
@@ -1116,7 +1113,7 @@ SqueezeIntoBox (Option *opt, int nr, int width)
 
 #ifdef TODO_GTK
 int
-SetPositionAndSize (Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int w, int h, int chaining)
+SetPositionAndSize(Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int w, int h, int chaining)
 {   // sizing and positioning most widgets have in common
     int j = 0;
     // first position the widget w.r.t. earlier ones
@@ -1150,7 +1147,7 @@ SetPositionAndSize (Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int
 #endif
 
 static int
-TableWidth (Option *opt)
+TableWidth(Option *opt)
 {   // Hideous work-around! If the table is 3 columns, but 2 & 3 are always occupied together, the fixing of the width of column 1 does not work
     while(opt->type != EndMark && opt->type != Break)
 	if(opt->type == FileName || opt->type == PathName || opt++->type == BarBegin) return 3; // This table needs browse button
@@ -1158,14 +1155,14 @@ TableWidth (Option *opt)
 }
 
 static int
-SameRow (Option *opt)
+SameRow(Option *opt)
 {
     return (opt->min & SAME_ROW && (opt->type == Button || opt->type == SaveButton || opt->type == Label
 				 || opt->type == ListBox || opt->type == BoxBegin || opt->type == Icon || opt->type == Graph));
 }
 
 static void
-Pack (GtkWidget *hbox, GtkWidget *table, GtkWidget *entry, int left, int right, int top, GtkAttachOptions vExpand)
+Pack(GtkWidget *hbox, GtkWidget *table, GtkWidget *entry, int left, int right, int top, GtkAttachOptions vExpand)
 {
     if(hbox) gtk_box_pack_start(GTK_BOX (hbox), entry, TRUE, TRUE, 0);
     else     gtk_table_attach(GTK_TABLE(table), entry, left, right, top, top+1,
@@ -1680,7 +1677,7 @@ if(appData.debugMode) printf("n=%d, h=%d, w=%d\n",n,height,width);
 /* function called when the data to Paste is ready */
 #ifdef TODO_GTK
 static void
-SendTextCB (Widget w, XtPointer client_data, Atom *selection,
+SendTextCB(Widget w, XtPointer client_data, Atom *selection,
 	    Atom *type, XtPointer value, unsigned long *len, int *format)
 {
   char buf[MSG_SIZ], *p = (char*) textOptions[(int)(intptr_t) client_data].choice, *name = (char*) value, *q;
@@ -1695,7 +1692,7 @@ SendTextCB (Widget w, XtPointer client_data, Atom *selection,
 #endif
 
 void
-SendText (int n)
+SendText(int n)
 {
     char *p = (char*) textOptions[n].choice;
 #ifdef TODO_GTK
@@ -1712,14 +1709,14 @@ SendText (int n)
 }
 
 void
-SetInsertPos (Option *opt, int pos)
+SetInsertPos(Option *opt, int pos)
 {
     if(opt->value > 80) ScrollToCursor(opt, pos);
     else gtk_editable_set_position(GTK_EDITABLE(opt->handle), pos);
 }
 
 void
-HardSetFocus (Option *opt, DialogClass dlg)
+HardSetFocus(Option *opt, DialogClass dlg)
 {
     FocusOnWidget(opt, dlg);
 }
