@@ -43,9 +43,9 @@
 #include "wsnap.h"
 
 // templates for calls into back-end
-void RefreshMemoContent P((void));
-void MemoContentUpdated P((void));
-void FindMoveByCharIndex P(( int char_index ));
+void RefreshMemoContent(void);
+void MemoContentUpdated(void);
+void FindMoveByCharIndex(int);
 
 #define DEFAULT_COLOR       0xFFFFFFFF
 
@@ -85,7 +85,7 @@ void HighlightMove( int from, int to, Boolean highlight )
 
 // low-level front-end, but replace Windows data types to make it callable from back-end
 // its task is to clear the contents of the move-history text edit
-void ClearHistoryMemo()
+void ClearHistoryMemo(void)
 {
     SendDlgItemMessage( moveHistoryDialog, IDC_MoveHistory, WM_SETTEXT, 0, (LPARAM) "" );
 }
@@ -254,7 +254,7 @@ LRESULT CALLBACK HistoryDialogProc( HWND hDlg, UINT message, WPARAM wParam, LPAR
 // ------------ standard entry points into MoveHistory code -----------
 
 // front-end
-VOID MoveHistoryPopUp()
+VOID MoveHistoryPopUp(void)
 {
   FARPROC lpProc;
   
@@ -284,7 +284,7 @@ VOID MoveHistoryPopUp()
 }
 
 // front-end
-VOID MoveHistoryPopDown()
+VOID MoveHistoryPopDown(void)
 {
   CheckMenuItem(GetMenu(hwndMain), IDM_ShowMoveHistory, MF_UNCHECKED);
 
@@ -296,13 +296,13 @@ VOID MoveHistoryPopDown()
 }
 
 // front-end
-Boolean MoveHistoryIsUp()
+Boolean MoveHistoryIsUp(void)
 {
     return moveHistoryDialogUp;
 }
 
 // front-end
-Boolean MoveHistoryDialogExists()
+Boolean MoveHistoryDialogExists(void)
 {
     return moveHistoryDialog != NULL;
 }
