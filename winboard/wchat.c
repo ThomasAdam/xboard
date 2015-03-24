@@ -47,17 +47,17 @@ extern char chatPartner[MAX_CHAT][MSG_SIZ];
 HANDLE chatHandle[MAX_CHAT];
 static WNDPROC chatInputWindowProc;
 
-void SendToICS P((char *s));
-void ChatPopUp P((char *s));
-void ChatPopDown();
+void SendToICS(char *);
+void ChatPopUp(char *);
+void ChatPopDown(void);
 
 /* Imports from backend.c */
 extern int opponentKibitzes;
 
 /* Imports from winboard.c */
-VOID SaveInHistory(char *cmd);
-char *PrevInHistory(char *cmd);
-char *NextInHistory();
+VOID SaveInHistory(char *);
+char *PrevInHistory(char *);
+char *NextInHistory(void);
 extern HWND ChatDialog;
 
 extern HINSTANCE hInst;
@@ -388,7 +388,7 @@ void ChatPopUp(char *icsHandle)
 }
 
 // front end
-void ChatPopDown()
+void ChatPopDown(void)
 {
   if(--chatCount <= 0)
 	CheckMenuItem(GetMenu(hwndMain), IDM_NewChat, MF_UNCHECKED);
