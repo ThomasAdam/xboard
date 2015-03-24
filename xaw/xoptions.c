@@ -34,7 +34,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -92,7 +92,7 @@ static Widget previous = NULL;
 static Option *currentOption;
 
 void
-UnCaret ()
+UnCaret(void)
 {
     Arg args[2];
 
@@ -104,7 +104,7 @@ UnCaret ()
 }
 
 void
-SetFocus (Widget w, XtPointer data, XEvent *event, Boolean *b)
+SetFocus(Widget w, XtPointer data, XEvent *event, Boolean *b)
 {
     Arg args[2];
     char *s;
@@ -122,7 +122,7 @@ SetFocus (Widget w, XtPointer data, XEvent *event, Boolean *b)
 }
 
 void
-BoardFocus ()
+BoardFocus(void)
 {
     XtSetKeyboardFocus(shellWidget, formWidget);
 }
@@ -143,12 +143,12 @@ static Arg formArgs[] = {
 };
 
 void
-CursorAtEnd (Option *opt)
+CursorAtEnd(Option *opt)
 {
 }
 
 void
-GetWidgetText (Option *opt, char **buf)
+GetWidgetText(Option *opt, char **buf)
 {
     Arg arg;
     XtSetArg(arg, XtNstring, buf);
@@ -156,7 +156,7 @@ GetWidgetText (Option *opt, char **buf)
 }
 
 void
-SetWidgetText (Option *opt, char *buf, int n)
+SetWidgetText(Option *opt, char *buf, int n)
 {
     Arg arg;
     XtSetArg(arg, XtNstring, buf);
@@ -165,7 +165,7 @@ SetWidgetText (Option *opt, char *buf, int n)
 }
 
 void
-GetWidgetState (Option *opt, int *state)
+GetWidgetState(Option *opt, int *state)
 {
     Arg arg;
     XtSetArg(arg, XtNstate, state);
@@ -173,7 +173,7 @@ GetWidgetState (Option *opt, int *state)
 }
 
 void
-SetWidgetState (Option *opt, int state)
+SetWidgetState(Option *opt, int state)
 {
     Arg arg;
     XtSetArg(arg, XtNstate, state);
@@ -181,7 +181,7 @@ SetWidgetState (Option *opt, int state)
 }
 
 void
-SetWidgetLabel (Option *opt, char *buf)
+SetWidgetLabel(Option *opt, char *buf)
 {
     Arg arg;
     XtSetArg(arg, XtNlabel, (XtArgVal) buf);
@@ -189,7 +189,7 @@ SetWidgetLabel (Option *opt, char *buf)
 }
 
 void
-SetDialogTitle (DialogClass dlg, char *title)
+SetDialogTitle(DialogClass dlg, char *title)
 {
     Arg args[16];
     XtSetArg(args[0], XtNtitle, title);
@@ -197,7 +197,7 @@ SetDialogTitle (DialogClass dlg, char *title)
 }
 
 void
-LoadListBox (Option *opt, char *emptyText, int n1, int n2)
+LoadListBox(Option *opt, char *emptyText, int n1, int n2)
 {
     static char *dummyList[2];
     dummyList[0] = emptyText; // empty listboxes tend to crash X, so display user-supplied warning string instead
@@ -206,7 +206,7 @@ LoadListBox (Option *opt, char *emptyText, int n1, int n2)
 }
 
 int
-ReadScroll (Option *opt, float *top, float *bottom)
+ReadScroll(Option *opt, float *top, float *bottom)
 {   // retreives fractions of top and bottom of thumb
     Arg args[16];
     Widget w = XtParent(opt->handle); // viewport
@@ -222,7 +222,7 @@ ReadScroll (Option *opt, float *top, float *bottom)
 }
 
 void
-SetScroll (Option *opt, float f)
+SetScroll(Option *opt, float f)
 {   // sets top of thumb to given fraction
     static char *params[3] = { "", "Continuous", "Proportional" };
     static XEvent event;
@@ -237,13 +237,13 @@ SetScroll (Option *opt, float f)
 }
 
 void
-HighlightListBoxItem (Option *opt, int nr)
+HighlightListBoxItem(Option *opt, int nr)
 {
     XawListHighlight(opt->handle, nr);
 }
 
 void
-HighlightWithScroll (Option *opt, int sel, int max)
+HighlightWithScroll(Option *opt, int sel, int max)
 {
     float top, bottom, f, g;
     HighlightListBoxItem(opt, sel);
@@ -258,7 +258,7 @@ HighlightWithScroll (Option *opt, int sel, int max)
 }
 
 int
-SelectedListBoxItem (Option *opt)
+SelectedListBoxItem(Option *opt)
 {
     XawListReturnStruct *rs;
     rs = XawListShowCurrent(opt->handle);
@@ -266,19 +266,19 @@ SelectedListBoxItem (Option *opt)
 }
 
 void
-SetTextColor (char **cnames, int fg, int bg, int attr)
+SetTextColor(char **cnames, int fg, int bg, int attr)
 { // this is not possible in Xaw
 }
 
 void
-AppendColorized (Option *opt, char *message, int count)
+AppendColorized(Option *opt, char *message, int count)
 {
   if(!opt->handle) return;
   AppendText(opt, message);
 }
 
 void
-Show (Option *opt, int hide)
+Show(Option *opt, int hide)
 {
     static Dimension h;
     Arg args[16];
@@ -299,7 +299,7 @@ printf("h = %d\n",h);
 }
 
 void
-HighlightText (Option *opt, int start, int end, Boolean on)
+HighlightText(Option *opt, int start, int end, Boolean on)
 {
     if(on)
 	XawTextSetSelection( opt->handle, start, end ); // for lack of a better method, use selection for highighting
@@ -308,14 +308,14 @@ HighlightText (Option *opt, int start, int end, Boolean on)
 }
 
 void
-FocusOnWidget (Option *opt, DialogClass dlg)
+FocusOnWidget(Option *opt, DialogClass dlg)
 {
     UnCaret();
     XtSetKeyboardFocus(shells[dlg], opt->handle);
 }
 
 void
-SetIconName (DialogClass dlg, char *name)
+SetIconName(DialogClass dlg, char *name)
 {
 	Arg args[16];
 	int j = 0;
@@ -325,7 +325,7 @@ SetIconName (DialogClass dlg, char *name)
 }
 
 static void
-LabelCallback (Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
+LabelCallback(Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
 {   // called on ButtonPress in label widgets with attached user handler (clocks!)
     int s, data = (intptr_t) client_data;
     Option *opt = dialogOptions[data >> 8] + (s = data & 255);
@@ -335,7 +335,7 @@ LabelCallback (Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
 }
 
 static void
-CheckCallback (Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
+CheckCallback(Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
 {
     int s, data = (intptr_t) client_data;
     Option *opt = dialogOptions[data >> 8] + (data & 255);
@@ -345,7 +345,7 @@ CheckCallback (Widget ww, XtPointer client_data, XEvent *event, Boolean *b)
 }
 
 static void
-SpinCallback (Widget w, XtPointer client_data, XtPointer call_data)
+SpinCallback(Widget w, XtPointer client_data, XtPointer call_data)
 {
     String name, val;
     Arg args[16];
@@ -378,7 +378,7 @@ SpinCallback (Widget w, XtPointer client_data, XtPointer call_data)
 }
 
 static void
-ComboSelect (Widget w, caddr_t addr, caddr_t index) // callback for all combo items
+ComboSelect(Widget w, caddr_t addr, caddr_t index) // callback for all combo items
 {
     Arg args[16];
     Option *opt = dialogOptions[((intptr_t)addr)>>24]; // applicable option list
@@ -401,7 +401,7 @@ ComboSelect (Widget w, caddr_t addr, caddr_t index) // callback for all combo it
 }
 
 Widget
-CreateMenuItem (Widget menu, char *msg, XtCallbackProc CB, int n)
+CreateMenuItem(Widget menu, char *msg, XtCallbackProc CB, int n)
 {
     int j=0;
     Widget entry;
@@ -416,7 +416,7 @@ CreateMenuItem (Widget menu, char *msg, XtCallbackProc CB, int n)
 }
 
 char *
-format_accel (char *input)
+format_accel(char *input)
 {
   char *output;
   char *key,*test;
@@ -457,7 +457,7 @@ format_accel (char *input)
 }
 
 int
-pixlen (char *s)
+pixlen(char *s)
 {
 #if 0
     int dummy;
@@ -510,7 +510,7 @@ pixlen (char *s)
 }
 
 static Widget
-CreateComboPopup (Widget parent, Option *opt, int n, int fromList, int def)
+CreateComboPopup(Widget parent, Option *opt, int n, int fromList, int def)
 {   // fromList determines if the item texts are taken from a list of strings, or from a menu table
     int i;
     Widget menu, entry;
@@ -580,7 +580,7 @@ char *translationTable[] = { // beware: order is essential!
 };
 
 void
-AddHandler (Option *opt, DialogClass dlg, int nr)
+AddHandler(Option *opt, DialogClass dlg, int nr)
 {
     XtOverrideTranslations(opt->handle, XtParseTranslationTable(translationTable[nr]));
 }
@@ -597,13 +597,13 @@ WindowPlacement *wp[NrOfDialogs] = { // Beware! Order must correspond to DialogC
 };
 
 int
-DialogExists (DialogClass n)
+DialogExists(DialogClass n)
 {   // accessor for use in back-end
     return shells[n] != NULL;
 }
 
 void
-RaiseWindow (DialogClass dlg)
+RaiseWindow(DialogClass dlg)
 {
     static XEvent xev;
     Window root = RootWindow(xDisplay, DefaultScreen(xDisplay));
@@ -629,7 +629,7 @@ RaiseWindow (DialogClass dlg)
 }
 
 int
-PopDown (DialogClass n)
+PopDown(DialogClass n)
 {   // pops down any dialog created by GenericPopUp (or returns False if it wasn't up), unmarks any associated marked menu
     int j;
     Arg args[10];
@@ -663,7 +663,7 @@ PopDown (DialogClass n)
 }
 
 void
-GenericPopDown (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+GenericPopDown(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // to cause popdown through a translation (Delete Window button!)
     int dlg = atoi(prms[0]);
     Widget sh = shells[dlg];
@@ -675,7 +675,7 @@ GenericPopDown (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 int
-AppendText (Option *opt, char *s)
+AppendText(Option *opt, char *s)
 {
     XawTextBlock t;
     char *v;
@@ -688,7 +688,7 @@ AppendText (Option *opt, char *s)
 }
 
 void
-SetColor (char *colorName, Option *box)
+SetColor(char *colorName, Option *box)
 {       // sets the color of a widget
 	Arg args[5];
 	Pixel buttonColor;
@@ -708,7 +708,7 @@ SetColor (char *colorName, Option *box)
 }
 
 void
-ColorChanged (Widget w, XtPointer data, XEvent *event, Boolean *b)
+ColorChanged(Widget w, XtPointer data, XEvent *event, Boolean *b)
 {   // for detecting a typed change in color
     char buf[10];
     if ( (XLookupString(&(event->xkey), buf, 2, NULL, NULL) == 1) && *buf == '\r' )
@@ -792,7 +792,7 @@ GraphEventProc(Widget widget, caddr_t client_data, XEvent *event)
 }
 
 void
-GraphExpose (Option *opt, int x, int y, int w, int h)
+GraphExpose(Option *opt, int x, int y, int w, int h)
 {
   XExposeEvent e;
   if(!opt->handle) return;
@@ -801,7 +801,7 @@ GraphExpose (Option *opt, int x, int y, int w, int h)
 }
 
 static void
-GenericCallback (Widget w, XtPointer client_data, XtPointer call_data)
+GenericCallback(Widget w, XtPointer client_data, XtPointer call_data)
 {   // all Buttons in a dialog (including OK, cancel) invoke this
     String name;
     Arg args[16];
@@ -831,7 +831,7 @@ GenericCallback (Widget w, XtPointer client_data, XtPointer call_data)
 }
 
 void
-TabProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TabProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // for transfering focus to the next text-edit
     Option *opt;
     for(opt = currentOption; opt->type != EndMark; opt++) {
@@ -849,7 +849,7 @@ TabProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-WheelProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+WheelProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // for scrolling a widget seen through a viewport with the mouse wheel (ListBox!)
     int j=0, n = atoi(prms[0]);
     static char *params[3] = { "", "Continuous", "Proportional" };
@@ -884,7 +884,7 @@ static char scrollTranslations[] =
     <Btn5Down>: WheelProc(1) \n ";
 
 static void
-SqueezeIntoBox (Option *opt, int nr, int width)
+SqueezeIntoBox(Option *opt, int nr, int width)
 {   // size buttons in bar to fit, clipping button names where necessary
     int i, wtot = 0;
     Dimension widths[20], oldWidths[20];
@@ -910,7 +910,7 @@ SqueezeIntoBox (Option *opt, int nr, int width)
 }
 
 int
-SetPositionAndSize (Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int w, int h, int chaining)
+SetPositionAndSize(Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int w, int h, int chaining)
 {   // sizing and positioning most widgets have in common
     int j = 0;
     // first position the widget w.r.t. earlier ones
@@ -943,7 +943,7 @@ SetPositionAndSize (Arg *args, Widget leftNeigbor, Widget topNeigbor, int b, int
 }
 
 int
-GenericPopUp (Option *option, char *title, DialogClass dlgNr, DialogClass parent, int modal, int top)
+GenericPopUp(Option *option, char *title, DialogClass dlgNr, DialogClass parent, int modal, int top)
 {
     Arg args[24];
     Widget popup, layout, dialog=NULL, edit=NULL, form,  last, b_ok, b_cancel, previousPane = NULL, textField = NULL, oldForm, oldLastRow, oldForeLast;
@@ -1355,7 +1355,7 @@ GenericPopUp (Option *option, char *title, DialogClass dlgNr, DialogClass parent
 
 /* function called when the data to Paste is ready */
 static void
-SendTextCB (Widget w, XtPointer client_data, Atom *selection,
+SendTextCB(Widget w, XtPointer client_data, Atom *selection,
 	    Atom *type, XtPointer value, unsigned long *len, int *format)
 {
   char buf[MSG_SIZ], *p = (char*) textOptions[(int)(intptr_t) client_data].choice, *name = (char*) value, *q;
@@ -1369,7 +1369,7 @@ SendTextCB (Widget w, XtPointer client_data, Atom *selection,
 }
 
 void
-SendText (int n)
+SendText(int n)
 {
     char *p = (char*) textOptions[n].choice;
     if(strstr(p, "$name")) {
@@ -1383,7 +1383,7 @@ SendText (int n)
 }
 
 void
-SetInsertPos (Option *opt, int pos)
+SetInsertPos(Option *opt, int pos)
 {
     Arg args[16];
     if(pos == 999999) { // this kludge to indicate end in GTK is fatal in Xaw
@@ -1398,7 +1398,7 @@ SetInsertPos (Option *opt, int pos)
 }
 
 void
-TypeInProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TypeInProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // can be used as handler for any text edit in any dialog (from GenericPopUp, that is)
     int n = prms[0][0] - '0';
     Widget sh = XtParent(XtParent(XtParent(w))); // popup shell
@@ -1413,13 +1413,13 @@ TypeInProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-HardSetFocus (Option *opt, DialogClass dlg)
+HardSetFocus(Option *opt, DialogClass dlg)
 {
     XSetInputFocus(xDisplay, XtWindow(opt->handle), RevertToPointerRoot, CurrentTime);
 }
 
 void
-FileNamePopUpWrapper (char *label, char *def, char *filter, FileProc proc, Boolean pathFlag, char *openMode, char **openName, FILE **openFP)
+FileNamePopUpWrapper(char *label, char *def, char *filter, FileProc proc, Boolean pathFlag, char *openMode, char **openName, FILE **openFP)
 {
     Browse(BoardWindow, label, (def[0] ? def : NULL), filter, False, openMode, openName, openFP);
 }
