@@ -60,10 +60,10 @@ char *engineName, *engineDir, *engineChoice, *engineLine, *nickName, *params;
 Boolean isUCI, hasBook, storeVariant, v1, addToList, useNick, isUCCI;
 extern Option installOptions[], matchOptions[];
 char *engineList[MAXENGINES] = {""}, *engineMnemonic[MAXENGINES] = {""};
-void (*okFunc)();
+void (*okFunc)(void);
 ChessProgramState *activeCps;
 Option *activeList;
-int InstallOK P((void));
+int InstallOK(void);
 typedef int ButtonCallback(HWND h);
 ButtonCallback *comboCallback;
 
@@ -691,11 +691,11 @@ EngineOptionsPopup(HWND hwnd, ChessProgramState *cps)
     return;
 }
 
-int EnterGroup P((HWND hDlg));
+int EnterGroup(HWND);
 
 static int engineNr, selected;
 
-int InstallOK()
+int InstallOK(void)
 {
     if(selected >= 0) { ASSIGN(engineLine, engineList[selected]); }
     if(engineLine[0] == '#') { DisplayError(_("Select single engine from the group"), 0); return 0; }
@@ -783,10 +783,10 @@ void LoadEnginePopUp(HWND hwnd, int nr)
     GenericPopup(hwnd, installOptions);
 }
 
-int PickTheme P((HWND hDlg));
-void DeleteTheme P((HWND hDlg));
+int PickTheme(HWND);
+void DeleteTheme(HWND);
 
-int ThemeOK()
+int ThemeOK(void)
 {
     if(selected >= 0) { ASSIGN(engineLine, engineList[selected]); }
     if(engineLine[0] == '#') { DisplayError(_("Select single theme from the group"), 0); return 0; }
@@ -872,7 +872,7 @@ void ThemeOptionsPopup(HWND hwnd)
 Boolean autoinc, twice, swiss;
 char *tfName;
 
-int MatchOK()
+int MatchOK(void)
 {
     if(autoinc) appData.loadGameIndex = appData.loadPositionIndex = -(twice + 1); else
     if(!appData.loadGameFile[0]) appData.loadGameIndex = -2*twice; // kludge to pass value of "twice" for use in GUI book
@@ -937,9 +937,9 @@ void Inspect(HWND hDlg)
     } else DisplayError(_("First you must specify an existing tourney file to clone"), 0);
 }
 
-void TimeControlOptionsPopup P((HWND hDlg));
-void UciOptionsPopup P((HWND hDlg));
-int AddToTourney P((HWND hDlg));
+void TimeControlOptionsPopup(HWND);
+void UciOptionsPopup(HWND);
+int AddToTourney(HWND);
 
 Option tourneyOptions[] = {
   { 80,  15,        0, NULL, (void*) &AddToTourney, NULL, engineMnemonic, ListBox, N_("Select Engine:") },
