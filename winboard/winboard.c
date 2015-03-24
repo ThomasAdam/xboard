@@ -105,14 +105,14 @@ Boolean flipClock = FALSE;
 extern HANDLE chatHandle[];
 extern enum ICS_TYPE ics_type;
 
-int  MySearchPath P((char *installDir, char *name, char *fullname));
-int  MyGetFullPathName P((char *name, char *fullname));
-void DisplayHoldingsCount(HDC hdc, int x, int y, int align, int copyNumber);
-VOID NewVariantPopup(HWND hwnd);
-int FinishMove P((ChessMove moveType, int fromX, int fromY, int toX, int toY,
-		   /*char*/int promoChar));
-void DisplayMove P((int moveNumber));
-void ChatPopUp P((char *s));
+int  MySearchPath(char *, char *, char *);
+int  MyGetFullPathName(char *, char *);
+void DisplayHoldingsCount(HDC, int, int, int, int);
+VOID NewVariantPopup(HWND);
+int FinishMove(ChessMove, int, int, int, int,
+		   /*char*/int);
+void DisplayMove(int);
+void ChatPopUp(char *);
 typedef struct {
   ChessSquare piece;  
   POINT pos;      /* window coordinates of current pos */
@@ -681,23 +681,23 @@ InputSource *consoleInputSource;
 DCB dcb;
 
 /* forward */
-VOID ConsoleOutput(char* data, int length, int forceVisible);
-VOID ConsoleCreate();
+VOID ConsoleOutput(char *, int, int);
+VOID ConsoleCreate(void);
 LRESULT CALLBACK
-  ConsoleWndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-VOID ColorizeTextPopup(HWND hwnd, ColorClass cc);
-VOID PrintCommSettings(FILE *f, char *name, DCB *dcb);
-VOID ParseCommSettings(char *arg, DCB *dcb);
+  ConsoleWndProc(HWND, UINT, WPARAM, LPARAM);
+VOID ColorizeTextPopup(HWND, ColorClass);
+VOID PrintCommSettings(FILE *, char *, DCB *);
+VOID ParseCommSettings(char *, DCB *);
 LRESULT CALLBACK
-  StartupDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-VOID APIENTRY MenuPopup(HWND hwnd, POINT pt, HMENU hmenu, UINT def);
-void ParseIcsTextMenu(char *icsTextMenuString);
-VOID PopUpNameDialog(char firstchar);
-VOID UpdateSampleText(HWND hDlg, int id, MyColorizeAttribs *mca);
+  StartupDialog(HWND, UINT, WPARAM, LPARAM);
+VOID APIENTRY MenuPopup(HWND, POINT, HMENU, UINT);
+void ParseIcsTextMenu(char *);
+VOID PopUpNameDialog(char);
+VOID UpdateSampleText(HWND, int, MyColorizeAttribs *);
 
 /* [AS] */
-int NewGameFRC();
-int GameListOptions();
+int NewGameFRC(void);
+int GameListOptions(void);
 
 int dummy; // [HGM] for obsolete args
 
@@ -786,7 +786,7 @@ void ThawUI()
  *
 \*---------------------------------------------------------------------------*/
 
-static void HandleMessage P((MSG *message));
+static void HandleMessage(MSG *);
 static HANDLE hAccelMain, hAccelNoAlt, hAccelNoICS;
 
 int APIENTRY
