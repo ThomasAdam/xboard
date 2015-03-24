@@ -58,7 +58,7 @@ static HICON LoadIconEx( int id )
 // [HGM] the platform-dependent way of indicating where output should go is now all
 // concentrated here, where a table of platform-dependent handles are initialized.
 // This cleanses most other routines of front-end stuff, so they can go into the back end.
-static void InitializeEngineOutput()
+static void InitializeEngineOutput(void)
 {
 	// [HGM] made this into a table, rather than separate global variables
         icons[nColorBlack]   = LoadIconEx( IDI_BLACK_14 );
@@ -134,7 +134,7 @@ static int GetControlHeight( HWND hDlg, int id )
     return rc.bottom - rc.top;
 }
 
-static int GetHeaderHeight()
+static int GetHeaderHeight(void)
 {
     int result = GetControlHeight( engineOutputDialog, IDC_EngineLabel1 );
 
@@ -382,7 +382,7 @@ LRESULT CALLBACK EngineOutputProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 }
 
 // front end
-void EngineOutputPopUp()
+void EngineOutputPopUp(void)
 {
   FARPROC lpProc;
   static int  needInit = TRUE;
@@ -415,7 +415,7 @@ void EngineOutputPopUp()
 }
 
 // front end
-void EngineOutputPopDown()
+void EngineOutputPopDown(void)
 {
   CheckMenuItem(GetMenu(hwndMain), IDM_ShowEngineOutput, MF_UNCHECKED);
 
@@ -433,13 +433,13 @@ void DoClearMemo(int which)
 }
 
 // front end (because only other front-end wants to know)
-int EngineOutputIsUp()
+int EngineOutputIsUp(void)
 {
     return engineOutputDialogUp;
 }
 
 // front end, to give back-end access to engineOutputDialog
-int EngineOutputDialogExists()
+int EngineOutputDialogExists(void)
 {
     return engineOutputDialog != NULL;
 }
