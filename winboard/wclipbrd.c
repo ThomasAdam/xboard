@@ -48,7 +48,7 @@ static char *copyTemp;
 static char *pasteTemp;
 
 VOID 
-CopyFENToClipboard()
+CopyFENToClipboard(void)
 {
   char *fen = NULL;
 
@@ -64,9 +64,9 @@ CopyFENToClipboard()
 }
 
 /* [AS] */
-HGLOBAL ExportGameListAsText();
+HGLOBAL ExportGameListAsText(void);
 
-VOID CopyGameListToClipboard()
+VOID CopyGameListToClipboard(void)
 {
     HGLOBAL hMem = ExportGameListAsText();
     
@@ -97,7 +97,7 @@ VOID CopyGameListToClipboard()
 }
 
 VOID
-CopyGameToClipboard()
+CopyGameToClipboard(void)
 {
   /* A rather cheesy hack here. Write the game to a file, then read from the
    * file into the clipboard.
@@ -245,7 +245,7 @@ VOID PasteFENFromString( char * fen )
 
 
 VOID
-PasteFENFromClipboard()
+PasteFENFromClipboard(void)
 {
   char *fen = NULL;
   if (!PasteTextFromClipboard(&fen)) {
@@ -281,7 +281,7 @@ VOID PasteGameFromString( char * buf )
 
 
 VOID
-PasteGameFromClipboard()
+PasteGameFromClipboard(void)
 {
   /* Write the clipboard to a temp file, then let LoadGameFromFile()
    * do all the work.  */
@@ -293,7 +293,7 @@ PasteGameFromClipboard()
 }
 
 /* [AS] Try to detect whether the clipboard contains FEN or PGN data */
-VOID PasteGameOrFENFromClipboard()
+VOID PasteGameOrFENFromClipboard(void)
 {
   char *buf;
 //  char *tmp;
@@ -379,7 +379,7 @@ PasteTextFromClipboard(char **text)
 }
 
 VOID
-DeleteClipboardTempFiles()
+DeleteClipboardTempFiles(void)
 {
   if (copyTemp) remove(copyTemp);
   if (pasteTemp) remove(pasteTemp);
