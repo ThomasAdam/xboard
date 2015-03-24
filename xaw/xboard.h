@@ -130,24 +130,24 @@ typedef struct {
 #define SETTINGS_FILE           SYSCONFDIR"/xboard.conf"
 #define COLOR_BKGD              "white"
 
-void NewTagsPopup P((char *text, char *msg));
-int AppendText P((Option *opt, char *s));
-void NewCommentPopup P((char *title, char *text, int index));
-void CatchDeleteWindow(Widget w, String procname);
-void GenericPopDown P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void InitDrawingSizes P((int i, int j));
-void SendToICS P((char *buf));
-void SendToProgram P((char *message, ChessProgramState *cps));
-void SetFocus(Widget w, XtPointer data, XEvent *event, Boolean *b); // from xoptions.c
-void TypeInProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-Widget CreateMenuItem P((Widget menu, char *msg, XtCallbackProc CB, int n));
-void WheelProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void TabProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void GenericMenu P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
+void NewTagsPopup(char *, char *);
+int AppendText(Option *, char *);
+void NewCommentPopup(char *, char *, int);
+void CatchDeleteWindow(Widget, String);
+void GenericPopDown(Widget, XEvent *, String *, Cardinal *);
+void InitDrawingSizes(int, int);
+void SendToICS(char *);
+void SendToProgram(char *, ChessProgramState *);
+void SetFocus(Widget, XtPointer, XEvent *, Boolean *); // from xoptions.c
+void TypeInProc(Widget, XEvent *, String *, Cardinal *);
+Widget CreateMenuItem(Widget, char *, XtCallbackProc, int);
+void WheelProc(Widget, XEvent *, String *, Cardinal *);
+void TabProc(Widget, XEvent *, String *, Cardinal *);
+void GenericMenu(Widget, XEvent *, String *, Cardinal *);
 
 // from xengineoutput.c
-void SelectPV P((Widget w, XEvent * event, String * params, Cardinal * nParams));
-void StopPV P((Widget w, XEvent * event, String * params, Cardinal * nParams));
+void SelectPV(Widget, XEvent *, String *, Cardinal *);
+void StopPV(Widget, XEvent *, String *, Cardinal *);
 
 extern char memoTranslations[];
 

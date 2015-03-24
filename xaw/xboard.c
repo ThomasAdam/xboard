@@ -84,7 +84,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -220,43 +220,39 @@ extern char *getenv();
 # define N_(s)  s
 #endif
 
-int main P((int argc, char **argv));
-RETSIGTYPE CmailSigHandler P((int sig));
-RETSIGTYPE IntSigHandler P((int sig));
-RETSIGTYPE TermSizeSigHandler P((int sig));
-Widget CreateMenuBar P((Menu *mb, int boardWidth));
+int main(int argc, char **argv);
+RETSIGTYPE CmailSigHandler(int);
+RETSIGTYPE IntSigHandler(int);
+RETSIGTYPE TermSizeSigHandler(int);
+Widget CreateMenuBar(Menu *, int);
 #if ENABLE_NLS
-char *InsertPxlSize P((char *pattern, int targetPxlSize));
-XFontSet CreateFontSet P((char *base_fnt_lst));
+char *InsertPxlSize(char *, int);
+XFontSet CreateFontSet(char *);
 #else
-char *FindFont P((char *pattern, int targetPxlSize));
+char *FindFont(char *, int);
 #endif
-void ReadBitmap P((Pixmap *pm, String name, unsigned char bits[],
-		   u_int wreq, u_int hreq));
-void EventProc P((Widget widget, caddr_t unused, XEvent *event));
-void DelayedDrag P((void));
-static void MoveTypeInProc P((Widget widget, caddr_t unused, XEvent *event));
-void HandlePV P((Widget w, XEvent * event,
-		     String * params, Cardinal * nParams));
-void DrawPositionProc P((Widget w, XEvent *event,
-		     String *prms, Cardinal *nprms));
-void CommentClick P((Widget w, XEvent * event,
-		   String * params, Cardinal * nParams));
-void ICSInputBoxPopUp P((void));
-void SelectCommand P((Widget w, XtPointer client_data, XtPointer call_data));
-void KeyBindingProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void QuitWrapper P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-static void EnterKeyProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-static void UpKeyProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-static void DownKeyProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void TempBackwardProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void TempForwardProc P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
+void ReadBitmap(Pixmap *, String, unsigned char [], u_int, u_int);
+void EventProc(Widget, caddr_t, XEvent *);
+void DelayedDrag(void);
+static void MoveTypeInProc(Widget, caddr_t, XEvent *);
+void HandlePV(Widget, XEvent *, String *, Cardinal *);
+void DrawPositionProc(Widget, XEvent *, String *, Cardinal *);
+void CommentClick(Widget, XEvent *, String *, Cardinal *);
+void ICSInputBoxPopUp(void);
+void SelectCommand(Widget, XtPointer, XtPointer);
+void KeyBindingProc(Widget, XEvent *, String *, Cardinal *);
+void QuitWrapper(Widget, XEvent *, String *, Cardinal *);
+static void EnterKeyProc(Widget, XEvent *, String *, Cardinal *nprms);
+static void UpKeyProc(Widget, XEvent *, String *, Cardinal *);
+static void DownKeyProc(Widget, XEvent *, String *, Cardinal *);
+void TempBackwardProc(Widget, XEvent *, String *, Cardinal *);
+void TempForwardProc(Widget, XEvent *, String *, Cardinal *);
 Boolean TempBackwardActive = False;
-void ManInner P((Widget w, XEvent *event, String *prms, Cardinal *nprms));
-void DisplayMove P((int moveNumber));
-void update_ics_width P(());
-int CopyMemoProc P(());
-static int FindLogo P((char *place, char *name, char *buf));
+void ManInner(Widget, XEvent *, String *, Cardinal *);
+void DisplayMove(int);
+void update_ics_width(void);
+int CopyMemoProc(void);
+static int FindLogo(char *, char *, char *);
 
 /*
 * XBoard depends on Xt R4 or higher
@@ -427,7 +423,7 @@ String xboardResources[] = {
 /* Arrange to catch delete-window events */
 Atom wm_delete_window;
 void
-CatchDeleteWindow (Widget w, String procname)
+CatchDeleteWindow(Widget w, String procname)
 {
   char buf[MSG_SIZ];
   XSetWMProtocols(xDisplay, XtWindow(w), &wm_delete_window, 1);
@@ -436,7 +432,7 @@ CatchDeleteWindow (Widget w, String procname)
 }
 
 void
-BoardToTop ()
+BoardToTop(void)
 {
   Arg args[16];
   XtSetArg(args[0], XtNiconic, False);
@@ -491,7 +487,7 @@ Boolean fontIsSet[NUM_FONTS], fontValid[NUM_FONTS][MAX_SIZE];
 char *fontTable[NUM_FONTS][MAX_SIZE];
 
 void
-ParseFont (char *name, int number)
+ParseFont(char *name, int number)
 { // in XBoard, only 2 of the fonts are currently implemented, and we just copy their name
   int size;
   if(sscanf(name, "size%d:", &size)) {
@@ -521,7 +517,7 @@ ParseFont (char *name, int number)
 }
 
 void
-SetFontDefaults ()
+SetFontDefaults(void)
 { // only 2 fonts currently
   appData.clockFont = CLOCK_FONT_NAME;
   appData.coordFont = COORD_FONT_NAME;
@@ -529,47 +525,47 @@ SetFontDefaults ()
 }
 
 void
-CreateFonts ()
+CreateFonts(void)
 { // no-op, until we identify the code for this already in XBoard and move it here
 }
 
 void
-ParseColor (int n, char *name)
+ParseColor(int n, char *name)
 { // in XBoard, just copy the color-name string
   if(colorVariable[n] && *name == '#') *(char**)colorVariable[n] = strdup(name);
 }
 
 char *
-Col2Text (int n)
+Col2Text(int n)
 {
     return *(char**)colorVariable[n];
 }
 
 void
-ParseTextAttribs (ColorClass cc, char *s)
+ParseTextAttribs(ColorClass cc, char *s)
 {
     (&appData.colorShout)[cc] = strdup(s);
 }
 
 void
-ParseBoardSize (void *addr, char *name)
+ParseBoardSize(void *addr, char *name)
 {
     appData.boardSize = strdup(name);
 }
 
 void
-LoadAllSounds ()
+LoadAllSounds(void)
 { // In XBoard the sound-playing program takes care of obtaining the actual sound
 }
 
 void
-SetCommPortDefaults ()
+SetCommPortDefaults(void)
 { // for now, this is a no-op, as the corresponding option does not exist in XBoard
 }
 
 // [HGM] args: these three cases taken out to stay in front-end
 void
-SaveFontArg (FILE *f, ArgDescriptor *ad)
+SaveFontArg(FILE *f, ArgDescriptor *ad)
 {
   char *name;
   int i, n = (int)(intptr_t)ad->argLoc;
@@ -597,38 +593,38 @@ SaveFontArg (FILE *f, ArgDescriptor *ad)
 }
 
 void
-ExportSounds ()
+ExportSounds(void)
 { // nothing to do, as the sounds are at all times represented by their text-string names already
 }
 
 void
-SaveAttribsArg (FILE *f, ArgDescriptor *ad)
+SaveAttribsArg(FILE *f, ArgDescriptor *ad)
 {	// here the "argLoc" defines a table index. It could have contained the 'ta' pointer itself, though
 	fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", ad->argName, (&appData.colorShout)[(int)(intptr_t)ad->argLoc]);
 }
 
 void
-SaveColor (FILE *f, ArgDescriptor *ad)
+SaveColor(FILE *f, ArgDescriptor *ad)
 {	// in WinBoard the color is an int and has to be converted to text. In X it would be a string already?
 	if(colorVariable[(int)(intptr_t)ad->argLoc])
 	fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", ad->argName, *(char**)colorVariable[(int)(intptr_t)ad->argLoc]);
 }
 
 void
-SaveBoardSize (FILE *f, char *name, void *addr)
+SaveBoardSize(FILE *f, char *name, void *addr)
 { // wrapper to shield back-end from BoardSize & sizeInfo
   fprintf(f, OPTCHAR "%s" SEPCHAR "%s\n", name, appData.boardSize);
 }
 
 void
-ParseCommPortSettings (char *s)
+ParseCommPortSettings(char *s)
 { // no such option in XBoard (yet)
 }
 
 int frameX, frameY;
 
 void
-GetActualPlacement (Widget wg, WindowPlacement *wp)
+GetActualPlacement(Widget wg, WindowPlacement *wp)
 {
   XWindowAttributes winAt;
   Window win, dummy;
@@ -647,13 +643,13 @@ GetActualPlacement (Widget wg, WindowPlacement *wp)
 }
 
 void
-GetPlacement (DialogClass dlg, WindowPlacement *wp)
+GetPlacement(DialogClass dlg, WindowPlacement *wp)
 { // wrapper to shield back-end from widget type
   if(shellUp[dlg]) GetActualPlacement(shells[dlg], wp);
 }
 
 void
-GetWindowCoords ()
+GetWindowCoords(void)
 { // wrapper to shield use of window handles from back-end (make addressible by number?)
   // In XBoard this will have to wait until awareness of window parameters is implemented
   GetActualPlacement(shellWidget, &wpMain);
@@ -666,29 +662,29 @@ GetWindowCoords ()
 }
 
 void
-PrintCommPortSettings (FILE *f, char *name)
+PrintCommPortSettings(FILE *f, char *name)
 { // This option does not exist in XBoard
 }
 
 void
-EnsureOnScreen (int *x, int *y, int minX, int minY)
+EnsureOnScreen(int *x, int *y, int minX, int minY)
 {
   return;
 }
 
 int
-MainWindowUp ()
+MainWindowUp(void)
 { // [HGM] args: allows testing if main window is realized from back-end
   return xBoardWindow != 0;
 }
 
 void
-PopUpStartupDialog ()
+PopUpStartupDialog(void)
 {  // start menu not implemented in XBoard
 }
 
 char *
-ConvertToLine (int argc, char **argv)
+ConvertToLine(int argc, char **argv)
 {
   static char line[128*1024], buf[1024];
   int i;
@@ -711,7 +707,7 @@ ConvertToLine (int argc, char **argv)
 //--------------------------------------------------------------------------------------------
 
 void
-ResizeBoardWindow (int w, int h, int inhibit)
+ResizeBoardWindow(int w, int h, int inhibit)
 {
     w += marginW + 1; // [HGM] not sure why the +1 is (sometimes) needed...
     h += marginH;
@@ -725,7 +721,7 @@ ResizeBoardWindow (int w, int h, int inhibit)
 }
 
 static int
-MakeOneColor (char *name, Pixel *color)
+MakeOneColor(char *name, Pixel *color)
 {
     XrmValue vFrom, vTo;
     if (!appData.monoMode) {
@@ -743,7 +739,7 @@ MakeOneColor (char *name, Pixel *color)
 }
 
 int
-MakeColors ()
+MakeColors(void)
 {   // [HGM] taken out of main(), so it can be called from BoardOptions dialog
     int forceMono = False;
 
@@ -756,7 +752,7 @@ MakeColors ()
 }
 
 void
-InitializeFonts (int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
+InitializeFonts(int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
 {   // detervtomine what fonts to use, and create them
     XrmValue vTo;
     XrmDatabase xdb;
@@ -811,7 +807,7 @@ InitializeFonts (int clockFontPxlSize, int coordFontPxlSize, int fontPxlSize)
 }
 
 char *
-PrintArg (ArgType t)
+PrintArg(ArgType t)
 {
   char *p="";
   switch(t) {
@@ -842,7 +838,7 @@ PrintArg (ArgType t)
 }
 
 char *
-GenerateGlobalTranslationTable (void)
+GenerateGlobalTranslationTable(void)
 {
   /* go through all menu items and extract the keyboard shortcuts, so that X11 can load them */
   char *output[2];
@@ -948,7 +944,7 @@ GenerateGlobalTranslationTable (void)
 
 
 void
-PrintOptions ()
+PrintOptions(void)
 {
   char buf[MSG_SIZ];
   int len=0;
@@ -977,12 +973,12 @@ PrintOptions ()
 }
 
 void
-SlaveResize (Option *opt)
+SlaveResize(Option *opt)
 {
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
     int i, clockFontPxlSize, coordFontPxlSize, fontPxlSize;
     XSetWindowAttributes window_attributes;
@@ -1363,26 +1359,26 @@ main (int argc, char **argv)
 }
 
 void
-DoEvents ()
+DoEvents(void)
 {
     XtInputMask m;
     while((m = XtAppPending(appContext))) XtAppProcessEvent(appContext, m);
 }
 
 RETSIGTYPE
-TermSizeSigHandler (int sig)
+TermSizeSigHandler(int sig)
 {
     update_ics_width();
 }
 
 RETSIGTYPE
-IntSigHandler (int sig)
+IntSigHandler(int sig)
 {
     ExitEvent(sig);
 }
 
 RETSIGTYPE
-CmailSigHandler (int sig)
+CmailSigHandler(int sig)
 {
     int dummy = 0;
     int error;
@@ -1396,7 +1392,7 @@ CmailSigHandler (int sig)
 }
 
 void
-CmailSigHandlerCallBack (InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
+CmailSigHandlerCallBack(InputSourceRef isr, VOIDSTAR closure, char *message, int count, int error)
 {
     BoardToTop();
     ReloadCmailMsgEvent(TRUE);	/* Reload cmail msg  */
@@ -1408,7 +1404,7 @@ CmailSigHandlerCallBack (InputSourceRef isr, VOIDSTAR closure, char *message, in
 
 #ifdef ENABLE_NLS
 char *
-InsertPxlSize (char *pattern, int targetPxlSize)
+InsertPxlSize(char *pattern, int targetPxlSize)
 {
     char *base_fnt_lst, strInt[12], *p, *q;
     int alternatives, i, len, strIntLen;
@@ -1459,7 +1455,7 @@ InsertPxlSize (char *pattern, int targetPxlSize)
 }
 
 XFontSet
-CreateFontSet (char *base_fnt_lst)
+CreateFontSet(char *base_fnt_lst)
 {
     XFontSet fntSet;
     char **missing_list;
@@ -1503,7 +1499,7 @@ CreateFontSet (char *base_fnt_lst)
  * longer needed.
  */
 char *
-FindFont (char *pattern, int targetPxlSize)
+FindFont(char *pattern, int targetPxlSize)
 {
     char **fonts, *p, *best, *scalable, *scalableTail;
     int i, j, nfonts, minerr, err, pxlSize;
@@ -1561,7 +1557,7 @@ FindFont (char *pattern, int targetPxlSize)
 #endif
 
 void
-ReadBitmap (Pixmap *pm, String name, unsigned char bits[], u_int wreq, u_int hreq)
+ReadBitmap(Pixmap *pm, String name, unsigned char bits[], u_int wreq, u_int hreq)
 {
     if (bits != NULL) {
 	*pm = XCreateBitmapFromData(xDisplay, xBoardWindow, (char *) bits,
@@ -1570,7 +1566,7 @@ ReadBitmap (Pixmap *pm, String name, unsigned char bits[], u_int wreq, u_int hre
 }
 
 void
-MarkMenuItem (char *menuRef, int state)
+MarkMenuItem(char *menuRef, int state)
 {
     MenuItem *item = MenuNameToItem(menuRef);
 
@@ -1582,7 +1578,7 @@ MarkMenuItem (char *menuRef, int state)
 }
 
 void
-EnableNamedMenuItem (char *menuRef, int state)
+EnableNamedMenuItem(char *menuRef, int state)
 {
     MenuItem *item = MenuNameToItem(menuRef);
 
@@ -1590,14 +1586,14 @@ EnableNamedMenuItem (char *menuRef, int state)
 }
 
 void
-EnableButtonBar (int state)
+EnableButtonBar(int state)
 {
     XtSetSensitive(optList[W_BUTTON].handle, state);
 }
 
 
 void
-SetMenuEnables (Enables *enab)
+SetMenuEnables(Enables *enab)
 {
   while (enab->name != NULL) {
     EnableNamedMenuItem(enab->name, enab->value);
@@ -1606,7 +1602,7 @@ SetMenuEnables (Enables *enab)
 }
 
 void
-KeyBindingProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+KeyBindingProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // [HGM] new method of key binding: specify MenuItem(FlipView) in stead of FlipViewProc in translation string
     MenuItem *item;
     if(*nprms == 0) return;
@@ -1615,7 +1611,7 @@ KeyBindingProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-SetupDropMenu ()
+SetupDropMenu(void)
 {
     int i, j, count;
     char label[32];
@@ -1640,20 +1636,20 @@ SetupDropMenu ()
 }
 
 static void
-do_flash_delay (unsigned long msec)
+do_flash_delay(unsigned long msec)
 {
     TimeDelay(msec);
 }
 
 void
-FlashDelay (int flash_delay)
+FlashDelay(int flash_delay)
 {
 	XSync(xDisplay, False);
 	if(flash_delay) do_flash_delay(flash_delay);
 }
 
 double
-Fraction (int x, int start, int stop)
+Fraction(int x, int start, int stop)
 {
    double f = ((double) x - start)/(stop - start);
    if(f > 1.) f = 1.; else if(f < 0.) f = 0.;
@@ -1663,7 +1659,7 @@ Fraction (int x, int start, int stop)
 static WindowPlacement wpNew;
 
 void
-CoDrag (Widget sh, WindowPlacement *wp)
+CoDrag(Widget sh, WindowPlacement *wp)
 {
     Arg args[16];
     int j=0, touch=0, fudge = 2;
@@ -1698,7 +1694,7 @@ CoDrag (Widget sh, WindowPlacement *wp)
 }
 
 void
-ReSize (WindowPlacement *wp)
+ReSize(WindowPlacement *wp)
 {
 	int sqx, sqy, w, h;
 	if(wp->width == wpMain.width && wp->height == wpMain.height) return; // not sized
@@ -1719,7 +1715,7 @@ ReSize (WindowPlacement *wp)
 static XtIntervalId delayedDragID = 0;
 
 void
-DragProc ()
+DragProc(void)
 {
 	static int busy;
 	if(busy) return;
@@ -1743,7 +1739,7 @@ DragProc ()
 
 
 void
-DelayedDrag ()
+DelayedDrag(void)
 {
     if(delayedDragID) XtRemoveTimeOut(delayedDragID); // cancel pending
     delayedDragID =
@@ -1751,7 +1747,7 @@ DelayedDrag ()
 }
 
 void
-EventProc (Widget widget, caddr_t unused, XEvent *event)
+EventProc(Widget widget, caddr_t unused, XEvent *event)
 {
     if(XtIsRealized(widget) && event->type == ConfigureNotify || appData.useStickyWindows)
 	DelayedDrag(); // as long as events keep coming in faster than 50 msec, they destroy each other
@@ -1761,14 +1757,14 @@ EventProc (Widget widget, caddr_t unused, XEvent *event)
  * event handler for redrawing the board
  */
 void
-DrawPositionProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+DrawPositionProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     DrawPosition(True, NULL);
 }
 
 
 void
-HandlePV (Widget w, XEvent * event, String * params, Cardinal * nParams)
+HandlePV(Widget w, XEvent * event, String * params, Cardinal * nParams)
 {   // [HGM] pv: walk PV
     MovePV(event->xmotion.x, event->xmotion.y, lineGap + BOARD_HEIGHT * (squareSize + lineGap));
 }
@@ -1776,7 +1772,7 @@ HandlePV (Widget w, XEvent * event, String * params, Cardinal * nParams)
 extern int savedIndex;  /* gross that this is global */
 
 void
-CommentClick (Widget w, XEvent * event, String * params, Cardinal * nParams)
+CommentClick(Widget w, XEvent * event, String * params, Cardinal * nParams)
 {
 	String val;
 	XawTextPosition index, dummy;
@@ -1795,7 +1791,7 @@ CommentClick (Widget w, XEvent * event, String * params, Cardinal * nParams)
 static int frozen = 0;
 
 void
-FreezeUI ()
+FreezeUI(void)
 {
   if (frozen) return;
   /* Grab by a widget that doesn't accept input */
@@ -1805,7 +1801,7 @@ FreezeUI ()
 
 /* Undo a FreezeUI */
 void
-ThawUI ()
+ThawUI(void)
 {
   if (!frozen) return;
   XtRemoveGrab(optList[W_MESSG].handle);
@@ -1813,7 +1809,7 @@ ThawUI ()
 }
 
 void
-ModeHighlight ()
+ModeHighlight(void)
 {
     Arg args[16];
     static int oldPausing = FALSE;
@@ -1869,7 +1865,7 @@ ModeHighlight ()
 char *selected_fen_position=NULL;
 
 Boolean
-SendPositionSelection (Widget w, Atom *selection, Atom *target,
+SendPositionSelection(Widget w, Atom *selection, Atom *target,
 		       Atom *type_return, XtPointer *value_return,
 		       unsigned long *length_return, int *format_return)
 {
@@ -1936,7 +1932,7 @@ SendPositionSelection (Widget w, Atom *selection, Atom *target,
  * Widget which was clicked on was, or what the click event was
  */
 void
-CopySomething (char *src)
+CopySomething(char *src)
 {
     selected_fen_position = src;
     /*
@@ -1958,7 +1954,7 @@ CopySomething (char *src)
 
 /* function called when the data to Paste is ready */
 static void
-PastePositionCB (Widget w, XtPointer client_data, Atom *selection,
+PastePositionCB(Widget w, XtPointer client_data, Atom *selection,
 		 Atom *type, XtPointer value, unsigned long *len, int *format)
 {
   char *fenstr=value;
@@ -1971,7 +1967,7 @@ PastePositionCB (Widget w, XtPointer client_data, Atom *selection,
 /* called when Paste Position button is pressed,
  * all parameters will be NULL */
 void
-PastePositionProc ()
+PastePositionProc(void)
 {
     XtGetSelectionValue(menuBarWidget,
       appData.pasteSelection ? XA_PRIMARY: XA_CLIPBOARD(xDisplay), XA_STRING,
@@ -1991,7 +1987,7 @@ PastePositionProc ()
  */
 /* function called when the data to Paste is ready */
 static void
-PasteGameCB (Widget w, XtPointer client_data, Atom *selection,
+PasteGameCB(Widget w, XtPointer client_data, Atom *selection,
 	     Atom *type, XtPointer value, unsigned long *len, int *format)
 {
   FILE* f;
@@ -2012,7 +2008,7 @@ PasteGameCB (Widget w, XtPointer client_data, Atom *selection,
 /* called when Paste Game button is pressed,
  * all parameters will be NULL */
 void
-PasteGameProc ()
+PasteGameProc(void)
 {
     XtGetSelectionValue(menuBarWidget,
       appData.pasteSelection ? XA_PRIMARY: XA_CLIPBOARD(xDisplay), XA_STRING,
@@ -2029,13 +2025,13 @@ PasteGameProc ()
 
 
 void
-QuitWrapper (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+QuitWrapper(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     QuitProc();
 }
 
 int
-ShiftKeys ()
+ShiftKeys(void)
 {   // bassic primitive for determining if modifier keys are pressed
     long int codes[] = { XK_Meta_L, XK_Meta_R, XK_Control_L, XK_Control_R, XK_Shift_L, XK_Shift_R };
     char keys[32];
@@ -2050,7 +2046,7 @@ ShiftKeys ()
 }
 
 static void
-MoveTypeInProc (Widget widget, caddr_t unused, XEvent *event)
+MoveTypeInProc(Widget widget, caddr_t unused, XEvent *event)
 {
     char buf[10];
     KeySym sym;
@@ -2061,25 +2057,25 @@ MoveTypeInProc (Widget widget, caddr_t unused, XEvent *event)
 }
 
 static void
-UpKeyProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+UpKeyProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // [HGM] input: let up-arrow recall previous line from history
     IcsKey(1);
 }
 
 static void
-DownKeyProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+DownKeyProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // [HGM] input: let down-arrow recall next line from history
     IcsKey(-1);
 }
 
 static void
-EnterKeyProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+EnterKeyProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     IcsKey(0);
 }
 
 void
-TempBackwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TempBackwardProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
 	if (!TempBackwardActive) {
 		TempBackwardActive = True;
@@ -2088,7 +2084,7 @@ TempBackwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-TempForwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+TempForwardProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
 	/* Check to see if triggered by a key release event for a repeating key.
 	 * If so the next queued event will be a key press of the same key at the same time */
@@ -2104,7 +2100,7 @@ TempForwardProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-ManInner (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+ManInner(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {   // called as key binding
     char buf[MSG_SIZ];
     String name;
@@ -2117,13 +2113,13 @@ ManInner (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-ManProc ()
+ManProc(void)
 {   // called from menu
     ManInner(NULL, NULL, NULL, NULL);
 }
 
 void
-SetWindowTitle (char *text, char *title, char *icon)
+SetWindowTitle(char *text, char *title, char *icon)
 {
     Arg args[16];
     int i;
@@ -2141,13 +2137,13 @@ SetWindowTitle (char *text, char *title, char *icon)
 
 
 static int
-NullXErrorCheck (Display *dpy, XErrorEvent *error_event)
+NullXErrorCheck(Display *dpy, XErrorEvent *error_event)
 {
     return 0;
 }
 
 void
-DisplayIcsInteractionTitle (String message)
+DisplayIcsInteractionTitle(String message)
 {
   if (oldICSInteractionTitle == NULL) {
     /* Magic to find the old window title, adapted from vim */
@@ -2180,14 +2176,14 @@ XtIntervalId delayedEventTimerXID = 0;
 DelayedEventCallback delayedEventCallback = 0;
 
 void
-FireDelayedEvent ()
+FireDelayedEvent(void)
 {
     delayedEventTimerXID = 0;
     delayedEventCallback();
 }
 
 void
-ScheduleDelayedEvent (DelayedEventCallback cb, long millisec)
+ScheduleDelayedEvent(DelayedEventCallback cb, long millisec)
 {
     if(delayedEventTimerXID && delayedEventCallback == cb)
 	// [HGM] alive: replace, rather than add or flush identical event
@@ -2199,7 +2195,7 @@ ScheduleDelayedEvent (DelayedEventCallback cb, long millisec)
 }
 
 DelayedEventCallback
-GetDelayedEvent ()
+GetDelayedEvent(void)
 {
   if (delayedEventTimerXID) {
     return delayedEventCallback;
@@ -2209,7 +2205,7 @@ GetDelayedEvent ()
 }
 
 void
-CancelDelayedEvent ()
+CancelDelayedEvent(void)
 {
   if (delayedEventTimerXID) {
     XtRemoveTimeOut(delayedEventTimerXID);
@@ -2220,13 +2216,13 @@ CancelDelayedEvent ()
 XtIntervalId loadGameTimerXID = 0;
 
 int
-LoadGameTimerRunning ()
+LoadGameTimerRunning(void)
 {
     return loadGameTimerXID != 0;
 }
 
 int
-StopLoadGameTimer ()
+StopLoadGameTimer(void)
 {
     if (loadGameTimerXID != 0) {
 	XtRemoveTimeOut(loadGameTimerXID);
@@ -2238,14 +2234,14 @@ StopLoadGameTimer ()
 }
 
 void
-LoadGameTimerCallback (XtPointer arg, XtIntervalId *id)
+LoadGameTimerCallback(XtPointer arg, XtIntervalId *id)
 {
     loadGameTimerXID = 0;
     AutoPlayGameLoop();
 }
 
 void
-StartLoadGameTimer (long millisec)
+StartLoadGameTimer(long millisec)
 {
     loadGameTimerXID =
       XtAppAddTimeOut(appContext, millisec,
@@ -2256,7 +2252,7 @@ StartLoadGameTimer (long millisec)
 XtIntervalId analysisClockXID = 0;
 
 void
-AnalysisClockCallback (XtPointer arg, XtIntervalId *id)
+AnalysisClockCallback(XtPointer arg, XtIntervalId *id)
 {
     if (gameMode == AnalyzeMode || gameMode == AnalyzeFile
          || appData.icsEngineAnalyze) { // [DM]
@@ -2266,7 +2262,7 @@ AnalysisClockCallback (XtPointer arg, XtIntervalId *id)
 }
 
 void
-StartAnalysisClock ()
+StartAnalysisClock(void)
 {
     analysisClockXID =
       XtAppAddTimeOut(appContext, 2000,
@@ -2277,13 +2273,13 @@ StartAnalysisClock ()
 XtIntervalId clockTimerXID = 0;
 
 int
-ClockTimerRunning ()
+ClockTimerRunning(void)
 {
     return clockTimerXID != 0;
 }
 
 int
-StopClockTimer ()
+StopClockTimer(void)
 {
     if (clockTimerXID != 0) {
 	XtRemoveTimeOut(clockTimerXID);
@@ -2295,14 +2291,14 @@ StopClockTimer ()
 }
 
 void
-ClockTimerCallback (XtPointer arg, XtIntervalId *id)
+ClockTimerCallback(XtPointer arg, XtIntervalId *id)
 {
     clockTimerXID = 0;
     DecrementClocks();
 }
 
 void
-StartClockTimer (long millisec)
+StartClockTimer(long millisec)
 {
     clockTimerXID =
       XtAppAddTimeOut(appContext, millisec,
@@ -2311,7 +2307,7 @@ StartClockTimer (long millisec)
 }
 
 void
-DisplayTimerLabel (Option *opt, char *color, long timer, int highlight)
+DisplayTimerLabel(Option *opt, char *color, long timer, int highlight)
 {
     char buf[MSG_SIZ];
     Arg args[16];
@@ -2348,7 +2344,7 @@ DisplayTimerLabel (Option *opt, char *color, long timer, int highlight)
 static Pixmap *clockIcons[] = { &wIconPixmap, &bIconPixmap };
 
 void
-SetClockIcon (int color)
+SetClockIcon(int color)
 {
     Arg args[16];
     Pixmap pm = *clockIcons[color];
@@ -2373,7 +2369,7 @@ typedef struct {
 } InputSource;
 
 void
-DoInputCallback (caddr_t closure, int *source, XtInputId *xid)
+DoInputCallback(caddr_t closure, int *source, XtInputId *xid)
 {
     InputSource *is = (InputSource *) closure;
     int count;
@@ -2412,7 +2408,7 @@ DoInputCallback (caddr_t closure, int *source, XtInputId *xid)
 }
 
 InputSourceRef
-AddInputSource (ProcRef pr, int lineByLine, InputCallback func, VOIDSTAR closure)
+AddInputSource(ProcRef pr, int lineByLine, InputCallback func, VOIDSTAR closure)
 {
     InputSource *is;
     ChildProc *cp = (ChildProc *) pr;
@@ -2440,7 +2436,7 @@ AddInputSource (ProcRef pr, int lineByLine, InputCallback func, VOIDSTAR closure
 }
 
 void
-RemoveInputSource (InputSourceRef isr)
+RemoveInputSource(InputSourceRef isr)
 {
     InputSource *is = (InputSource *) isr;
 
@@ -2454,7 +2450,7 @@ RemoveInputSource (InputSourceRef isr)
 static Boolean frameWaiting;
 
 static RETSIGTYPE
-FrameAlarm (int sig)
+FrameAlarm(int sig)
 {
   frameWaiting = False;
   /* In case System-V style signals.  Needed?? */
@@ -2462,7 +2458,7 @@ FrameAlarm (int sig)
 }
 
 void
-FrameDelay (int time)
+FrameDelay(int time)
 {
   struct itimerval delay;
 
@@ -2486,7 +2482,7 @@ FrameDelay (int time)
 #else
 
 void
-FrameDelay (int time)
+FrameDelay(int time)
 {
   XSync(xDisplay, False);
   if (time > 0)
@@ -2496,7 +2492,7 @@ FrameDelay (int time)
 #endif
 
 static int
-FindLogo (char *place, char *name, char *buf)
+FindLogo(char *place, char *name, char *buf)
 {   // check if file exists in given place
     FILE *f;
     if(!place) return 0;
@@ -2509,7 +2505,7 @@ FindLogo (char *place, char *name, char *buf)
 }
 
 static void
-LoadLogo (ChessProgramState *cps, int n, Boolean ics)
+LoadLogo(ChessProgramState *cps, int n, Boolean ics)
 {
     char buf[MSG_SIZ], *logoName = buf;
     if(appData.logo[n][0]) {
@@ -2529,7 +2525,7 @@ LoadLogo (ChessProgramState *cps, int n, Boolean ics)
 }
 
 void
-UpdateLogos (int displ)
+UpdateLogos(int displ)
 {
     if(optList[W_WHITE-1].handle == NULL) return;
     LoadLogo(&first, 0, 0);
