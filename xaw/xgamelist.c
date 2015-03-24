@@ -31,7 +31,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -103,7 +103,7 @@ char filterTranslations[] =
 
 
 void
-LoadSelectedProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+LoadSelectedProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     if(GameListClicks(atoi(prms[0]))) return; // if no game loaded, no focus transfer
     XSync(xDisplay, False);
@@ -111,7 +111,7 @@ LoadSelectedProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 }
 
 void
-SetFilterProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+SetFilterProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     SetFilter();
 }

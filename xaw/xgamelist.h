@@ -23,9 +23,7 @@
 #ifndef XB_XGAMELIST
 #define XB_XGAMELIST
 
-void LoadSelectedProc P((Widget w, XEvent *event,
-			 String *prms, Cardinal *nprms));
-void SetFilterProc P((Widget w, XEvent *event,
-			 String *prms, Cardinal *nprms));
+void LoadSelectedProc(Widget, XEvent *, String *, Cardinal *);
+void SetFilterProc(Widget, XEvent *, String *, Cardinal *);
 
 #endif /* XB_XGAMELIST */
