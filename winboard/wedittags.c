@@ -273,7 +273,7 @@ VOID EditTagsPopUp(char *tags, char **dest)
   EitherTagsPopUp(tags, "", TRUE);
 }
 
-VOID EditTagsProc()
+VOID EditTagsProc(void)
 {
   if (editTagsUp && !bookUp) {
     TagsPopDown();
