@@ -62,9 +62,9 @@
 #endif
 
 // templates for calls into back-end (= history.c; should be moved to history.h header shared with it!)
-void RefreshMemoContent P((void));
-void MemoContentUpdated P((void));
-void FindMoveByCharIndex P(( int char_index ));
+void RefreshMemoContent(void);
+void MemoContentUpdated(void);
+void FindMoveByCharIndex(int);
 
 // variables in xoptions.c
 extern Option historyOptions[];
@@ -74,7 +74,7 @@ extern Option historyOptions[];
 // the bold argument says 0 = normal, 1 = bold typeface
 // the colorNr argument says 0 = font-default, 1 = gray
 void
-ScrollToCursor (Option *opt, int caretPos)
+ScrollToCursor(Option *opt, int caretPos)
 {
     Arg args[10];
     char *s;
@@ -102,7 +102,7 @@ char historyTranslations[] =
 <Btn3Up>: extend-end(PRIMARY) SelectMove() \n";
 
 void
-SelectMoveX (Widget w, XEvent * event, String * params, Cardinal * nParams)
+SelectMoveX(Widget w, XEvent * event, String * params, Cardinal * nParams)
 {
 	XawTextPosition index, dummy;
 
