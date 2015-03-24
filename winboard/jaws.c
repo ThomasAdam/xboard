@@ -123,30 +123,25 @@ char *pieceTypeName[] = {
 		"Empty"
 	};
 
-int CoordToNum(c)
-		char c;
+int CoordToNum(char c)
 {
 	if(isdigit(c)) return c - ONE;
 	if(c >= 'a') return c - AAA;
 	return 0;
 }
 
-char* PieceToName(p, i)
-	ChessSquare p;
-	int i;
+char* PieceToName(ChessSquare p, int i)
 {
 	if(i) return pieceToName[(int) p];
 		return pieceTypeName[(int) p];
 }
 
-char* SquareToChar(x)
-			int x;
+char* SquareToChar(int x)
 {
 		return squareToChar[x - BOARD_LEFT];
 }
 
-char* SquareToNum(y)
-			int y;
+char* SquareToNum(int y)
 {
 		return squareToNum[y + (gameInfo.boardHeight < 10)];
 }
@@ -154,9 +149,9 @@ char* SquareToNum(y)
 
 // from winboard.c: all new routines
 #define JFWAPI __declspec(dllimport)
-JFWAPI BOOL WINAPI JFWSayString (LPCTSTR lpszStrinToSpeak, BOOL bInterrupt);
+JFWAPI BOOL WINAPI JFWSayString(LPCTSTR, BOOL);
 
-typedef JFWAPI BOOL (WINAPI *PSAYSTRING)(LPCTSTR lpszStrinToSpeak, BOOL bInterrupt);
+typedef JFWAPI BOOL(WINAPI *)(LPCTSTR, BOOL);
 
 PSAYSTRING RealSayString;
 
@@ -226,7 +221,7 @@ ACCEL acceleratorsJAWS[] = {
 };
 
 void
-AdaptMenu()
+AdaptMenu(void)
 {
 	HMENU menuMain, menuJAWS;
 	MENUBARINFO helpMenuInfo;
@@ -249,7 +244,7 @@ AdaptMenu()
 }
 
 BOOL
-InitJAWS()
+InitJAWS(void)
 {	// to be called at beginning of WinMain, after InitApplication and InitInstance
 	HINSTANCE hApi = LoadLibrary("jfwapi32.dll");
 	if(!hApi) {
@@ -364,7 +359,7 @@ KeyboardEvent(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return;
 }
 
-int PosFlags(int nr);
+int PosFlags(int);
 
 typedef struct {
     int rf, ff, rt, ft;
@@ -372,11 +367,11 @@ typedef struct {
     int count;
 } ReadClosure;
 
-extern void ReadCallback P((Board board, int flags, ChessMove kind,
-				int rf, int ff, int rt, int ft,
-				VOIDSTAR closure));
+extern void ReadCallback(Board, int, ChessMove,
+				int, int, int, int,
+				VOIDSTAR);
 
-void ReadCallback(board, flags, kind, rf, ff, rt, ft, closure)
+void ReadCallback(Board board, int flags, ChessMove kind, int rf, int ff, int rt, int ft, VOIDSTAR closure)
      Board board;
      int flags;
      ChessMove kind;
@@ -413,7 +408,7 @@ void ReadCallback(board, flags, kind, rf, ff, rt, ft, closure)
 }
 
 VOID
-PossibleAttackMove()
+PossibleAttackMove(void)
 {
 	ReadClosure cl;
 	ChessSquare piece, victim;
@@ -452,7 +447,7 @@ PossibleAttackMove()
 
 
 VOID
-PossibleAttacked()
+PossibleAttacked(void)
 {
 	ReadClosure cl;
 	ChessSquare piece = EmptySquare, victim;
@@ -488,7 +483,7 @@ PossibleAttacked()
 }
 
 VOID
-ReadRow()
+ReadRow(void)
 {
 	ChessSquare currentpiece;
 	char *piece, *xchar, *ynum ;
@@ -517,7 +512,7 @@ ReadRow()
 }
 
 VOID
-ReadColumn()
+ReadColumn(void)
 {
 	ChessSquare currentpiece;
 	char *piece, *xchar, *ynum ;
@@ -545,7 +540,7 @@ ReadColumn()
 }
 
 VOID
-SayUpperDiagnols()
+SayUpperDiagnols(void)
 {
 	ChessSquare currentpiece;
 	char *piece, *xchar, *ynum ;
@@ -592,7 +587,7 @@ SayUpperDiagnols()
 }
 
 VOID
-SayLowerDiagnols()
+SayLowerDiagnols(void)
 {
 	ChessSquare currentpiece;
 	char *piece, *xchar, *ynum ;
@@ -639,7 +634,7 @@ SayLowerDiagnols()
 }
 
 VOID
-SayKnightMoves()
+SayKnightMoves(void)
 {
 	ChessSquare currentpiece, oldpiece;
 	char *piece, *xchar, *ynum ;
@@ -813,7 +808,7 @@ SayPieces(ChessSquare p)
 }
 
 VOID
-SayCurrentPos()
+SayCurrentPos(void)
 {
 	ChessSquare currentpiece;
 	char *piece, *xchar, *ynum ;
@@ -837,7 +832,7 @@ SayCurrentPos()
 }
 
 VOID
-SayAllBoard()
+SayAllBoard(void)
 {
 	int Xpos, Ypos;
 	ChessSquare currentpiece;
@@ -912,7 +907,7 @@ SayAllBoard()
 }
 
 VOID
-SayWhosTurn()
+SayWhosTurn(void)
 {
 	if(gameMode == MachinePlaysBlack || gameMode == IcsPlayingWhite) {
 		if(WhiteOnMove(currentMove))
@@ -1087,7 +1082,7 @@ SayMachineMove(int evenIfDuplicate)
 }
 
 VOID
-SayClockTime()
+SayClockTime(void)
 {
 	char buf1[50], buf2[50];
 	char *str1, *str2;
