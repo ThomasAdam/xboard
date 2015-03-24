@@ -415,7 +415,7 @@ VOID GameListPopUp(FILE *fp, char *filename)
   gameListUp = TRUE;
 }
 
-FILE *GameFile()
+FILE *GameFile(void)
 {
   return gameFile;
 }
@@ -451,7 +451,7 @@ VOID GameListHighlight(int index)
 }
 
 
-VOID GameListDestroy()
+VOID GameListDestroy(void)
 {
   GameListPopDown();
   if (gameFileName) {
@@ -460,7 +460,7 @@ VOID GameListDestroy()
   }
 }
 
-VOID ShowGameListProc()
+VOID ShowGameListProc(void)
 {
   if (gameListUp) {
     if(gameListDialog) SetFocus(gameListDialog);
@@ -474,7 +474,7 @@ VOID ShowGameListProc()
   }
 }
 
-HGLOBAL ExportGameListAsText()
+HGLOBAL ExportGameListAsText(void)
 {
     HGLOBAL result = NULL;
     LPVOID lpMem = NULL;
