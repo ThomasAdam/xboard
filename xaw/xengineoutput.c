@@ -37,7 +37,7 @@
 # include <stdlib.h>
 # include <string.h>
 #else /* not STDC_HEADERS */
-extern char *getenv();
+extern char *getenv(void);
 # if HAVE_STRING_H
 #  include <string.h>
 # else /* not HAVE_STRING_H */
@@ -128,13 +128,13 @@ static Widget memoWidget;
 
 
 static void
-ReadIcon (unsigned char pixData[], int iconNr, Widget w)
+ReadIcon(unsigned char pixData[], int iconNr, Widget w)
 {
     icons[iconNr] = XCreateBitmapFromData(xDisplay, XtWindow(w), (char*) pixData, 14, 14);
 }
 
 void
-InitEngineOutput (Option *opt, Option *memo2)
+InitEngineOutput(Option *opt, Option *memo2)
 {	// front-end, because it must have access to the pixmaps
 	Widget w = opt->handle;
 	memoWidget = memo2->handle;
@@ -150,7 +150,7 @@ InitEngineOutput (Option *opt, Option *memo2)
 }
 
 void
-DrawWidgetIcon (Option *opt, int nIcon)
+DrawWidgetIcon(Option *opt, int nIcon)
 {   // as we are already in X front-end, so do X-stuff here
     Arg arg;
     XtSetArg(arg, XtNleftBitmap, (XtArgVal) icons[nIcon]);
@@ -158,7 +158,7 @@ DrawWidgetIcon (Option *opt, int nIcon)
 }
 
 void
-InsertIntoMemo (int which, char * text, int where)
+InsertIntoMemo(int which, char * text, int where)
 {
 	XawTextBlock t;
 	Widget edit;
@@ -187,7 +187,7 @@ Any<Btn3Down>: select-start() extend-end(PRIMARY) SelectPV(0) \n \
 <Btn3Up>: StopPV() \n";
 
 void
-SelectPV (Widget w, XEvent * event, String * params, Cardinal * nParams)
+SelectPV(Widget w, XEvent * event, String * params, Cardinal * nParams)
 {	// [HGM] pv: translate click to PV line, and load it for display
 	String val;
 	int start, end;
@@ -208,7 +208,7 @@ SelectPV (Widget w, XEvent * event, String * params, Cardinal * nParams)
 }
 
 void
-StopPV (Widget w, XEvent * event, String * params, Cardinal * nParams)
+StopPV(Widget w, XEvent * event, String * params, Cardinal * nParams)
 {	// [HGM] pv: on right-button release, stop displaying PV
         XawTextUnsetSelection( w );
         highTextStart[currentPV] = highTextEnd[currentPV] = 0;
@@ -226,12 +226,12 @@ StopPV (Widget w, XEvent * event, String * params, Cardinal * nParams)
 
 // cloned from CopyPositionProc. Abuse selected_fen_position to hold selection
 
-Boolean SendPositionSelection(Widget w, Atom *selection, Atom *target,
-		 Atom *type_return, XtPointer *value_return,
-		 unsigned long *length_return, int *format_return); // from xboard.c
+Boolean SendPositionSelection(Widget, Atom *, Atom *,
+		 Atom *, XtPointer *,
+		 unsigned long *, int *); // from xboard.c
 
 static void
-MemoCB (Widget w, XtPointer client_data, Atom *selection,
+MemoCB(Widget w, XtPointer client_data, Atom *selection,
 	Atom *type, XtPointer value, unsigned long *len, int *format)
 {
   if (value==NULL || *len==0) return; /* nothing had been selected to copy */
@@ -245,7 +245,7 @@ MemoCB (Widget w, XtPointer client_data, Atom *selection,
 }
 
 void
-CopyMemoProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
+CopyMemoProc(Widget w, XEvent *event, String *prms, Cardinal *nprms)
 {
     if(appData.pasteSelection) return;
     if (selected_fen_position) free(selected_fen_position);
@@ -264,7 +264,7 @@ CopyMemoProc (Widget w, XEvent *event, String *prms, Cardinal *nprms)
 //------------------------------- pane switching -----------------------------------
 
 void
-ResizeWindowControls (int mode)
+ResizeWindowControls(int mode)
 {   // another hideous kludge: to have only a single pane, we resize the
     // second to 5 pixels (which makes it too small to display anything)
     Widget form1, form2;
