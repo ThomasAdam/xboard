@@ -54,7 +54,7 @@ static HBITMAP hbmPB = NULL;
 static HPEN pens[PEN_ANY+1]; // [HGM] put all pens in one array
 static HBRUSH hbrHist[3] = { NULL, NULL, NULL };
 
-Boolean EvalGraphIsUp()
+Boolean EvalGraphIsUp(void)
 {
     return evalGraphDialogUp;
 }
@@ -266,7 +266,7 @@ LRESULT CALLBACK EvalGraphProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 }
 
 // creates the eval graph, or unhides it.
-VOID EvalGraphPopUp()
+VOID EvalGraphPopUp(void)
 {
   FARPROC lpProc;
   
@@ -295,7 +295,7 @@ VOID EvalGraphPopUp()
 }
 
 // Note that this hides the window. It could as well have destroyed it.
-VOID EvalGraphPopDown()
+VOID EvalGraphPopDown(void)
 {
   CheckMenuItem(GetMenu(hwndMain), IDM_ShowEvalGraph, MF_UNCHECKED);
 
